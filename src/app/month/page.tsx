@@ -1,36 +1,31 @@
-async function getData() {
-  const res = await fetch('http://localhost:3000/api/months?userId=64623b1099fb59513caf45c0');
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-
-  // Recommendation: handle errors
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data');
-  }
-
-  return res.json();
-}
+'use client';
+import { useContext } from 'react';
+import { AuthContext, IAppContext } from '@/src/app/auth.context';
+import Link from 'next/link';
+import { IIncome, IMonth } from '@/src/types';
 
 export default async function Home() {
-  const { data } = await getData();
-
-  console.log('First month incomes =>', data[0].userId);
+  const { user, months, isLoadingContext } = useContext(AuthContext) as IAppContext;
 
   return (
     <main>
-      <h1>Current Month</h1>
-      {data.map((month: any) => {
-        return (
-          <>
-            {month.incomes.map((income: any) => (
-              <>
-                <p key={income._id}>Category {income.category}</p> <p>Amount: {income.amount}</p>
-              </>
-            ))}
-          </>
-        );
-      })}
+      <h1>Month Dashboard</h1>
+      {months.length === 0 && !isLoadingContext && <p>No months to display</p>}
+      {months.length > 0 &&
+        !isLoadingContext &&
+        months.map((month: IMonth) => {
+          return (
+            <div key={month._id}>
+              {month.incomes.map((income: IIncome) => (
+                <div key={income._id}>
+                  <p>Category {income.category}</p>
+                  <p>Amount: {income.amount}</p>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      <Link href={'/login'}>Login</Link>
     </main>
   );
 }
