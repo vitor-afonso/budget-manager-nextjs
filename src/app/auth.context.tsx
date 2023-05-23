@@ -9,7 +9,7 @@ export interface IAppContext {
   user: IUser | null;
   isLoggedIn: boolean;
   isLoadingContext: boolean;
-  months: IMonth[];
+  userMonths: IMonth[];
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -17,10 +17,10 @@ export interface IAppContext {
 
 const AuthContext = createContext<IAppContext | null>(null);
 
-function AuthProviderWrapper({ children }: React.PropsWithChildren) {
+function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNode; allMonths: IMonth[] }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoadingContext, setIsLoadingContext] = useState<boolean>(true);
-  const [months, setMonths] = useState<IMonth[]>([]);
+  const [userMonths, setUserMonths] = useState<IMonth[]>([]);
   const [user, setUser] = useState<IAppContext['user'] | null>(null);
   const router = useRouter();
   const storeToken = (token: string) => {
@@ -35,25 +35,27 @@ function AuthProviderWrapper({ children }: React.PropsWithChildren) {
         setIsLoadingContext(true);
         // We must send the JWT token in the request's "Authorization" Headers
         let user = await verify(storedToken);
-        const data = await getUserMonths(user._id);
+        // After user is authenticated we filter the user months
+        // and setup all the context data
+        const filteredMonths = allMonths.filter((month) => month.userId === user._id);
         setIsLoggedIn(true);
         setIsLoadingContext(false);
         setUser(user);
-        setMonths(data);
+        setUserMonths(filteredMonths);
       } catch (error) {
         // If the server sends an error response (invalid token)
         // Update state variables
         setIsLoggedIn(false);
         setIsLoadingContext(false);
         setUser(null);
-        setMonths([]);
+        setUserMonths([]);
       }
     } else {
       // If the token is not available (or is removed)
       setIsLoggedIn(false);
       setIsLoadingContext(false);
       setUser(null);
-      setMonths([]);
+      setUserMonths([]);
     }
   };
 
@@ -81,7 +83,7 @@ function AuthProviderWrapper({ children }: React.PropsWithChildren) {
         isLoggedIn,
         isLoadingContext,
         user,
-        months,
+        userMonths,
         storeToken,
         authenticateUser,
         logOutUser,
