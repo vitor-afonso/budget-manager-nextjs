@@ -1,6 +1,7 @@
 import '@/src/app/globals.css';
 import { Inter } from 'next/font/google';
 import { AuthProviderWrapper } from '@/src/app/auth.context';
+import { getMonths } from '@/src/lib/mongodb/months';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -9,11 +10,13 @@ export const metadata = {
   description: 'Developed by Vitor A.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { months, error } = await getMonths();
+
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <AuthProviderWrapper>{children}</AuthProviderWrapper>
+        <AuthProviderWrapper allMonths={months}>{children}</AuthProviderWrapper>
       </body>
     </html>
   );
