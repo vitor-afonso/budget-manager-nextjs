@@ -18,7 +18,7 @@ export interface IIncome {
   amount: number;
   monthId: string;
   createdAt: Date;
-  updateddAt: Date;
+  updatedAt: Date;
 }
 export interface IExpense {
   _id: string;
@@ -27,7 +27,7 @@ export interface IExpense {
   amount: number;
   monthId: string;
   createdAt: Date;
-  updateddAt: Date;
+  updatedAt: Date;
 }
 export interface IMonth {
   _id: string;
@@ -35,6 +35,6 @@ export interface IMonth {
   expenses: IExpense[];
   userId: string;
   createdAt: Date;
-  updateddAt: Date;
+  updatedAt: Date;
   deleted: boolean;
 }
