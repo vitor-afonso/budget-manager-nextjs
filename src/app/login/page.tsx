@@ -27,7 +27,7 @@ const Login = () => {
 
       await authenticateUser();
 
-      router.push('/month');
+      router.push('/');
     } catch (error: unknown) {
       console.error(error);
     }
@@ -52,7 +52,7 @@ const Login = () => {
           <p>{user.name} is in tha house! 🙌</p>
           <button onClick={() => logOutUser()}>Logout</button>
           <br />
-          <Link href={'/month'}>Go to User Month Page</Link>
+          <Link href={'/'}>Go to Month Section</Link>
         </>
       )}
     </div>
