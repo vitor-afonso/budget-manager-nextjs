@@ -9,7 +9,8 @@ export default function Month(): JSX.Element {
   return (
     <section>
       <h1>Month Section</h1>
-      {userMonths.length === 0 && !isLoadingContext && <p>No months to display</p>}
+      {!user && <p>Please login</p>}
+      {user && userMonths.length === 0 && !isLoadingContext && <p>No months to display</p>}
       {userMonths.length > 0 &&
         !isLoadingContext &&
         userMonths.map((month: IMonth) => {
