@@ -1,7 +1,7 @@
-import '@/src/app/globals.css';
+import '@/app/globals.css';
 import { Inter } from 'next/font/google';
-import { AuthProviderWrapper } from '@/src/app/auth.context';
-import { getMonths } from '@/src/lib/mongodb/months';
+import { AuthProviderWrapper } from '@/app/auth.context';
+import { getMonths } from '@/lib/mongodb/months';
 
 const inter = Inter({ subsets: ['latin'] });
 

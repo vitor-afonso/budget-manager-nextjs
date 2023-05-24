@@ -1,25 +1,8 @@
-import { ILoginUser, ISignupUser } from '@/src/types';
-
-const API_URL = `http://localhost:5005/api`;
-
-/************************* MONTHS *****************************/
-
-export const getUserMonths = async (userId: string | undefined) => {
-  const res = await fetch(`${API_URL}/months/user/${userId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-    },
-  });
-  const data = await res.json();
-  return data;
-};
-
-/************************* AUTH *****************************/
+import { ILoginUser, ISignupUser } from '@/types/auth';
+import { APP } from '@/utils/app.constants';
 
 export const signup = async (requestBody: ISignupUser) => {
-  const res = await fetch(`${API_URL}/signup`, {
+  const res = await fetch(`${APP.projectApi}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -31,7 +14,7 @@ export const signup = async (requestBody: ISignupUser) => {
 };
 
 export const login = async (requestBody: ILoginUser) => {
-  const res = await fetch(`${API_URL}/login`, {
+  const res = await fetch(`${APP.projectApi}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +26,7 @@ export const login = async (requestBody: ILoginUser) => {
 };
 
 export const verify = async (storedToken: string) => {
-  const res = await fetch(`${API_URL}/verify`, {
+  const res = await fetch(`${APP.projectApi}/verify`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

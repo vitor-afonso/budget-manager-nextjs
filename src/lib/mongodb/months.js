@@ -1,4 +1,4 @@
-import clientPromise from '.';
+import clientPromise from '@/lib/mongodb/index';
 
 let client;
 let db;

@@ -1,7 +1,7 @@
 'use client';
 import { useContext } from 'react';
-import { AuthContext, IAppContext } from '@/src/app/auth.context';
-import { IIncome, IMonth } from '@/src/types';
+import { AuthContext, IAppContext } from '@/app/auth.context';
+import { IIncome, IMonth } from '@/types/models';
 
 export default function Month(): JSX.Element {
   const { user, userMonths, isLoadingContext } = useContext(AuthContext) as IAppContext;

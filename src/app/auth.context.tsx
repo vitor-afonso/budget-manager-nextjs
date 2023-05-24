@@ -1,9 +1,10 @@
 'use client';
 
 import React, { createContext, useEffect, useState } from 'react';
-import { IMonth, IUser } from '@/src/types';
-import { getUserMonths, verify } from '@/src/app/api';
 import { useRouter } from 'next/navigation';
+import { IMonth, IUser } from '@/types/models';
+import { verify } from '@/services/auth';
+import { APP } from '@/utils/app.constants';
 
 export interface IAppContext {
   user: IUser | null;
@@ -24,12 +25,12 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
   const [user, setUser] = useState<IAppContext['user'] | null>(null);
   const router = useRouter();
   const storeToken = (token: string) => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem(APP.localStorage.authToken, token);
   };
 
   const authenticateUser = async () => {
     // Get the stored token from the localStorage
-    const storedToken = localStorage.getItem('authToken');
+    const storedToken = localStorage.getItem(APP.localStorage.authToken);
     if (storedToken) {
       try {
         setIsLoadingContext(true);
@@ -61,7 +62,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
 
   const removeToken = () => {
     // Upon logout, remove the token from the localStorage
-    localStorage.removeItem('authToken');
+    localStorage.removeItem(APP.localStorage.authToken);
   };
 
   const logOutUser = () => {

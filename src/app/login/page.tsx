@@ -1,7 +1,7 @@
 'use client';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import { AuthContext, IAppContext } from '@/src/app/auth.context';
-import { login } from '@/src/app/api';
+import { AuthContext, IAppContext } from '@/app/auth.context';
+import { login } from '@/services/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -17,16 +17,10 @@ const Login = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const data = await login({ email, password });
-
-      if (!data.authToken) throw new Error(data.message);
-
       storeToken(data.authToken);
-
       await authenticateUser();
-
       router.push('/');
     } catch (error: unknown) {
       console.error(error);
@@ -41,7 +35,7 @@ const Login = () => {
         <form noValidate onSubmit={handleSubmit}>
           <input type='text' value={email} onChange={(e) => handleState(e, setEmail)} />
           <input type='password' value={password} onChange={(e) => handleState(e, setPassword)} />
-          <button type='submit'>Submit</button>
+          <button>Submit</button>
         </form>
       )}
 
