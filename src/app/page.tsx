@@ -1,12 +1,11 @@
 import Link from 'next/link';
-
-import Month from '@/app/components/Month';
+import Month from '@/components/Month';
+import Hero from '@/components/Hero';
 
 export default function Home() {
   return (
-    <main>
-      <h1>Landing Page</h1>
-      {/* Add component that will hold the <Month /> and the <CreateMonth /> */}
+    <main className='flex flex-col justify-start items-center p-5 h-screen w-screen '>
+      <Hero />
       <Month />
       <Link href={'/login'}>Go to Login</Link>
     </main>
