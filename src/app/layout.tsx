@@ -2,6 +2,7 @@ import '@/app/globals.css';
 import { Inter } from 'next/font/google';
 import { AuthProviderWrapper } from '@/app/auth.context';
 import { getMonths } from '@/lib/mongodb/months';
+import clsx from 'clsx';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={clsx(inter.className, 'bg-slate-700')}>
         <AuthProviderWrapper allMonths={months}>{children}</AuthProviderWrapper>
       </body>
     </html>

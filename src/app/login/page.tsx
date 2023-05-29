@@ -46,9 +46,10 @@ const Login = () => {
           <p>{user.name} is in tha house! 🙌</p>
           <button onClick={() => logOutUser()}>Logout</button>
           <br />
-          <Link href={'/'}>Go to Month Section</Link>
         </>
       )}
+
+      <Link href={'/'}>Go to Month Section</Link>
     </div>
   );
 };
