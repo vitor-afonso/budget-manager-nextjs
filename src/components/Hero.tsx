@@ -1,9 +1,8 @@
 'use client';
 
 import { useContext } from 'react';
-import { compareAsc, isSameMonth } from 'date-fns';
+import { isSameMonth } from 'date-fns';
 import { AuthContext, IAppContext } from '@/app/auth.context';
-import { IMonth } from '@/types/models';
 
 const Hero = () => {
   const { user, userMonths } = useContext(AuthContext) as IAppContext;
