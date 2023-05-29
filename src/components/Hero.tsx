@@ -1,26 +1,21 @@
 'use client';
 
-import { AuthContext, IAppContext } from '@/app/auth.context';
 import { useContext } from 'react';
+import { compareAsc, isSameMonth } from 'date-fns';
+import { AuthContext, IAppContext } from '@/app/auth.context';
+import { IMonth } from '@/types/models';
 
 const Hero = () => {
   const { user, userMonths } = useContext(AuthContext) as IAppContext;
 
   const isCurrentMonthOpen = () => {
-    let today = new Date();
-    let currentMonth = today.getUTCMonth();
-    let currentYear = today.getFullYear();
-    let monthAlreadyExist = false;
     if (userMonths.length > 0) {
-      userMonths.forEach((month) => {
-        if (month.createdAt.getUTCMonth() === currentMonth && month.createdAt.getFullYear() === currentYear) {
-          monthAlreadyExist = true;
-          return;
-        }
-      });
+      let month = userMonths.find((oneMonth) => isSameMonth(new Date(), oneMonth.createdAt));
+      if (month) return true;
     }
-    return monthAlreadyExist;
+    return false;
   };
+
   return (
     <section className='w-full md:w-80'>
       {!user && <div className='w-full md:w-80 h-80 bg-slate-400 mb-4'></div>}
