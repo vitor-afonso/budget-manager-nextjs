@@ -45,7 +45,7 @@ export default function Month(): JSX.Element {
 
   return (
     <section className='w-full sm:w-80'>
-      {currentMonth && (
+      {currentMonth && userMonths.length > 0 && (
         <div className='w-full'>
           <div className='flex flex-col p-4 items-center justify-around h-40 border border-black min-w-80 w-full rounded-3xl text-lg bg-slate-300'>
             <div className='flex items-center justify-around p-2 border border-black w-full rounded-3xl text-lg bg-slate-100 mb-2'>

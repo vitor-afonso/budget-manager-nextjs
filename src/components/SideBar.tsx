@@ -26,7 +26,7 @@ const SideBar = () => {
   return (
     <div>
       <div className='text-slate-200 mb-2 cursor-pointer hover:text-slate-400 duration-300' onClick={toggleSideBar}>
-        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='3' stroke='currentColor' className='w-10 h-8 p-0'>
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='3.75 9 16.5 6.75' strokeWidth='3' stroke='currentColor' className='w-10 h-8' style={{ padding: 0 }}>
           <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 9h16.5m-16.5 6.75h16.5' />
         </svg>
       </div>
