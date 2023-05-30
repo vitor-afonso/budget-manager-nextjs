@@ -3,7 +3,6 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { capitalize } from 'lodash';
 import { APP } from '@/utils/app.constants';
 import { AuthContext, IAppContext } from '@/app/auth.context';
 
@@ -43,7 +42,7 @@ const SideBar = () => {
           {routeNames.map((route, i) => {
             return (
               <Link key={route + i} href={routePaths[i]} className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500' onClick={toggleSideBar}>
-                <span className='text-4 text-gray-200 font-bold'>{capitalize(route)}</span>
+                <span className='text-4 text-gray-200 font-bold capitalize'>{route}</span>
               </Link>
             );
           })}

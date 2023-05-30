@@ -1,4 +1,3 @@
-import { capitalize } from 'lodash';
 import { IExpense, IIncome } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 import { getEventCreationDate } from '@/utils/app.methods';
@@ -20,8 +19,8 @@ const MonthEvents = ({ events, eventType }: Props): JSX.Element => {
           {events.map((oneEvent: IIncome | IExpense) => (
             <div key={oneEvent._id} className='flex justify-between items-center mb-2 last:mb-0 '>
               <div className='text-left leading-none '>
-                {eventType === APP.eventType.income && <p className='text-md truncate'>{capitalize(oneEvent.category)}</p>}
-                {eventType === APP.eventType.expense && <p className='text-md truncate'>{capitalize(oneEvent.title)}</p>}
+                {eventType === APP.eventType.income && <p className='text-md truncate capitalize'>{oneEvent.category}</p>}
+                {eventType === APP.eventType.expense && <p className='text-md truncate capitalize'>{oneEvent.title}</p>}
                 <span className='text-xs'>{getEventCreationDate(oneEvent.createdAt, eventType)}</span>
               </div>
               <div className='flex items-center text-md'>
