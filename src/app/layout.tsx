@@ -2,6 +2,7 @@ import '@/app/globals.css';
 import { Inter } from 'next/font/google';
 import { AuthProviderWrapper } from '@/app/auth.context';
 import { getMonths } from '@/lib/mongodb/months';
+import SideBar from '@/components/SideBar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,7 +17,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <AuthProviderWrapper allMonths={months}>{children}</AuthProviderWrapper>
+        <AuthProviderWrapper allMonths={months}>
+          <SideBar />
+          {children}
+        </AuthProviderWrapper>
       </body>
     </html>
   );
