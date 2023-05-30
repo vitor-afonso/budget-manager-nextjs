@@ -3,7 +3,6 @@ import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { AuthContext, IAppContext } from '@/app/auth.context';
 import { login } from '@/services/auth';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -40,16 +39,6 @@ const Login = () => {
       )}
 
       {isLoadingContext && <p>Loading...</p>}
-
-      {user && (
-        <>
-          <p>{user.name} is in tha house! 🙌</p>
-          <button onClick={() => logOutUser()}>Logout</button>
-          <br />
-        </>
-      )}
-
-      <Link href={'/'}>Go to Month Section</Link>
     </div>
   );
 };

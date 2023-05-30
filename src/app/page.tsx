@@ -7,7 +7,6 @@ export default function Home() {
     <main className='flex flex-col justify-start items-center p-5 h-screen w-screen '>
       <Hero />
       <Month />
-      <Link href={'/login'}>Go to Login</Link>
     </main>
   );
 }

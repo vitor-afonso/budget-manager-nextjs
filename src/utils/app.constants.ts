@@ -13,5 +13,12 @@ export const APP = {
     prev: 'prev',
     next: 'next',
   },
+  pageRoutes: {
+    home: '/',
+    month: '/month',
+    year: '/year',
+    login: '/login',
+    signup: '/signup',
+  },
   projectApi: `http://localhost:5005/api`,
 };
