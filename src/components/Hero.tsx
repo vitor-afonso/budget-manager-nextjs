@@ -18,7 +18,7 @@ const Hero = () => {
   return (
     <section className='w-full md:w-80'>
       {!user && <div className='w-full md:w-80 h-80 bg-slate-400 mb-4'></div>}
-      {!isCurrentMonthOpen() && <button className='border border-black text-xl rounded-3xl h-10 bg-slate-100 w-full'>Open new Month</button>}
+      {!isCurrentMonthOpen() && <button className='border border-black text-xl rounded-3xl h-10 bg-slate-200 w-full hover:text-gray-200 hover:bg-slate-400 duration-300'>Open new Month</button>}
     </section>
   );
 };

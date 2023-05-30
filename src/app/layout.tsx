@@ -5,7 +5,6 @@ import { getMonths } from '@/lib/mongodb/months';
 import clsx from 'clsx';
 import SideBar from '@/components/SideBar';
 
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -18,8 +17,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang='en'>
-
-      <body className={clsx(inter.className, 'bg-slate-700')}>
+      <body className={clsx(inter.className, 'bg-slate-700 p-4')}>
         <AuthProviderWrapper allMonths={months}>
           <SideBar />
           {children}
