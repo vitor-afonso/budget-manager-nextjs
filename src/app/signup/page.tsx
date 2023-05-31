@@ -1,8 +1,9 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { signup } from '@/services/auth';
 import { useRouter } from 'next/navigation';
+import { signup } from '@/services/auth';
+import { APP } from '@/utils/app.constants';
 
 const Signup = () => {
   const [name, setName] = useState<string>('');
@@ -20,7 +21,7 @@ const Signup = () => {
     setIsLoading(true);
     try {
       const data = await signup({ email, password, name });
-      router.push('/login');
+      router.push(APP.pageRoutes.login);
     } catch (error: unknown) {
       console.error(error);
       setErrorMessage(`${error}`);

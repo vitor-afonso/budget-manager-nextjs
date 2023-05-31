@@ -6,7 +6,7 @@ export interface IUser {
 }
 export interface IIncome {
   _id: string;
-  category: String;
+  category: string;
   amount: number;
   monthId: string;
   createdAt: Date;
@@ -14,8 +14,8 @@ export interface IIncome {
 }
 export interface IExpense {
   _id: string;
-  title: String;
-  category: String;
+  title: string;
+  category: string;
   amount: number;
   monthId: string;
   createdAt: Date;

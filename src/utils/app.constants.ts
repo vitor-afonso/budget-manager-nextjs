@@ -4,6 +4,15 @@ export const APP = {
   localStorage: {
     authToken: 'authToken',
   },
+  eventType: {
+    income: 'income',
+    expense: 'expense',
+    month: 'month',
+  },
+  buttonAction: {
+    prev: 'prev',
+    next: 'next',
+  },
   pageRoutes: {
     home: '/',
     month: '/month',

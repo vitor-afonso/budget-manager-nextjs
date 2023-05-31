@@ -39,6 +39,9 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         // After user is authenticated we filter the user months
         // and setup all the context data
         const filteredMonths = allMonths.filter((month) => month.userId === user._id);
+        filteredMonths.sort(function (a: any, b: any) {
+          return a.createdAt - b.createdAt;
+        });
         setIsLoggedIn(true);
         setIsLoadingContext(false);
         setUser(user);
@@ -70,7 +73,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     removeToken();
     // and update the state variables
     authenticateUser();
-    router.push('/');
+    router.push(APP.pageRoutes.home);
   };
 
   //checks if theres any valid token in localStore in case user is returning after having closed the page

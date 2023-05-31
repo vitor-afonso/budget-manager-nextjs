@@ -1,8 +1,9 @@
 'use client';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AuthContext, IAppContext } from '@/app/auth.context';
 import { login } from '@/services/auth';
-import { useRouter } from 'next/navigation';
+import { APP } from '@/utils/app.constants';
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -20,7 +21,7 @@ const Login = () => {
       const data = await login({ email, password });
       storeToken(data.authToken);
       await authenticateUser();
-      router.push('/');
+      router.push(APP.pageRoutes.home);
     } catch (error: unknown) {
       console.error(error);
     }
