@@ -3,8 +3,8 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { APP } from '@/utils/app.constants';
 import { AuthContext, IAppContext } from '@/app/auth.context';
+import { APP } from '@/utils/app.constants';
 
 const SideBar = () => {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
@@ -20,7 +20,7 @@ const SideBar = () => {
   function handleLogout() {
     logOutUser();
     setIsDrawerOpen(!isDrawerOpen);
-    router.push('/');
+    router.push(APP.pageRoutes.home);
   }
 
   return (

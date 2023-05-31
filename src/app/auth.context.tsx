@@ -73,7 +73,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     removeToken();
     // and update the state variables
     authenticateUser();
-    router.push('/');
+    router.push(APP.pageRoutes.home);
   };
 
   //checks if theres any valid token in localStore in case user is returning after having closed the page
