@@ -3,14 +3,6 @@ import { format } from 'date-fns';
 import { capitalize } from 'lodash';
 import { APP } from './app.constants';
 
-interface IChangeMontYearProps {
-  buttonAction: string;
-  userMonths: IMonth[];
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentMonthYear: React.Dispatch<React.SetStateAction<IMonth>>;
-}
-
 export const calculateTotal = (incomeExpenseList: IExpense[] | IIncome[]): number => {
   let total = 0;
   incomeExpenseList.forEach((element) => {
