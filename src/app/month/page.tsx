@@ -29,14 +29,15 @@ const MonthInfo = () => {
 
   return (
     <div className='flex flex-col items-center'>
-      {currentMonth && (
+      {currentMonth ? (
         <>
           <MonthYearHeader index={monthIndex} currentMonthYear={currentMonth} setCurrentMonthYear={setCurrentMonth} setIndex={setMonthIndex} />
           <MonthCategoryGraph incomeExpenseList={currentMonth.incomes} categoryType={APP.eventType.income} />
           <MonthCategoryGraph incomeExpenseList={currentMonth.expenses} categoryType={APP.eventType.expense} />
         </>
+      ) : (
+        <p>No month available to be displayed</p>
       )}
-      {!currentMonth && <p>No month available to be displayed</p>}
     </div>
   );
 };

@@ -48,17 +48,21 @@ export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { 
 };
 
 export const getCategoryNamestoShow = (incomeExpenseList: IIncome[] | IExpense[], categoryTotals: { [category: string]: number }) => {
-  let total = calculateTotal(incomeExpenseList);
-  const categoryNames = Object.keys(categoryTotals).map((name) => capitalize(name));
-  let categoryAmounts = Object.values(categoryTotals);
+  try {
+    let total = calculateTotal(incomeExpenseList);
+    const categoryNames = Object.keys(categoryTotals).map((name) => capitalize(name));
+    let categoryAmounts = Object.values(categoryTotals);
 
-  let formatedNames = categoryAmounts.map((item: number, i) => `${categoryNames[i]} ${getCategoryPercentage(total, item)}`);
-  return formatedNames;
+    let formattedNames = categoryAmounts.map((item: number, i) => `${categoryNames[i]} ${getCategoryPercentage(total, item)}`);
+    return formattedNames;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getCategoryPercentage = (total: number, amount: number) => {
   if (total <= 0) {
-    return 'Total must be a positive number.';
+    throw new Error('Total must be a positive number.');
   }
   const percentage = (amount / total) * 100;
   return percentage.toFixed(2) + '%';
@@ -75,15 +79,20 @@ export const changeMonthYear = (
   setIndex: React.Dispatch<React.SetStateAction<number | null>>,
   setCurrentMonthYear: React.Dispatch<React.SetStateAction<IMonth | null>>
 ) => {
-  if (index !== null && index > 0 && buttonAction === APP.buttonAction.prev) {
-    setIndex(index - 1);
-    setCurrentMonthYear(userMonths[index - 1]);
-    return;
-  }
+  if (index !== null) {
+    const isPreviousButton = buttonAction === APP.buttonAction.prev;
+    const isNextButton = buttonAction === APP.buttonAction.next;
 
-  if (index !== null && index < userMonths.length - 1 && buttonAction === APP.buttonAction.next) {
-    setIndex(index + 1);
-    setCurrentMonthYear(userMonths[index + 1]);
-    return;
+    if (isPreviousButton && index > 0) {
+      setIndex(index - 1);
+      setCurrentMonthYear(userMonths[index - 1]);
+      return;
+    }
+
+    if (isNextButton && index < userMonths.length - 1) {
+      setIndex(index + 1);
+      setCurrentMonthYear(userMonths[index + 1]);
+      return;
+    }
   }
 };

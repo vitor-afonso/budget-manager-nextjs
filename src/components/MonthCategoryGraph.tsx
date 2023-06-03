@@ -2,7 +2,6 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartOptions, ArcElement, Tooltip, Legend } from 'chart.js';
 import { IExpense, IIncome } from '@/types/models';
 import { getCategoryNamestoShow, getCategoryTotals, getGraphColors } from '@/utils/app.methods';
-import { capitalize } from 'lodash';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -33,7 +32,7 @@ const MonthCategoriesGraph = ({ incomeExpenseList, categoryType }: { incomeExpen
   };
   return (
     <div className='flex flex-col items-center text-gray-100 mb-4'>
-      <h1 className='text-xl font-semibold my-4'>{capitalize(categoryType)}s by category</h1>
+      <h1 className='text-xl font-semibold my-4 capitalize'>{categoryType}s by category</h1>
       {incomeExpenseList.length > 0 && <Pie data={data} options={options} />}
       {incomeExpenseList.length === 0 && <p className='text-gray-400'>{`No ${categoryType} to display.`}</p>}
     </div>
