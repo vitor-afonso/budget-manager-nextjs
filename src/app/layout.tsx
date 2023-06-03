@@ -19,8 +19,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang='en'>
       <body className={clsx(inter.className, 'bg-slate-700 p-4')}>
         <AuthProviderWrapper allMonths={months}>
-          <SideBar />
-          {children}
+          <div className='max-w-[320px] mx-auto'>
+            <SideBar />
+            {children}
+          </div>
         </AuthProviderWrapper>
       </body>
     </html>
