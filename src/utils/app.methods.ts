@@ -99,3 +99,19 @@ export const changeMonthYear = (
     }
   }
 };
+
+export const getYearIncomesExpensesData = (yearIncomeExpenses: IIncome[] | IExpense[]) => {
+  const categoryTotals: { [category: string]: number } = {};
+
+  for (const item of yearIncomeExpenses) {
+    const { createdAt, amount } = item;
+    const monthIndex = createdAt.getUTCMonth();
+    if (APP.monthsOfTheYear[monthIndex] in categoryTotals) {
+      categoryTotals[APP.monthsOfTheYear[monthIndex]] += amount;
+    } else {
+      categoryTotals[APP.monthsOfTheYear[monthIndex]] = amount;
+    }
+  }
+
+  return categoryTotals;
+};
