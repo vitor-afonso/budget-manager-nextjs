@@ -69,9 +69,6 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
             });
             return customYear;
           });
-
-          console.log('Years data to set Years =>', yearsData);
-
           setUserYears(yearsData);
         }
 
