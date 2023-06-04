@@ -1,6 +1,6 @@
 'use client';
 import MonthCategoryGraph from '@/components/MonthCategoryGraph';
-import { IMonth } from '@/types/models';
+import { IMonth, IYear } from '@/types/models';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext, IAppContext } from '../auth.context';
 import { isSameMonth } from 'date-fns';
@@ -9,7 +9,7 @@ import MonthYearHeader from '@/components/MonthYearHeader';
 
 const MonthInfo = () => {
   const { userMonths } = useContext(AuthContext) as IAppContext;
-  const [currentMonth, setCurrentMonth] = useState<IMonth | null>(null);
+  const [currentMonth, setCurrentMonth] = useState<IMonth | IYear | null>(null);
   const [monthIndex, setMonthIndex] = useState<number | null>(null);
 
   // set current month
@@ -31,7 +31,7 @@ const MonthInfo = () => {
     <div className='flex flex-col items-center'>
       {currentMonth ? (
         <>
-          <MonthYearHeader index={monthIndex} currentMonthYear={currentMonth} setCurrentMonthYear={setCurrentMonth} setIndex={setMonthIndex} />
+          <MonthYearHeader userMonthsYears={userMonths} index={monthIndex} currentMonthYear={currentMonth} setCurrentMonthYear={setCurrentMonth} setIndex={setMonthIndex} />
           <MonthCategoryGraph incomeExpenseList={currentMonth.incomes} categoryType={APP.eventType.income} />
           <MonthCategoryGraph incomeExpenseList={currentMonth.expenses} categoryType={APP.eventType.expense} />
         </>
