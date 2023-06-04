@@ -1,23 +1,43 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { isSameYear } from 'date-fns';
-import { AuthContext, IAppContext } from '../auth.context';
-import { IMonth } from '@/types/models';
+import { AuthContext, IAppContext } from '@/app/auth.context';
+import { IYear } from '@/types/models';
+import MonthYearHeader from '@/components/MonthYearHeader';
+import { APP } from '@/utils/app.constants';
 
 const YearInfo = () => {
-  const { userMonths } = useContext(AuthContext) as IAppContext;
-  const [yearMonths, setYearMonths] = useState<IMonth[] | null>(null);
+  const { userYears } = useContext(AuthContext) as IAppContext;
+  const [currentYear, setCurrentYear] = useState<IYear | null>(null);
+  const [yearIndex, setYearIndex] = useState<number | null>(null);
+
   // set current month
   useEffect(() => {
-    if (userMonths.length > 0) {
-      let months = userMonths.filter((oneMonth) => isSameYear(new Date(), oneMonth.createdAt));
-      if (months.length > 0) {
-        console.log('Year months set and done! =>', months);
-        setYearMonths(months);
+    if (userYears) {
+      let year = userYears.find((oneYear, i) => {
+        if (isSameYear(new Date(), oneYear.createdAt!)) {
+          setYearIndex(i);
+          return oneYear;
+        }
+      });
+
+      if (year) {
+        setCurrentYear(year);
       }
     }
-  }, [userMonths]);
-  return <div>Year details</div>;
+  }, [userYears]);
+
+  return (
+    <div className='flex flex-col items-center'>
+      {currentYear ? (
+        <>
+          <MonthYearHeader userMonthsYears={userYears} index={yearIndex} currentMonthYear={currentYear} eventType={APP.eventType.year} setCurrentMonthYear={setCurrentYear} setIndex={setYearIndex} />
+        </>
+      ) : (
+        <p>No year available to display.</p>
+      )}
+    </div>
+  );
 };
 
 export default YearInfo;
