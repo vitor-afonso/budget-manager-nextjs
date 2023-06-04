@@ -8,6 +8,7 @@ export const APP = {
     income: 'income',
     expense: 'expense',
     month: 'month',
+    year: 'year',
   },
   buttonAction: {
     prev: 'prev',
