@@ -100,7 +100,7 @@ export const changeMonthYear = (
   }
 };
 
-export const getYearIncomesExpensesData = (yearIncomeExpenses: IIncome[] | IExpense[]) => {
+export const getYearIncomesExpensesBarData = (yearIncomeExpenses: IIncome[] | IExpense[]) => {
   const categoryTotals: { [category: string]: number } = {};
 
   for (const item of yearIncomeExpenses) {
