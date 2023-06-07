@@ -11,7 +11,7 @@ export interface IAppContext {
   isLoggedIn: boolean;
   isLoadingContext: boolean;
   userMonths: IMonth[];
-  userYears: IYear[];
+  userYears: IYear[] | undefined;
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -23,7 +23,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoadingContext, setIsLoadingContext] = useState<boolean>(true);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
-  const [userYears, setUserYears] = useState<IYear[]>([]);
+  const [userYears, setUserYears] = useState<IYear[] | undefined>([]);
   const [user, setUser] = useState<IAppContext['user'] | null>(null);
   const router = useRouter();
   const storeToken = (token: string) => {
@@ -46,36 +46,13 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         });
 
         // set userYears
-        if (filteredMonths.length > 0) {
-          // filter months by year
-          const monthsByYear: { [year: number]: IMonth[] } = {};
-          for (const month of filteredMonths) {
-            const { createdAt } = month;
-            if (createdAt.getFullYear() in monthsByYear) {
-              monthsByYear[createdAt.getFullYear()].push(month);
-            } else {
-              monthsByYear[createdAt.getFullYear()] = [month];
-            }
-          }
-          // create array of year objects
-          const yearsData = Object.keys(monthsByYear).map((oneYear) => {
-            const customYear: IYear = { incomes: [], expenses: [] };
-            filteredMonths.forEach((month) => {
-              if (month.createdAt.getFullYear() === Number(oneYear)) {
-                customYear.incomes = [...customYear.incomes, ...month.incomes];
-                customYear.expenses = [...customYear.expenses, ...month.expenses];
-                customYear.createdAt = new Date(Number(oneYear), 0, 1);
-              }
-            });
-            return customYear;
-          });
-          setUserYears(yearsData);
-        }
+        const yearsData = await getYearsData(filteredMonths);
 
         setIsLoggedIn(true);
         setIsLoadingContext(false);
         setUser(user);
         setUserMonths(filteredMonths);
+        setUserYears(yearsData);
       } catch (error) {
         // If the server sends an error response (invalid token)
         // Update state variables
@@ -106,6 +83,33 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     // and update the state variables
     authenticateUser();
     router.push(APP.pageRoutes.home);
+  };
+
+  const getYearsData = async (filteredMonths: IMonth[]) => {
+    // filter months by year
+    const monthsByYear: { [year: number]: IMonth[] } = {};
+    for (const month of filteredMonths) {
+      const { createdAt } = month;
+      if (createdAt.getFullYear() in monthsByYear) {
+        monthsByYear[createdAt.getFullYear()].push(month);
+      } else {
+        monthsByYear[createdAt.getFullYear()] = [month];
+      }
+    }
+    // create array of year objects
+    const yearsData = Object.keys(monthsByYear).map((oneYear) => {
+      const customYear: IYear = { incomes: [], expenses: [] };
+      filteredMonths.forEach((month: IMonth) => {
+        if (month.createdAt.getFullYear() === Number(oneYear)) {
+          customYear.incomes = [...customYear.incomes, ...month.incomes];
+          customYear.expenses = [...customYear.expenses, ...month.expenses];
+          customYear.createdAt = new Date(Number(oneYear), 0, 1);
+        }
+      });
+      return customYear;
+    });
+
+    return yearsData;
   };
 
   //checks if theres any valid token in localStore in case user is returning after having closed the page
