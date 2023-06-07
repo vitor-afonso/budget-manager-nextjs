@@ -39,7 +39,7 @@ const YearInfo = () => {
           <YearCategoryTotals eventType={APP.eventType.expense} incomesExpenses={currentYear.expenses} />
         </>
       ) : (
-        <p>No year available to display.</p>
+        <p>No year data available to display.</p>
       )}
     </div>
   );
