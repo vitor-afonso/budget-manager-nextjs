@@ -5,6 +5,17 @@ import { getCategoryNamestoShow, getCategoryTotals, getGraphColors } from '@/uti
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+export const options: ChartOptions = {
+  //events: ['click'],
+  plugins: {
+    legend: {
+      display: true,
+      labels: { color: '#f3f4f6' },
+      position: 'top',
+    },
+  },
+};
+
 const MonthCategoriesGraph = ({ incomeExpenseList, categoryType }: { incomeExpenseList: IIncome[] | IExpense[]; categoryType: string }): JSX.Element => {
   const { categoryTotals } = getCategoryTotals(incomeExpenseList);
   const data = {
@@ -20,16 +31,6 @@ const MonthCategoriesGraph = ({ incomeExpenseList, categoryType }: { incomeExpen
     ],
   };
 
-  const options: ChartOptions = {
-    //events: ['click'],
-    plugins: {
-      legend: {
-        display: true,
-        labels: { color: '#f3f4f6' },
-        position: 'top',
-      },
-    },
-  };
   return (
     <div className='flex flex-col items-center text-gray-100 mb-4'>
       <h1 className='text-xl font-semibold my-4 capitalize'>{categoryType}s by category</h1>

@@ -30,3 +30,9 @@ export interface IMonth {
   updatedAt: Date;
   deleted: boolean;
 }
+
+export interface IYear {
+  incomes: IIncome[];
+  expenses: IExpense[];
+  createdAt?: Date;
+}
