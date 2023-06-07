@@ -5,6 +5,7 @@ import { AuthContext, IAppContext } from '@/app/auth.context';
 import { IYear } from '@/types/models';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import { APP } from '@/utils/app.constants';
+import YearCategoriesGraph from '@/components/YearCategoryGraph';
 
 const YearInfo = () => {
   const { userYears } = useContext(AuthContext) as IAppContext;
@@ -32,6 +33,7 @@ const YearInfo = () => {
       {currentYear ? (
         <>
           <MonthYearHeader userMonthsYears={userYears} index={yearIndex} currentMonthYear={currentYear} eventType={APP.eventType.year} setCurrentMonthYear={setCurrentYear} setIndex={setYearIndex} />
+          <YearCategoriesGraph currentYear={currentYear} />
         </>
       ) : (
         <p>No year available to display.</p>
