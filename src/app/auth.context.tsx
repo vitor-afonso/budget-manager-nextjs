@@ -45,7 +45,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
           return a.createdAt - b.createdAt;
         });
 
-        // set userYears
+        // create and get years data
         const yearsData = await getYearsData(filteredMonths);
 
         setIsLoggedIn(true);
