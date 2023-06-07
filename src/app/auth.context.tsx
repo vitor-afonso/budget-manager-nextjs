@@ -11,7 +11,7 @@ export interface IAppContext {
   isLoggedIn: boolean;
   isLoadingContext: boolean;
   userMonths: IMonth[];
-  userYears: IYear[] | undefined;
+  userYears: IYear[];
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -23,7 +23,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoadingContext, setIsLoadingContext] = useState<boolean>(true);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
-  const [userYears, setUserYears] = useState<IYear[] | undefined>([]);
+  const [userYears, setUserYears] = useState<IYear[]>([]);
   const [user, setUser] = useState<IAppContext['user'] | null>(null);
   const router = useRouter();
   const storeToken = (token: string) => {
