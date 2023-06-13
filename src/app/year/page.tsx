@@ -6,6 +6,7 @@ import { IYear } from '@/types/models';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import { APP } from '@/utils/app.constants';
 import YearCategoriesGraph from '@/components/YearCategoryGraph';
+import YearCategoryTotals from '@/components/YearCategoryTotals';
 
 const YearInfo = () => {
   const { userYears } = useContext(AuthContext) as IAppContext;
@@ -34,9 +35,11 @@ const YearInfo = () => {
         <>
           <MonthYearHeader userMonthsYears={userYears} index={yearIndex} currentMonthYear={currentYear} eventType={APP.eventType.year} setCurrentMonthYear={setCurrentYear} setIndex={setYearIndex} />
           <YearCategoriesGraph currentYear={currentYear} />
+          <YearCategoryTotals eventType={APP.eventType.income} incomesExpenses={currentYear.incomes} />
+          <YearCategoryTotals eventType={APP.eventType.expense} incomesExpenses={currentYear.expenses} />
         </>
       ) : (
-        <p>No year available to display.</p>
+        <p>No year data available to display.</p>
       )}
     </div>
   );
