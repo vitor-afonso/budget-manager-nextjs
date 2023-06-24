@@ -12,6 +12,7 @@ export interface IAppContext {
   isLoadingContext: boolean;
   userMonths: IMonth[];
   userYears: IYear[];
+  updateUserDataOnMonthCreation(createdMOnth: IMonth): void;
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -85,6 +86,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     router.push(APP.pageRoutes.home);
   };
 
+  // formats years data
   const getYearsData = async (filteredMonths: IMonth[]) => {
     // filter months by year
     const monthsByYear: { [year: number]: IMonth[] } = {};
@@ -112,6 +114,13 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     return yearsData;
   };
 
+  const updateUserDataOnMonthCreation = async (createdMonth: IMonth) => {
+    const updatedUserMonths = [...userMonths, createdMonth];
+    setUserMonths(updatedUserMonths);
+    const yearsData = await getYearsData(updatedUserMonths);
+    setUserYears(yearsData);
+  };
+
   //checks if theres any valid token in localStore in case user is returning after having closed the page
   useEffect(() => {
     authenticateUser();
@@ -125,6 +134,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         user,
         userMonths,
         userYears,
+        updateUserDataOnMonthCreation,
         storeToken,
         authenticateUser,
         logOutUser,

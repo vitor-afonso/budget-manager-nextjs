@@ -1,15 +1,16 @@
 'use client';
 
 import { useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { isSameMonth } from 'date-fns';
 import { AuthContext, IAppContext } from '@/app/auth.context';
-import ModalCreateMonth from './ModalCreateMonth';
-import { useRouter } from 'next/navigation';
 import { APP } from '@/utils/app.constants';
+import { createMonth } from '@/services/months';
 
 const Hero = () => {
-  const { user, userMonths } = useContext(AuthContext) as IAppContext;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user, userMonths, updateUserDataOnMonthCreation } = useContext(AuthContext) as IAppContext;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
 
   const isCurrentMonthOpen = () => {
@@ -20,23 +21,32 @@ const Hero = () => {
     return false;
   };
 
-  const handleOpenNewMonth = () => {
+  const handleCreateMonth = async () => {
     if (!user) {
       router.push(APP.pageRoutes.login);
       return;
     }
-    setIsModalOpen(true);
+    if (isCurrentMonthOpen()) return;
+    setIsLoading(true);
+    try {
+      const createdMonth = await createMonth(user._id);
+      updateUserDataOnMonthCreation(createdMonth);
+    } catch (error: any) {
+      console.log(error);
+      setErrorMessage(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <section className='w-full md:w-80'>
       {!user && <div className='w-full md:w-80 h-80 bg-slate-400 mb-4'></div>}
-      {!isCurrentMonthOpen() && !isModalOpen && (
-        <button className='border border-black text-xl rounded-3xl h-10 bg-slate-200 w-full hover:text-gray-200 hover:bg-slate-400 duration-300' onClick={handleOpenNewMonth}>
+      {!isCurrentMonthOpen() && (
+        <button className='border border-black text-xl rounded-3xl h-10 bg-slate-200 w-full hover:text-gray-200 hover:bg-slate-400 duration-300' onClick={handleCreateMonth}>
           Open new Month
         </button>
       )}
-      {isModalOpen && <ModalCreateMonth isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
     </section>
   );
 };
