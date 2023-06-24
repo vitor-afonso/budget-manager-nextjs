@@ -1,6 +1,5 @@
+import { parseISO } from 'date-fns';
 import { APP } from '@/utils/app.constants';
-
-/************************* MONTHS *****************************/
 
 export const getUserMonths = async (userId: string | undefined) => {
   const res = await fetch(`${APP.projectApi}/months/user/${userId}`, {
@@ -12,4 +11,22 @@ export const getUserMonths = async (userId: string | undefined) => {
   });
   const data = await res.json();
   return data;
+};
+
+export const createMonth = async (userId: string) => {
+  try {
+    const res = await fetch(`${APP.projectApi}/months`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
+      body: JSON.stringify({ userId }),
+    });
+    let month = await res.json();
+    // parse date before sending it to component
+    return { ...month, createdAt: parseISO(month.createdAt), updatedAt: parseISO(month.updatedAt) };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
