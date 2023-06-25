@@ -2,7 +2,7 @@
 
 import React, { createContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { IMonth, IUser, IYear } from '@/types/models';
+import { IExpense, IIncome, IMonth, IUser, IYear } from '@/types/models';
 import { verify } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
 
@@ -12,7 +12,8 @@ export interface IAppContext {
   isLoadingContext: boolean;
   userMonths: IMonth[];
   userYears: IYear[];
-  updateUserDataOnMonthCreation(createdMOnth: IMonth): void;
+  updateUserMonthsOnMonthCreation(createdMOnth: IMonth): void;
+  updateMonthIncomeExpenseCreation(createdIncomeExpense: IIncome | IExpense, monthId: string): void;
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -114,11 +115,20 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     return yearsData;
   };
 
-  const updateUserDataOnMonthCreation = async (createdMonth: IMonth) => {
+  const updateUserMonthsOnMonthCreation = async (createdMonth: IMonth) => {
     const updatedUserMonths = [...userMonths, createdMonth];
     setUserMonths(updatedUserMonths);
     const yearsData = await getYearsData(updatedUserMonths);
     setUserYears(yearsData);
+  };
+
+  const updateMonthIncomeExpenseCreation = async (createdIncomeExpense: IIncome | IExpense, monthId: string) => {
+    const monthToUpdate = userMonths.find((oneMonth) => oneMonth._id === monthId);
+    if ('title' in createdIncomeExpense) {
+      monthToUpdate!.expenses = [...monthToUpdate!.expenses, createdIncomeExpense];
+    } else {
+      monthToUpdate!.incomes = [...monthToUpdate!.incomes, createdIncomeExpense];
+    }
   };
 
   //checks if theres any valid token in localStore in case user is returning after having closed the page
@@ -134,7 +144,8 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         user,
         userMonths,
         userYears,
-        updateUserDataOnMonthCreation,
+        updateUserMonthsOnMonthCreation,
+        updateMonthIncomeExpenseCreation,
         storeToken,
         authenticateUser,
         logOutUser,
