@@ -21,23 +21,25 @@ const MonthEvents = ({ events, eventType, monthId }: Props): JSX.Element => {
           <h2>{eventType === APP.eventType.income ? 'Incomes' : 'Expenses'}</h2>
         </div>
         <div className={clsx(screen.height < 800 ? 'max-h-20' : 'max-h-32', 'pb-2 pl-5 mt-5 mr-5 overflow-y-auto')}>
-          {events.map((oneEvent: IIncome | IExpense) => (
-            <div key={oneEvent._id} className='flex justify-between items-center mb-2 last:mb-0 '>
-              <div className='text-left leading-none '>
-                <p className='text-md truncate capitalize'>{eventType === APP.eventType.income ? oneEvent.category : oneEvent.title}</p>
+          {events
+            .sort((a: any, b: any) => a.createdAt - b.createdAt)
+            .map((oneEvent: IIncome | IExpense) => (
+              <div key={oneEvent._id} className='flex justify-between items-center mb-2 last:mb-0 '>
+                <div className='text-left leading-none '>
+                  <p className='text-md truncate capitalize'>{'title' in oneEvent ? oneEvent.title : oneEvent.category}</p>
 
-                <span className='text-xs'>{getEventCreationDate(oneEvent.createdAt, eventType)}</span>
+                  <span className='text-xs'>{getEventCreationDate(oneEvent.createdAt, eventType)}</span>
+                </div>
+                <div className='flex items-center text-md'>
+                  <p>{oneEvent.amount + APP.currency}</p>
+                  <button className='rounded-full bg-slate-300 w-5 h-5 flex justify-center items-center mx-1'>
+                    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='5' stroke='currentColor' className='w-4 h-4 text-red-500'>
+                      <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div className='flex items-center text-md'>
-                <p>{oneEvent.amount + APP.currency}</p>
-                <button className='rounded-full bg-slate-300 w-5 h-5 flex justify-center items-center mx-1'>
-                  <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='5' stroke='currentColor' className='w-4 h-4 text-red-500'>
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <button className='self-center rounded-full bg-slate-300 w-8 h-8 flex justify-center items-center' onClick={() => setIsModalOpen(true)}>
