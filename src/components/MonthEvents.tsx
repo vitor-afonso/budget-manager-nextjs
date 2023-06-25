@@ -8,9 +8,10 @@ import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense';
 interface Props {
   events: IIncome[] | IExpense[];
   eventType: string;
+  monthId: string;
 }
 
-const MonthEvents = ({ events, eventType }: Props): JSX.Element => {
+const MonthEvents = ({ events, eventType, monthId }: Props): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -44,7 +45,7 @@ const MonthEvents = ({ events, eventType }: Props): JSX.Element => {
           <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
         </svg>
       </button>
-      {isModalOpen && <ModalCreateIncomeExpense isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && <ModalCreateIncomeExpense isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} monthId={monthId} eventType={eventType} />}
     </div>
   );
 };

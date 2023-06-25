@@ -11,6 +11,7 @@ export default function Month(): JSX.Element {
   const { userMonths } = useContext(AuthContext) as IAppContext;
   const [currentMonth, setCurrentMonth] = useState<IMonth | IYear | null>(null);
   const [monthIndex, setMonthIndex] = useState<number | null>(null);
+  const [monthId, setMonthId] = useState<string>('');
 
   // to set the current month
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Month(): JSX.Element {
       });
       if (month) {
         month && setCurrentMonth(month);
+        setMonthId(month._id);
       }
     }
   }, [userMonths]);
@@ -32,8 +34,8 @@ export default function Month(): JSX.Element {
       {currentMonth && userMonths.length > 0 && (
         <div className='w-full'>
           <MonthYearHeader userMonthsYears={userMonths} index={monthIndex} currentMonthYear={currentMonth} setCurrentMonthYear={setCurrentMonth} setIndex={setMonthIndex} />
-          <MonthEvents events={currentMonth.incomes} eventType={APP.eventType.income} />
-          <MonthEvents events={currentMonth.expenses} eventType={APP.eventType.expense} />
+          <MonthEvents events={currentMonth.incomes} eventType={APP.eventType.income} monthId={monthId} />
+          <MonthEvents events={currentMonth.expenses} eventType={APP.eventType.expense} monthId={monthId} />
         </div>
       )}
     </section>
