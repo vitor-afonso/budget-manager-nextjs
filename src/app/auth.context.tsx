@@ -43,9 +43,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         // After user is authenticated we filter the user months
         // and setup all the context data
         const filteredMonths = allMonths.filter((month) => month.userId === user._id);
-        filteredMonths.sort(function (a: any, b: any) {
-          return a.createdAt - b.createdAt;
-        });
+        filteredMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
 
         // create and get years data
         const yearsData = await getYearsData(filteredMonths);
@@ -124,10 +122,18 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
 
   const updateMonthIncomeExpenseCreation = async (createdIncomeExpense: IIncome | IExpense, monthId: string) => {
     const monthToUpdate = userMonths.find((oneMonth) => oneMonth._id === monthId);
-    if ('title' in createdIncomeExpense) {
-      monthToUpdate!.expenses = [...monthToUpdate!.expenses, createdIncomeExpense];
-    } else {
-      monthToUpdate!.incomes = [...monthToUpdate!.incomes, createdIncomeExpense];
+    const filteredMonths = userMonths.filter((oneMonth) => oneMonth._id !== monthId);
+    if (monthToUpdate) {
+      if ('title' in createdIncomeExpense) {
+        monthToUpdate!.expenses.push(createdIncomeExpense);
+      } else {
+        monthToUpdate!.incomes.push(createdIncomeExpense);
+      }
+      // updates userMonths and UserYears
+      const updatedUserMonths = [...filteredMonths, monthToUpdate];
+      setUserMonths(updatedUserMonths);
+      const yearsData = await getYearsData(updatedUserMonths);
+      setUserYears(yearsData);
     }
   };
 
