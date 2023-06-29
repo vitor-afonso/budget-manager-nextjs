@@ -28,3 +28,25 @@ export const createIncomeExpense = async (reqBody: CreateIncomeExpense, isExpens
     throw new Error(error.message);
   }
 };
+
+export const deleteIncomeExpense = async (incomeExpenseId: string, isExpense: boolean) => {
+  const expenseBody = isExpense && { expenseId: incomeExpenseId };
+  const incomeBody = !isExpense && { incomeId: incomeExpenseId };
+  const routeName = isExpense ? `/expenses/${incomeExpenseId}` : `/incomes/${incomeExpenseId}`;
+
+  const apiUrl = `${APP.projectApi}${routeName}`;
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
+      body: JSON.stringify(isExpense ? expenseBody : incomeBody),
+    });
+    let { message } = await res.json();
+    return message;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
