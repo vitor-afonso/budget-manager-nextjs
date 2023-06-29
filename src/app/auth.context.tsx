@@ -14,6 +14,7 @@ export interface IAppContext {
   userYears: IYear[];
   updateUserMonthsOnMonthCreation(createdMOnth: IMonth): void;
   updateMonthIncomeExpenseCreation(createdIncomeExpense: IIncome | IExpense, monthId: string): void;
+  updateMonthIncomeExpenseDeletion(incomeExpenseId: string, monthId: string, isExpense: boolean): void;
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -137,6 +138,25 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     }
   };
 
+  const updateMonthIncomeExpenseDeletion = async (incomeExpenseId: string, monthId: string, isExpense: boolean) => {
+    const monthToUpdate = userMonths.find((oneMonth) => oneMonth._id === monthId);
+    const filteredMonths = userMonths.filter((oneMonth) => oneMonth._id !== monthId);
+    if (monthToUpdate) {
+      if (isExpense) {
+        const filteredMonthExpenses = monthToUpdate.expenses.filter((oneExpense) => oneExpense._id !== incomeExpenseId);
+        monthToUpdate.expenses = filteredMonthExpenses;
+      } else {
+        const filteredMonthIncomes = monthToUpdate.incomes.filter((oneIncome) => oneIncome._id !== incomeExpenseId);
+        monthToUpdate.incomes = filteredMonthIncomes;
+      }
+      // updates userMonths and UserYears
+      const updatedUserMonths = [...filteredMonths, monthToUpdate];
+      setUserMonths(updatedUserMonths);
+      const yearsData = await getYearsData(updatedUserMonths);
+      setUserYears(yearsData);
+    }
+  };
+
   //checks if theres any valid token in localStore in case user is returning after having closed the page
   useEffect(() => {
     authenticateUser();
@@ -152,6 +172,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         userYears,
         updateUserMonthsOnMonthCreation,
         updateMonthIncomeExpenseCreation,
+        updateMonthIncomeExpenseDeletion,
         storeToken,
         authenticateUser,
         logOutUser,
