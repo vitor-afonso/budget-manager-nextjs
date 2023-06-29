@@ -8,7 +8,7 @@ import { APP } from '@/utils/app.constants';
 import { createMonth } from '@/services/months';
 
 const Hero = () => {
-  const { user, userMonths, updateUserDataOnMonthCreation } = useContext(AuthContext) as IAppContext;
+  const { user, userMonths, updateUserMonthsOnMonthCreation } = useContext(AuthContext) as IAppContext;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
@@ -30,7 +30,7 @@ const Hero = () => {
     setIsLoading(true);
     try {
       const createdMonth = await createMonth(user._id);
-      updateUserDataOnMonthCreation(createdMonth);
+      updateUserMonthsOnMonthCreation(createdMonth);
     } catch (error: any) {
       console.log(error);
       setErrorMessage(error);

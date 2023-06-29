@@ -2,7 +2,7 @@
 
 import React, { createContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { IMonth, IUser, IYear } from '@/types/models';
+import { IExpense, IIncome, IMonth, IUser, IYear } from '@/types/models';
 import { verify } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
 
@@ -12,7 +12,8 @@ export interface IAppContext {
   isLoadingContext: boolean;
   userMonths: IMonth[];
   userYears: IYear[];
-  updateUserDataOnMonthCreation(createdMOnth: IMonth): void;
+  updateUserMonthsOnMonthCreation(createdMOnth: IMonth): void;
+  updateMonthIncomeExpenseCreation(createdIncomeExpense: IIncome | IExpense, monthId: string): void;
   storeToken(token: string): void;
   authenticateUser(): void;
   logOutUser(): void;
@@ -42,9 +43,7 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         // After user is authenticated we filter the user months
         // and setup all the context data
         const filteredMonths = allMonths.filter((month) => month.userId === user._id);
-        filteredMonths.sort(function (a: any, b: any) {
-          return a.createdAt - b.createdAt;
-        });
+        filteredMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
 
         // create and get years data
         const yearsData = await getYearsData(filteredMonths);
@@ -114,11 +113,28 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     return yearsData;
   };
 
-  const updateUserDataOnMonthCreation = async (createdMonth: IMonth) => {
+  const updateUserMonthsOnMonthCreation = async (createdMonth: IMonth) => {
     const updatedUserMonths = [...userMonths, createdMonth];
     setUserMonths(updatedUserMonths);
     const yearsData = await getYearsData(updatedUserMonths);
     setUserYears(yearsData);
+  };
+
+  const updateMonthIncomeExpenseCreation = async (createdIncomeExpense: IIncome | IExpense, monthId: string) => {
+    const monthToUpdate = userMonths.find((oneMonth) => oneMonth._id === monthId);
+    const filteredMonths = userMonths.filter((oneMonth) => oneMonth._id !== monthId);
+    if (monthToUpdate) {
+      if ('title' in createdIncomeExpense) {
+        monthToUpdate!.expenses.push(createdIncomeExpense);
+      } else {
+        monthToUpdate!.incomes.push(createdIncomeExpense);
+      }
+      // updates userMonths and UserYears
+      const updatedUserMonths = [...filteredMonths, monthToUpdate];
+      setUserMonths(updatedUserMonths);
+      const yearsData = await getYearsData(updatedUserMonths);
+      setUserYears(yearsData);
+    }
   };
 
   //checks if theres any valid token in localStore in case user is returning after having closed the page
@@ -134,7 +150,8 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         user,
         userMonths,
         userYears,
-        updateUserDataOnMonthCreation,
+        updateUserMonthsOnMonthCreation,
+        updateMonthIncomeExpenseCreation,
         storeToken,
         authenticateUser,
         logOutUser,
