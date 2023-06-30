@@ -13,7 +13,7 @@ interface Props {
 
 export function IncomeExpense({ incomeExpense, eventType }: Props) {
   const { updateMonthIncomeExpenseDeletion } = useContext(AuthContext) as IAppContext;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isExpense = 'title' in incomeExpense;
   const incomeExpenseName = isExpense ? incomeExpense.title : incomeExpense.category;
   const getAmountToDisplay = (amount: number) => {
