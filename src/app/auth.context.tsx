@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { IExpense, IIncome, IMonth, IUser, IYear } from '@/types/models';
 import { verify } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
+import { getUserMonths } from '@/services/months';
 
 export interface IAppContext {
   user: IUser | null;
@@ -22,7 +23,7 @@ export interface IAppContext {
 
 const AuthContext = createContext<IAppContext | null>(null);
 
-function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNode; allMonths: IMonth[] }) {
+function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoadingContext, setIsLoadingContext] = useState<boolean>(true);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
@@ -41,18 +42,18 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
         setIsLoadingContext(true);
         // We must send the JWT token in the request's "Authorization" Headers
         let user = await verify(storedToken);
-        // After user is authenticated we filter the user months
-        // and setup all the context data
-        const filteredMonths = allMonths.filter((month) => month.userId === user._id);
-        filteredMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
+
+        // After user is authenticated we get all user months
+        let months = await getUserMonths(user._id);
+        months.sort((a: any, b: any) => a.createdAt - b.createdAt);
 
         // create and get years data
-        const yearsData = await getYearsData(filteredMonths);
+        const yearsData = await getYearsData(months);
 
         setIsLoggedIn(true);
         setIsLoadingContext(false);
         setUser(user);
-        setUserMonths(filteredMonths);
+        setUserMonths(months);
         setUserYears(yearsData);
       } catch (error) {
         // If the server sends an error response (invalid token)
@@ -78,11 +79,11 @@ function AuthProviderWrapper({ children, allMonths }: { children: React.ReactNod
     localStorage.removeItem(APP.localStorage.authToken);
   };
 
-  const logOutUser = () => {
+  const logOutUser = async () => {
     // To log out the user, remove the token
     removeToken();
     // and update the state variables
-    authenticateUser();
+    await authenticateUser();
     router.push(APP.pageRoutes.home);
   };
 

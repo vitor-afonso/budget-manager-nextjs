@@ -10,7 +10,11 @@ export const getUserMonths = async (userId: string | undefined) => {
     },
   });
   const data = await res.json();
-  return data;
+  const userMonths = data.map((month: any) => {
+    // parse date before sending it to context
+    return { ...month, createdAt: parseISO(month.createdAt), updatedAt: parseISO(month.updatedAt) };
+  });
+  return userMonths;
 };
 
 export const createMonth = async (userId: string) => {

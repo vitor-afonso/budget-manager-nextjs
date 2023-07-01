@@ -16,11 +16,11 @@ export const getMonthBalance = (month: IMonth | IYear): number => {
   return totalIncome - totalExpenses;
 };
 
-export const getEventCreationDate = (monthYear: Date, eventType: string): string => {
-  let year = monthYear.getFullYear();
-
-  let day = monthYear.getUTCDate();
-  let month = monthYear.getUTCMonth();
+export const getEventCreationDate = (creationDate: Date, eventType: string): string => {
+  let monthYearDate = new Date(creationDate);
+  let year = monthYearDate.getFullYear();
+  let day = monthYearDate.getUTCDate();
+  let month = monthYearDate.getUTCMonth();
   if (eventType === APP.eventType.month) {
     return format(new Date(year, month, day), 'MMM-yyyy');
   }
@@ -105,7 +105,7 @@ export const getYearIncomesExpensesBarData = (yearIncomeExpenses: IIncome[] | IE
 
   for (const item of yearIncomeExpenses) {
     const { createdAt, amount } = item;
-    const monthIndex = createdAt.getUTCMonth();
+    const monthIndex = new Date(createdAt).getUTCMonth();
     if (APP.monthsOfTheYear[monthIndex] in categoryTotals) {
       categoryTotals[APP.monthsOfTheYear[monthIndex]] += amount;
     } else {

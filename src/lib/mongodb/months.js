@@ -15,9 +15,9 @@ async function init() {
   }
 }
 
-(async () => {
+/* (async () => {
   await init();
-})();
+})(); */
 
 export async function getMonths() {
   try {

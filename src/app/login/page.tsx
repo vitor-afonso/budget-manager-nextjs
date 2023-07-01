@@ -8,6 +8,7 @@ import { APP } from '@/utils/app.constants';
 const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
   const { storeToken, authenticateUser, isLoadingContext, user, logOutUser } = useContext(AuthContext) as IAppContext;
 
@@ -19,6 +20,10 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await login({ email, password });
+      if (!data.authToken) {
+        setErrorMessage(data.message);
+        return;
+      }
       storeToken(data.authToken);
       await authenticateUser();
       router.push(APP.pageRoutes.home);
@@ -38,6 +43,8 @@ const Login = () => {
           <button>Submit</button>
         </form>
       )}
+
+      {errorMessage && <p className='text-red-500 capitalize'>{errorMessage}</p>}
 
       {isLoadingContext && <p>Loading...</p>}
     </div>
