@@ -23,11 +23,17 @@ export default function Month(): JSX.Element {
         }
       });
       if (month) {
-        month && setCurrentMonth(month);
+        setCurrentMonth(month);
         setMonthId(month._id);
       }
     }
   }, [userMonths]);
+
+  useEffect(() => {
+    if (currentMonth && '_id' in currentMonth) {
+      setMonthId(currentMonth._id);
+    }
+  }, [currentMonth]);
 
   return (
     <section className='w-full sm:w-80'>
