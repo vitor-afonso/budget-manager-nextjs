@@ -33,7 +33,7 @@ const MonthEvents = ({ events, eventType, monthId }: Props): JSX.Element => {
           <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
         </svg>
       </button>
-      {isModalOpen && <ModalCreateIncomeExpense isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} monthId={monthId} eventType={eventType} />}
+      {isModalOpen && <ModalCreateIncomeExpense setIsModalOpen={setIsModalOpen} monthId={monthId} eventType={eventType} />}
     </div>
   );
 };
