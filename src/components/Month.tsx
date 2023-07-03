@@ -27,7 +27,7 @@ export default function Month(): JSX.Element {
         setMonthId(month._id);
       }
     }
-  }, [userMonths]);
+  }, []);
 
   useEffect(() => {
     if (currentMonth && '_id' in currentMonth) {
