@@ -117,6 +117,7 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
 
   const updateUserMonthsOnMonthCreation = async (createdMonth: IMonth) => {
     const updatedUserMonths = [...userMonths, createdMonth];
+    updatedUserMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
     setUserMonths(updatedUserMonths);
     const yearsData = await getYearsData(updatedUserMonths);
     setUserYears(yearsData);
@@ -133,6 +134,7 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
       }
       // updates userMonths and UserYears
       const updatedUserMonths = [...filteredMonths, monthToUpdate];
+      updatedUserMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
       setUserMonths(updatedUserMonths);
       const yearsData = await getYearsData(updatedUserMonths);
       setUserYears(yearsData);
@@ -152,6 +154,7 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
       }
       // updates userMonths and UserYears
       const updatedUserMonths = [...filteredMonths, monthToUpdate];
+      updatedUserMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
       setUserMonths(updatedUserMonths);
       const yearsData = await getYearsData(updatedUserMonths);
       setUserYears(yearsData);

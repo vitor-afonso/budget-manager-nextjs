@@ -1,13 +1,11 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { APP } from '@/utils/app.constants';
 import { createIncomeExpense } from '@/services/incomesExpenses';
 import { AuthContext, IAppContext } from '@/app/auth.context';
 
 interface Props {
-  isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   monthId: string;
   eventType: string;
@@ -21,7 +19,7 @@ const schema = z.object({
 //get type from schema
 type FormData = z.infer<typeof schema>;
 
-const ModalCreateIncomeExpense = ({ isModalOpen, setIsModalOpen, monthId, eventType }: Props) => {
+const ModalCreateIncomeExpense = ({ setIsModalOpen, monthId, eventType }: Props) => {
   const { updateMonthIncomeExpenseCreation } = useContext(AuthContext) as IAppContext;
   const {
     register,
