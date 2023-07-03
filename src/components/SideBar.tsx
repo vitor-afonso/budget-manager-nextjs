@@ -39,13 +39,19 @@ const SideBar = () => {
             <div className='my-2 bg-gray-600 h-[1px]'></div>
           </div>
 
-          {routeNames.map((route, i) => {
-            return (
-              <Link key={route + i} href={routePaths[i]} className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500' onClick={toggleSideBar}>
-                <span className='text-4 text-gray-200 font-bold capitalize'>{route}</span>
+          <Link href={APP.pageRoutes.home} className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500' onClick={toggleSideBar}>
+            <span className='text-4 text-gray-200 font-bold capitalize'>{user ? 'Current Month' : 'Home'}</span>
+          </Link>
+          {user && (
+            <>
+              <Link href={APP.pageRoutes.month} className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500' onClick={toggleSideBar}>
+                <span className='text-4 text-gray-200 font-bold capitalize'>Month details</span>
               </Link>
-            );
-          })}
+              <Link href={APP.pageRoutes.year} className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500' onClick={toggleSideBar}>
+                <span className='text-4 text-gray-200 font-bold capitalize'>Year details</span>
+              </Link>
+            </>
+          )}
 
           {!user && (
             <>
