@@ -22,18 +22,61 @@ export const options = {
 const YearCategoriesGraph = ({ currentYear }: { currentYear: IYear }): JSX.Element => {
   const incomes = getYearIncomesExpensesBarData(currentYear.incomes);
   const expenses = getYearIncomesExpensesBarData(currentYear.expenses);
+  const monthNamesWithIncomes = Object.keys(incomes);
+  const monthNamesWithExpenses = Object.keys(expenses);
+  const isIncomeBiggerThanExpenses = monthNamesWithIncomes.length > monthNamesWithExpenses.length;
+
+  function getGraphLabels() {
+    return Object.keys(isIncomeBiggerThanExpenses ? incomes : expenses);
+  }
+
+  function getIncomesBarData() {
+    const incomesExpenseObj: { [monthName: string]: number } = {};
+
+    if (isIncomeBiggerThanExpenses) {
+      return incomes;
+    }
+
+    monthNamesWithExpenses.forEach((monthName) => {
+      if (!monthNamesWithIncomes.includes(monthName)) {
+        incomesExpenseObj[monthName] = 0;
+      } else {
+        incomesExpenseObj[monthName] = incomes[monthName];
+      }
+    });
+
+    return incomesExpenseObj;
+  }
+
+  function getExpensesBarData() {
+    const incomesExpenseObj: { [monthName: string]: number } = {};
+
+    if (!isIncomeBiggerThanExpenses) {
+      return expenses;
+    }
+
+    monthNamesWithIncomes.forEach((monthName) => {
+      if (!monthNamesWithExpenses.includes(monthName)) {
+        incomesExpenseObj[monthName] = 0;
+      } else {
+        incomesExpenseObj[monthName] = expenses[monthName];
+      }
+    });
+
+    return incomesExpenseObj;
+  }
 
   const data = {
-    labels: Object.keys(incomes),
+    labels: getGraphLabels(),
     datasets: [
       {
         label: 'Incomes',
-        data: Object.values(incomes),
+        data: Object.values(getIncomesBarData()),
         backgroundColor: '#21C55D',
       },
       {
         label: 'Expenses',
-        data: Object.values(expenses),
+        data: Object.values(getExpensesBarData()),
         backgroundColor: '#EF4444',
       },
     ],
