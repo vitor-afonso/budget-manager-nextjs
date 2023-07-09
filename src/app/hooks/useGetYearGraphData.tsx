@@ -4,34 +4,34 @@ import { APP } from '@/utils/app.constants';
 
 const useGetYearGraphData = (yearData: IYear) => {
   function getBarData(yearData: IYear, eventType: string) {
-    const incomes = getYearIncomesExpensesBarData(yearData.incomes);
-    const expenses = getYearIncomesExpensesBarData(yearData.expenses);
+    const incomesObj = getYearIncomesExpensesBarData(yearData.incomes);
+    const expensesObj = getYearIncomesExpensesBarData(yearData.expenses);
     const isExpenses = eventType === APP.eventType.expense ? true : false;
-    const allMonthNamesInIncomes = Object.keys(incomes);
-    const allMonthNamesInExpenses = Object.keys(expenses);
+    const allMonthNamesInIncomes = Object.keys(incomesObj);
+    const allMonthNamesInExpenses = Object.keys(expensesObj);
     const isExpensesBiggerThanIncomes = allMonthNamesInExpenses.length > allMonthNamesInIncomes.length;
-    const listWithoutAllMonthNames = isExpensesBiggerThanIncomes ? allMonthNamesInIncomes : allMonthNamesInExpenses;
-    const listWithAllMonthNames = isExpensesBiggerThanIncomes ? allMonthNamesInExpenses : allMonthNamesInIncomes;
-    const incomesExpenseObj: { [monthName: string]: number } = {};
+    const listWithLessMonthNames = isExpensesBiggerThanIncomes ? allMonthNamesInIncomes : allMonthNamesInExpenses;
+    const listWithMoreMonthNames = isExpensesBiggerThanIncomes ? allMonthNamesInExpenses : allMonthNamesInIncomes;
+    const incomesExpensesObj: { [monthName: string]: number } = {};
 
     // expense include all existing month names
     if (isExpenses && isExpensesBiggerThanIncomes) {
-      return expenses;
+      return expensesObj;
     }
     // income includes all existing month names
     if (!isExpenses && !isExpensesBiggerThanIncomes) {
-      return incomes;
+      return incomesObj;
     }
 
-    listWithAllMonthNames.forEach((monthName) => {
-      if (listWithoutAllMonthNames.includes(monthName)) {
-        incomesExpenseObj[monthName] = isExpenses ? expenses[monthName] : incomes[monthName];
+    listWithMoreMonthNames.forEach((monthName) => {
+      if (listWithLessMonthNames.includes(monthName)) {
+        incomesExpensesObj[monthName] = isExpenses ? expensesObj[monthName] : incomesObj[monthName];
       } else {
-        incomesExpenseObj[monthName] = 0;
+        incomesExpensesObj[monthName] = 0;
       }
     });
 
-    return incomesExpenseObj;
+    return incomesExpensesObj;
   }
 
   const incomeBarData = Object.values(getBarData(yearData, APP.eventType.income));
