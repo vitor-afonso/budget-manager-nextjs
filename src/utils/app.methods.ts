@@ -1,14 +1,21 @@
 import { IExpense, IIncome, IMonth, IYear } from '@/types/models';
 import { format } from 'date-fns';
 import { capitalize } from 'lodash';
-import { APP } from './app.constants';
+import { APP } from '@/utils/app.constants';
 
 export const calculateTotal = (incomeExpenseList: IExpense[] | IIncome[]): number => {
   let total = 0;
   incomeExpenseList.forEach((element) => {
     total += element.amount;
   });
-  return Number(total.toFixed(2));
+  return Number(getFormatedAmountToDisplay(total));
+};
+
+export const getFormatedAmountToDisplay = (amount: number) => {
+  if (amount % 1 === 0) {
+    return amount;
+  }
+  return amount.toFixed(2);
 };
 export const getMonthBalance = (month: IMonth | IYear): number => {
   let totalIncome = calculateTotal(month.incomes);
@@ -36,10 +43,11 @@ export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { 
 
   for (const item of incomeExpenseList) {
     const { category, amount } = item;
-    if (category in categoryTotals) {
-      categoryTotals[category] += amount;
+    const categoryName = capitalize(category).trim();
+    if (categoryName in categoryTotals) {
+      categoryTotals[categoryName] += amount;
     } else {
-      categoryTotals[category] = amount;
+      categoryTotals[categoryName] = amount;
     }
   }
 
@@ -64,11 +72,11 @@ export const getCategoryNamestoShow = (incomeExpenseList: IIncome[] | IExpense[]
 };
 
 export const getCategoryPercentage = (total: number, amount: number) => {
-  if (total <= 0) {
+  if (total < 0) {
     throw new Error('Total must be a positive number.');
   }
   const percentage = (amount / total) * 100;
-  return percentage.toFixed(2) + '%';
+  return getFormatedAmountToDisplay(percentage) + '%';
 };
 
 export const getGraphColors = (categoryType: string): string[] => {

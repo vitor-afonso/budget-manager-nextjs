@@ -1,7 +1,7 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { IYear } from '@/types/models';
-import { getYearIncomesExpensesBarData } from '@/utils/app.methods';
+import useGetYearGraphData from '@/app/hooks/useGetYearGraphData';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 ChartJS.defaults.color = '#F3F4F6';
@@ -20,20 +20,19 @@ export const options = {
 };
 
 const YearCategoriesGraph = ({ currentYear }: { currentYear: IYear }): JSX.Element => {
-  const incomes = getYearIncomesExpensesBarData(currentYear.incomes);
-  const expenses = getYearIncomesExpensesBarData(currentYear.expenses);
+  const { incomeBarData, expenseBarData, monthNames } = useGetYearGraphData(currentYear);
 
   const data = {
-    labels: Object.keys(incomes),
+    labels: monthNames,
     datasets: [
       {
         label: 'Incomes',
-        data: Object.values(incomes),
+        data: incomeBarData,
         backgroundColor: '#21C55D',
       },
       {
         label: 'Expenses',
-        data: Object.values(expenses),
+        data: expenseBarData,
         backgroundColor: '#EF4444',
       },
     ],
