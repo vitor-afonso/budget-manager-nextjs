@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { isSameYear } from 'date-fns';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { IYear } from '@/types/models';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import { APP } from '@/utils/app.constants';

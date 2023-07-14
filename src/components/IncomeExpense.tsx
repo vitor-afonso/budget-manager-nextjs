@@ -4,7 +4,7 @@ import { APP } from '@/utils/app.constants';
 import { getEventCreationDate } from '@/utils/app.methods';
 import ModalCustom from '@/components/ModalCustom';
 import { deleteIncomeExpense } from '@/services/incomesExpenses';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 
 interface Props {
   incomeExpense: IIncome | IExpense;

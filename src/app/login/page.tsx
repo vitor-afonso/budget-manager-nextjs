@@ -1,7 +1,7 @@
 'use client';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { login } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
 
@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
-  const { storeToken, authenticateUser, isLoadingContext, user, logOutUser } = useContext(AuthContext) as IAppContext;
+  const { storeToken, authenticateUser, isLoadingContext, user } = useContext(AuthContext) as IAppContext;
 
   const handleState = (e: ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<string>>) => {
     setState(e.target.value);
