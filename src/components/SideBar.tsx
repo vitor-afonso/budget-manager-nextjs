@@ -3,11 +3,13 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
 
 const SideBar = () => {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
+  const { setUserMonths, setUserYears } = useContext(UserDataContext) as IUserDataContext;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const router = useRouter();
 
@@ -19,6 +21,8 @@ const SideBar = () => {
   }
   function handleLogout() {
     logOutUser();
+    setUserMonths([]);
+    setUserYears([]);
     setIsDrawerOpen(!isDrawerOpen);
     router.push(APP.pageRoutes.home);
   }

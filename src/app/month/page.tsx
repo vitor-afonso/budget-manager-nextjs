@@ -1,14 +1,14 @@
 'use client';
+import React, { useContext, useEffect, useState } from 'react';
+import { isSameMonth } from 'date-fns';
 import MonthCategoryGraph from '@/components/MonthCategoryGraph';
 import { IMonth, IYear } from '@/types/models';
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext, IAppContext } from '../auth.context';
-import { isSameMonth } from 'date-fns';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
 import { APP } from '@/utils/app.constants';
 import MonthYearHeader from '@/components/MonthYearHeader';
 
 const MonthInfo = () => {
-  const { userMonths } = useContext(AuthContext) as IAppContext;
+  const { userMonths } = useContext(UserDataContext) as IUserDataContext;
   const [currentMonth, setCurrentMonth] = useState<IMonth | IYear | null>(null);
   const [monthIndex, setMonthIndex] = useState<number | null>(null);
 
