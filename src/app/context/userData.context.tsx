@@ -1,48 +1,34 @@
 'use client';
 
-import React, { createContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { IExpense, IIncome, IMonth, IUser, IYear } from '@/types/models';
-import { verify } from '@/services/auth';
-import { APP } from '@/utils/app.constants';
+import React, { createContext, useContext, useState } from 'react';
+import { IExpense, IIncome, IMonth, IYear } from '@/types/models';
 import { getUserMonths } from '@/services/months';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 
-export interface IAppContext {
-  user: IUser | null;
-  isLoggedIn: boolean;
-  isLoadingContext: boolean;
+export interface IUserDataContext {
+  isLoadingUserDataContext: boolean;
   userMonths: IMonth[];
   userYears: IYear[];
+  setUserMonths: React.Dispatch<React.SetStateAction<IMonth[]>>;
+  setUserYears: React.Dispatch<React.SetStateAction<IYear[]>>;
   updateUserMonthsOnMonthCreation(createdMOnth: IMonth): void;
   updateMonthIncomeExpenseCreation(createdIncomeExpense: IIncome | IExpense, monthId: string): void;
   updateMonthIncomeExpenseDeletion(incomeExpenseId: string, monthId: string, isExpense: boolean): void;
-  storeToken(token: string): void;
-  authenticateUser(): void;
-  logOutUser(): void;
+  handleUserData(): void;
 }
 
-const AuthContext = createContext<IAppContext | null>(null);
+const UserDataContext = createContext<IUserDataContext | null>(null);
 
-function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isLoadingContext, setIsLoadingContext] = useState<boolean>(true);
+function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
+  const { user } = useContext(AuthContext) as IAppContext;
+  const [isLoadingUserDataContext, setIsLoadingUserDataContext] = useState<boolean>(true);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
   const [userYears, setUserYears] = useState<IYear[]>([]);
-  const [user, setUser] = useState<IAppContext['user'] | null>(null);
-  const router = useRouter();
-  const storeToken = (token: string) => {
-    localStorage.setItem(APP.localStorage.authToken, token);
-  };
 
-  const authenticateUser = async () => {
-    // Get the stored token from the localStorage
-    const storedToken = localStorage.getItem(APP.localStorage.authToken);
-    if (storedToken) {
+  const handleUserData = async () => {
+    if (user) {
       try {
-        setIsLoadingContext(true);
-        // We must send the JWT token in the request's "Authorization" Headers
-        let user = await verify(storedToken);
-
+        setIsLoadingUserDataContext(true);
         // After user is authenticated we get all user months
         let months = await getUserMonths(user._id);
         months.sort((a: any, b: any) => a.createdAt - b.createdAt);
@@ -50,41 +36,22 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
         // create and get years data
         const yearsData = await getYearsData(months);
 
-        setIsLoggedIn(true);
-        setIsLoadingContext(false);
-        setUser(user);
         setUserMonths(months);
         setUserYears(yearsData);
+        setIsLoadingUserDataContext(false);
       } catch (error) {
-        // If the server sends an error response (invalid token)
+        // If the server sends an error response
         // Update state variables
-        setIsLoggedIn(false);
-        setIsLoadingContext(false);
-        setUser(null);
+        setIsLoadingUserDataContext(false);
         setUserMonths([]);
         setUserYears([]);
       }
     } else {
-      // If the token is not available (or is removed)
-      setIsLoggedIn(false);
-      setIsLoadingContext(false);
-      setUser(null);
+      // If the user is not available
+      setIsLoadingUserDataContext(false);
       setUserMonths([]);
       setUserYears([]);
     }
-  };
-
-  const removeToken = () => {
-    // Upon logout, remove the token from the localStorage
-    localStorage.removeItem(APP.localStorage.authToken);
-  };
-
-  const logOutUser = async () => {
-    // To log out the user, remove the token
-    removeToken();
-    // and update the state variables
-    await authenticateUser();
-    router.push(APP.pageRoutes.home);
   };
 
   // formats years data
@@ -161,30 +128,23 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
     }
   };
 
-  //checks if theres any valid token in localStore in case user is returning after having closed the page
-  useEffect(() => {
-    authenticateUser();
-  }, []);
-
   return (
-    <AuthContext.Provider
+    <UserDataContext.Provider
       value={{
-        isLoggedIn,
-        isLoadingContext,
-        user,
+        isLoadingUserDataContext,
         userMonths,
         userYears,
+        setUserMonths,
+        setUserYears,
         updateUserMonthsOnMonthCreation,
         updateMonthIncomeExpenseCreation,
         updateMonthIncomeExpenseDeletion,
-        storeToken,
-        authenticateUser,
-        logOutUser,
+        handleUserData,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserDataContext.Provider>
   );
 }
 
-export { AuthProviderWrapper, AuthContext };
+export { UserDataProviderWrapper, UserDataContext };

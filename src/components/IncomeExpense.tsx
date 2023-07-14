@@ -4,7 +4,7 @@ import { APP } from '@/utils/app.constants';
 import { getEventCreationDate } from '@/utils/app.methods';
 import ModalCustom from '@/components/ModalCustom';
 import { deleteIncomeExpense } from '@/services/incomesExpenses';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
 
 interface Props {
   incomeExpense: IIncome | IExpense;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function IncomeExpense({ incomeExpense, eventType }: Props) {
-  const { updateMonthIncomeExpenseDeletion } = useContext(AuthContext) as IAppContext;
+  const { updateMonthIncomeExpenseDeletion } = useContext(UserDataContext) as IUserDataContext;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isExpense = 'title' in incomeExpense;
   const incomeExpenseName = isExpense ? incomeExpense.title : incomeExpense.category;
