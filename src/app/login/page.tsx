@@ -1,23 +1,34 @@
 'use client';
-import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
 import { AuthContext, IAppContext } from '@/app/auth.context';
 import { login } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
+import { useForm } from 'react-hook-form';
+import Spinner from '@/components/Spinner';
+import InputText from '@/components/InputText';
+import Button from '@/components/Button';
+
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+//get type from schema
+type FormData = z.infer<typeof schema>;
 
 const Login = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
-  const { storeToken, authenticateUser, isLoadingContext, user, logOutUser } = useContext(AuthContext) as IAppContext;
+  const { storeToken, authenticateUser, isLoadingContext, user } = useContext(AuthContext) as IAppContext;
 
-  const handleState = (e: ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<string>>) => {
-    setState(e.target.value);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleLoginSubmit = async ({ email, password }: FormData) => {
     try {
       const data = await login({ email, password });
       if (!data.authToken) {
@@ -34,19 +45,17 @@ const Login = () => {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1 className='font-semibold text-lg uppercase mb-6 text-center text-gray-300'>Login</h1>
 
       {!user && (
-        <form noValidate onSubmit={handleSubmit}>
-          <input type='text' value={email} onChange={(e) => handleState(e, setEmail)} />
-          <input type='password' value={password} onChange={(e) => handleState(e, setPassword)} />
-          <button>Submit</button>
+        <form onSubmit={handleSubmit(handleLoginSubmit)} className='mb-0 space-y-2'>
+          <InputText register={register} errors={errors} inputName={APP.inputName.email} />
+          <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} />
+          <div className='flex justify-center !mt-6'>{!isLoadingContext ? <Button innerText={APP.buttonAction.login} /> : <Spinner />}</div>
         </form>
       )}
 
       {errorMessage && <p className='text-red-500 capitalize'>{errorMessage}</p>}
-
-      {isLoadingContext && <p>Loading...</p>}
     </div>
   );
 };
