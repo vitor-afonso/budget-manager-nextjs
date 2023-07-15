@@ -10,9 +10,16 @@ export const APP = {
     month: 'month',
     year: 'year',
   },
+  inputName: {
+    email: 'email',
+    password: 'password',
+    date: 'date',
+  },
   buttonAction: {
     prev: 'prev',
     next: 'next',
+    login: 'login',
+    newMonth: 'open new month',
   },
   pageRoutes: {
     home: '/',

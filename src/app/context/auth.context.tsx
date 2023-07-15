@@ -64,7 +64,7 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
     // To log out the user, remove the token
     removeToken();
     // and update the state variables
-    await authenticateUser();
+    resetAppStates();
     router.push(APP.pageRoutes.home);
   };
 

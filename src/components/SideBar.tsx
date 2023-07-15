@@ -9,28 +9,24 @@ import { IUserDataContext, UserDataContext } from '@/app/context/userData.contex
 
 const SideBar = () => {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
-  const { setUserMonths, setUserYears } = useContext(UserDataContext) as IUserDataContext;
+  const { resetAppStates } = useContext(UserDataContext) as IUserDataContext;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const router = useRouter();
-
-  const routeNames = Object.keys(APP.pageRoutes).filter((name) => name !== 'login' && name !== 'signup');
-  const routePaths = Object.values(APP.pageRoutes).filter((path) => path !== APP.pageRoutes.login && path !== APP.pageRoutes.signup);
 
   function toggleSideBar() {
     setIsDrawerOpen(!isDrawerOpen);
   }
   function handleLogout() {
     logOutUser();
-    setUserMonths([]);
-    setUserYears([]);
+    resetAppStates();
     setIsDrawerOpen(!isDrawerOpen);
     router.push(APP.pageRoutes.home);
   }
 
   return (
     <div>
-      <div className='text-slate-200 mb-2 cursor-pointer hover:text-slate-400 duration-300' onClick={toggleSideBar}>
-        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='3.75 9 16.5 6.75' strokeWidth='3' stroke='currentColor' className='w-10 h-8' style={{ padding: 0 }}>
+      <div className='text-slate-200 mb-2 cursor-pointer hover:text-slate-400 duration-300'>
+        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='3.75 9 16.5 6.75' strokeWidth='3' stroke='currentColor' className='w-10 h-8' style={{ padding: 0 }} onClick={toggleSideBar}>
           <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 9h16.5m-16.5 6.75h16.5' />
         </svg>
       </div>
