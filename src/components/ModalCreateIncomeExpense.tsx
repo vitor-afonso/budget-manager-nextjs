@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { APP } from '@/utils/app.constants';
 import { createIncomeExpense } from '@/services/incomesExpenses';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
 
 interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +20,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const ModalCreateIncomeExpense = ({ setIsModalOpen, monthId, eventType }: Props) => {
-  const { updateMonthIncomeExpenseCreation } = useContext(AuthContext) as IAppContext;
+  const { updateMonthIncomeExpenseCreation } = useContext(UserDataContext) as IUserDataContext;
   const {
     register,
     handleSubmit,
