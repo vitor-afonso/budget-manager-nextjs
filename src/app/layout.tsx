@@ -14,9 +14,9 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={clsx(inter.className, 'bg-slate-700 p-4')}>
+      <body className={clsx(inter.className, 'bg-slate-700 py-6')}>
         <AuthProviderWrapper>
-          <div className='max-w-[320px] mx-auto'>
+          <div className='w-80 mx-auto'>
             <SideBar />
             {children}
           </div>
