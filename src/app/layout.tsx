@@ -17,10 +17,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang='en'>
       <body className={clsx(inter.className, 'bg-slate-700 py-6')}>
         <AuthProviderWrapper>
-          <div className='w-80 mx-auto'>
-            <SideBar />
-            {children}
-          </div>
+          <UserDataProviderWrapper>
+            <div className='w-80 mx-auto'>
+              <SideBar />
+              {children}
+            </div>
+          </UserDataProviderWrapper>
         </AuthProviderWrapper>
       </body>
     </html>

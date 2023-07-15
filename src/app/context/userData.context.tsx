@@ -9,8 +9,7 @@ export interface IUserDataContext {
   isLoadingUserDataContext: boolean;
   userMonths: IMonth[];
   userYears: IYear[];
-  setUserMonths: React.Dispatch<React.SetStateAction<IMonth[]>>;
-  setUserYears: React.Dispatch<React.SetStateAction<IYear[]>>;
+  resetAppStates(): void;
   updateUserMonthsOnMonthCreation(createdMOnth: IMonth): void;
   updateMonthIncomeExpenseCreation(createdIncomeExpense: IIncome | IExpense, monthId: string): void;
   updateMonthIncomeExpenseDeletion(incomeExpenseId: string, monthId: string, isExpense: boolean): void;
@@ -136,8 +135,7 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
         isLoadingUserDataContext,
         userMonths,
         userYears,
-        setUserMonths,
-        setUserYears,
+        resetAppStates,
         updateUserMonthsOnMonthCreation,
         updateMonthIncomeExpenseCreation,
         updateMonthIncomeExpenseDeletion,
