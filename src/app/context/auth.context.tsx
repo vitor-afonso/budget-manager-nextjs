@@ -41,16 +41,18 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
       } catch (error) {
         // If the server sends an error response (invalid token)
         // Update state variables
-        setIsLoggedIn(false);
-        setIsLoadingContext(false);
-        setUser(null);
+        resetAppStates();
       }
     } else {
       // If the token is not available (or is removed)
-      setIsLoggedIn(false);
-      setIsLoadingContext(false);
-      setUser(null);
+      resetAppStates();
     }
+  };
+
+  const resetAppStates = () => {
+    setIsLoggedIn(false);
+    setIsLoadingContext(false);
+    setUser(null);
   };
 
   const removeToken = () => {

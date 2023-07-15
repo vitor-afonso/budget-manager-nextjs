@@ -42,16 +42,18 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
       } catch (error) {
         // If the server sends an error response
         // Update state variables
-        setIsLoadingUserDataContext(false);
-        setUserMonths([]);
-        setUserYears([]);
+        resetAppStates();
       }
     } else {
       // If the user is not available
-      setIsLoadingUserDataContext(false);
-      setUserMonths([]);
-      setUserYears([]);
+      resetAppStates();
     }
+  };
+
+  const resetAppStates = () => {
+    setIsLoadingUserDataContext(false);
+    setUserMonths([]);
+    setUserYears([]);
   };
 
   // formats years data
