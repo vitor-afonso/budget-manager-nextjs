@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { login } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
 import { useForm } from 'react-hook-form';

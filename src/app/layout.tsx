@@ -1,8 +1,9 @@
 import '@/app/globals.css';
 import { Inter } from 'next/font/google';
-import { AuthProviderWrapper } from '@/app/auth.context';
+import { AuthProviderWrapper } from '@/app/context/auth.context';
 import clsx from 'clsx';
 import SideBar from '@/components/SideBar';
+import { UserDataProviderWrapper } from '@/app/context/userData.context';
 
 const inter = Inter({ subsets: ['latin'] });
 

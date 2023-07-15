@@ -3,13 +3,16 @@
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isSameMonth } from 'date-fns';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
 import { createMonth } from '@/services/months';
 import Button from '@/components/Button';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
+
 
 const Hero = () => {
-  const { user, userMonths, updateUserMonthsOnMonthCreation } = useContext(AuthContext) as IAppContext;
+  const { user } = useContext(AuthContext) as IAppContext;
+  const { userMonths, updateUserMonthsOnMonthCreation } = useContext(UserDataContext) as IUserDataContext;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();

@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { isSameYear } from 'date-fns';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
 import { IYear } from '@/types/models';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import { APP } from '@/utils/app.constants';
@@ -9,7 +9,7 @@ import YearCategoriesGraph from '@/components/YearCategoryGraph';
 import YearCategoryTotals from '@/components/YearCategoryTotals';
 
 const YearInfo = () => {
-  const { userYears } = useContext(AuthContext) as IAppContext;
+  const { userYears } = useContext(UserDataContext) as IUserDataContext;
   const [currentYear, setCurrentYear] = useState<IYear | null>(null);
   const [yearIndex, setYearIndex] = useState<number | null>(null);
 

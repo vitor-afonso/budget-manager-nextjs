@@ -1,17 +1,25 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { isSameMonth } from 'date-fns';
-import { AuthContext, IAppContext } from '@/app/auth.context';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { IMonth, IYear } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 import MonthEvents from '@/components/MonthEvents';
 import MonthYearHeader from '@/components/MonthYearHeader';
+import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
 
 export default function Month(): JSX.Element {
-  const { userMonths } = useContext(AuthContext) as IAppContext;
+  const { user } = useContext(AuthContext) as IAppContext;
+  const { userMonths, handleUserData } = useContext(UserDataContext) as IUserDataContext;
   const [currentMonth, setCurrentMonth] = useState<IMonth | IYear | null>(null);
   const [monthIndex, setMonthIndex] = useState<number | null>(null);
   const [monthId, setMonthId] = useState<string>('');
+
+  useEffect(() => {
+    if (user) {
+      handleUserData();
+    }
+  }, [user]);
 
   // to set the current month
   useEffect(() => {
@@ -27,7 +35,7 @@ export default function Month(): JSX.Element {
         setMonthId(month._id);
       }
     }
-  }, []);
+  }, [userMonths]);
 
   useEffect(() => {
     if (currentMonth && '_id' in currentMonth) {
