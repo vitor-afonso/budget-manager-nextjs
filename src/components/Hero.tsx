@@ -43,7 +43,7 @@ const Hero = () => {
   return (
     <section className='w-full md:w-80'>
       {!user && <div className='w-full md:w-80 h-80 bg-slate-400 mb-4'></div>}
-      {!isCurrentMonthOpen() && <Button innerText={APP.buttonAction.newMonth} clickHandler={handleCreateMonth} />}
+      {!isCurrentMonthOpen() && <Button clickHandler={handleCreateMonth}>{APP.buttonAction.newMonth}</Button>}
     </section>
   );
 };

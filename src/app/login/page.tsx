@@ -51,7 +51,7 @@ const Login = () => {
         <form onSubmit={handleSubmit(handleLoginSubmit)} className='mb-0 space-y-2'>
           <InputText register={register} errors={errors} inputName={APP.inputName.email} />
           <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} />
-          <div className='flex justify-center !mt-6'>{!isLoadingContext ? <Button innerText={APP.buttonAction.login} /> : <Spinner />}</div>
+          <div className='flex justify-center !mt-6'>{!isLoadingContext ? <Button> {APP.buttonAction.login} </Button> : <Spinner />}</div>
         </form>
       )}
 
