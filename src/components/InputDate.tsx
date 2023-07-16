@@ -21,7 +21,7 @@ const InputDate = ({ register, errors, inputName, monthDate }: Props) => {
             {...register(inputName, {
               required: 'Date is required',
             })}
-            className='w-full h-12 rounded-md px-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400'
+            className='w-[284px] h-12 rounded-md px-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400'
             min={getMinMaxDate(monthDate, 'min')}
             max={getMinMaxDate(monthDate, 'max')}
           />
