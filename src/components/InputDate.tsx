@@ -12,7 +12,7 @@ interface Props {
 const InputDate = ({ register, errors, inputName, monthDate }: Props) => {
   return (
     <div>
-      <label className='text-gray-300 text-lg capitalize'>
+      <label className='text-lg capitalize'>
         Date
         {/* div to fix safari not applying w-full to input */}
         <div className='w-[284px]'>
