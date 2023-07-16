@@ -15,7 +15,7 @@ const InputDate = ({ register, errors, inputName, monthDate }: Props) => {
       <label className='text-gray-300 text-lg capitalize'>
         Date
         {/* div to fix safari not applying w-full to input */}
-        <div className='w-full'>
+        <div className='w-[284px]'>
           <input
             type={APP.inputName.date}
             {...register(inputName, {
