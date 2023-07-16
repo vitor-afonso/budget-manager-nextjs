@@ -49,8 +49,8 @@ const Login = () => {
 
       {!user && (
         <form onSubmit={handleSubmit(handleLoginSubmit)} className='mb-0 space-y-2'>
-          <InputText register={register} errors={errors} inputName={APP.inputName.email} />
-          <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} />
+          <InputText register={register} errors={errors} inputName={APP.inputName.email} inputRules={APP.formRules.email} />
+          <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} inputRules={APP.formRules.loginPassword} />
           <div className='flex justify-center !mt-6'>{!isLoadingContext ? <Button> {APP.buttonAction.login} </Button> : <Spinner />}</div>
         </form>
       )}
