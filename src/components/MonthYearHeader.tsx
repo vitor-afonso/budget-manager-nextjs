@@ -27,9 +27,9 @@ const MonthYearHeader = ({ userMonthsYears, currentMonthYear, index, eventType, 
           </svg>
         </button>
 
-        <div className='flex flex-col text-center '>
-          <h2 className='font-semibold'>{getEventCreationDate(currentMonthYear!.createdAt!, eventType ? APP.eventType.year : APP.eventType.month).replace('-', '/')} Balance</h2>
-          <span className={clsx(getMonthBalance(currentMonthYear!) >= 0 ? 'text-green-500' : 'text-red-500', 'font-semibold')}>{getMonthBalance(currentMonthYear!).toFixed(2) + APP.currency}</span>
+        <div className='flex flex-col text-center text-md font-semibold'>
+          <h2>{getEventCreationDate(currentMonthYear!.createdAt!, eventType ? APP.eventType.year : APP.eventType.month).replace('-', '/')} Balance</h2>
+          <span className={clsx(getMonthBalance(currentMonthYear!) >= 0 ? 'text-green-500' : 'text-red-500')}>{getMonthBalance(currentMonthYear!).toFixed(2) + APP.currency}</span>
         </div>
         <button
           onClick={() => {

@@ -10,10 +10,38 @@ export const APP = {
     month: 'month',
     year: 'year',
   },
+  formRules: {
+    email: {
+      required: 'Email is required',
+    },
+    loginPassword: {
+      required: 'Password is required',
+    },
+    signupPassword: {
+      required: 'Password is required',
+      pattern: {
+        value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
+        message: 'Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.',
+      },
+    },
+    title: {
+      required: 'Title is required',
+    },
+    category: {
+      required: 'Category is required',
+    },
+    amount: {
+      required: 'Amount is required',
+      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: 'Invalid value' },
+    },
+  },
   inputName: {
     email: 'email',
     password: 'password',
     date: 'date',
+    title: 'title',
+    category: 'category',
+    amount: 'amount',
   },
   buttonAction: {
     prev: 'prev',

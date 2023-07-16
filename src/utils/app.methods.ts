@@ -123,3 +123,13 @@ export const getYearIncomesExpensesBarData = (yearIncomeExpenses: IIncome[] | IE
 
   return categoryTotals;
 };
+
+export const getMinMaxDate = (date: Date, minMax: string): string => {
+  const month = date.getMonth() < 10 ? 0 + String(date.getMonth() + 1) : date.getMonth();
+  const year = date.getFullYear();
+  const lastDayOfMonth = new Date(year, Number(month), 0).getDate();
+  if (minMax === 'min') {
+    return `${year}-${month}-01`;
+  }
+  return `${year}-${month}-${lastDayOfMonth}`;
+};
