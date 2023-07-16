@@ -10,10 +10,25 @@ export const APP = {
     month: 'month',
     year: 'year',
   },
+  formRules: {
+    title: {
+      required: 'Title is required',
+    },
+    category: {
+      required: 'Category is required',
+    },
+    amount: {
+      required: 'Amount is required',
+      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: 'Invalid value' },
+    },
+  },
   inputName: {
     email: 'email',
     password: 'password',
     date: 'date',
+    title: 'title',
+    category: 'category',
+    amount: 'amount',
   },
   buttonAction: {
     prev: 'prev',
