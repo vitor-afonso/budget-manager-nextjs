@@ -25,7 +25,7 @@ type FormData = z.infer<typeof schema>;
 
 const ModalCreateIncomeExpense = ({ setIsModalOpen, monthId, eventType }: Props) => {
   const { updateMonthIncomeExpenseCreation, userMonths } = useContext(UserDataContext) as IUserDataContext;
-  const [currentMonthDate, setCurrentMonthDate] = useState<Date | null | undefined>(null);
+  const [currentMonthDate, setCurrentMonthDate] = useState<Date | null>(null);
   const {
     register,
     handleSubmit,
