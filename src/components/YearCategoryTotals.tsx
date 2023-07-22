@@ -4,6 +4,8 @@ import { getCategoryTotals } from '@/utils/app.methods';
 import clsx from 'clsx';
 import React from 'react';
 
+const BIG_SCREEN_MIN_HEIGHT = 800;
+
 const YearCategoryTotals = ({ incomesExpenses, eventType }: { incomesExpenses: IIncome[] | IExpense[]; eventType: string }) => {
   const { categoryTotals } = getCategoryTotals(incomesExpenses);
   const categoryNames = Object.keys(categoryTotals);
@@ -15,14 +17,14 @@ const YearCategoryTotals = ({ incomesExpenses, eventType }: { incomesExpenses: I
         <div className='border border-black text-xl rounded-3xl h-10 w-full flex items-center justify-center bg-slate-100'>
           <h2>{eventType === APP.eventType.income ? 'Incomes ' : 'Expenses '} by category</h2>
         </div>
-        <div className={clsx(screen.height < 800 ? 'max-h-20' : 'max-h-32', 'pb-2 pl-5 mt-5 mr-5 overflow-y-auto')}>
+        <div className={clsx(screen.height < BIG_SCREEN_MIN_HEIGHT ? 'max-h-20' : 'max-h-32', 'pb-2 pl-5 mt-5 mr-5 overflow-y-auto')}>
           {categoryNames.map((oneName, i) => (
             <div key={`${oneName}${i}`} className='flex justify-between items-center mb-2 last:mb-0 '>
               <div className='text-left leading-none '>
                 <p className='text-md truncate capitalize'>{oneName}</p>
               </div>
               <div className='flex items-center text-md'>
-                <p>{categoryAmounts[i] + APP.currency}</p>
+                <p>{APP.currency.format(categoryAmounts[i])}</p>
               </div>
             </div>
           ))}

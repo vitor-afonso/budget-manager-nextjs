@@ -16,12 +16,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isExpense = 'title' in incomeExpense;
   const incomeExpenseName = isExpense ? incomeExpense.title : incomeExpense.category;
-  const getAmountToDisplay = (amount: number) => {
-    if (amount % 1 === 0) {
-      return amount;
-    }
-    return amount.toFixed(2);
-  };
+
   const handleDeleteIncomeExpense = async () => {
     try {
       const response = await deleteIncomeExpense(incomeExpense._id, isExpense);
@@ -39,7 +34,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
         <span className='text-xs'>{getEventCreationDate(incomeExpense.createdAt, eventType)}</span>
       </div>
       <div className='flex items-center text-md'>
-        <p>{getAmountToDisplay(incomeExpense.amount) + APP.currency}</p>
+        <p>{APP.currency.format(incomeExpense.amount)}</p>
         <button className='rounded-full bg-slate-300 w-5 h-5 flex justify-center items-center mx-1' onClick={() => setIsModalOpen(true)}>
           <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='5' stroke='currentColor' className='w-4 h-4 text-red-500'>
             <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
