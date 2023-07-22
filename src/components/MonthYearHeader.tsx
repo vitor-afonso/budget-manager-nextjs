@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { calculateTotal, changeMonthYear, getEventCreationDate, getMonthBalance } from '@/utils/app.methods';
 import { APP } from '@/utils/app.constants';
@@ -14,6 +14,8 @@ interface IProps {
 }
 
 const MonthYearHeader = ({ userMonthsYears, currentMonthYear, index, eventType, setIndex, setCurrentMonthYear }: IProps) => {
+  const currentMonthBalance = getMonthBalance(currentMonthYear!);
+
   return (
     <div className='flex flex-col p-4 items-center justify-around h-40 border border-black min-w-80 w-full rounded-3xl text-lg bg-slate-300'>
       <div className='flex items-center justify-around p-2 border border-black w-full rounded-3xl text-lg bg-slate-100 mb-2'>
@@ -29,7 +31,7 @@ const MonthYearHeader = ({ userMonthsYears, currentMonthYear, index, eventType, 
 
         <div className='flex flex-col text-center text-md font-semibold'>
           <h2>{getEventCreationDate(currentMonthYear!.createdAt!, eventType ? APP.eventType.year : APP.eventType.month).replace('-', '/')} Balance</h2>
-          <span className={clsx(getMonthBalance(currentMonthYear!) >= 0 ? 'text-green-500' : 'text-red-500')}>{getMonthBalance(currentMonthYear!).toFixed(2) + APP.currency}</span>
+          <span className={clsx(currentMonthBalance >= 0 ? 'text-green-500' : 'text-red-500')}>{APP.currency.format(currentMonthBalance)}</span>
         </div>
         <button
           onClick={() => {
@@ -50,12 +52,12 @@ const MonthYearHeader = ({ userMonthsYears, currentMonthYear, index, eventType, 
       </div>
       <div className='flex justify-between items-center w-full'>
         <div className='flex flex-col border border-black text-xs rounded-3xl h-10 w-32  items-center justify-center bg-slate-100'>
-          <h6 className='font-medium'>Income</h6>
-          <span className='text-green-500'>{calculateTotal(currentMonthYear!.incomes)}</span>
+          <h6 className='font-medium capitalize'>{APP.eventType.income}</h6>
+          <span className='text-green-500'>{APP.currency.format(calculateTotal(currentMonthYear!.incomes))}</span>
         </div>
         <div className='flex flex-col border border-black text-xs rounded-3xl h-10 w-32  items-center justify-center bg-slate-100'>
-          <h6 className='font-medium'>Expense</h6>
-          <span className='text-red-500'>{calculateTotal(currentMonthYear!.expenses)}</span>
+          <h6 className='font-medium capitalize'>{APP.eventType.expense}</h6>
+          <span className='text-red-500'>{APP.currency.format(calculateTotal(currentMonthYear!.expenses))}</span>
         </div>
       </div>
     </div>

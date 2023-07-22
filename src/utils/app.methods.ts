@@ -8,15 +8,9 @@ export const calculateTotal = (incomeExpenseList: IExpense[] | IIncome[]): numbe
   incomeExpenseList.forEach((element) => {
     total += element.amount;
   });
-  return Number(getFormatedAmountToDisplay(total));
+  return total;
 };
 
-export const getFormatedAmountToDisplay = (amount: number) => {
-  if (amount % 1 === 0) {
-    return amount;
-  }
-  return amount.toFixed(2);
-};
 export const getMonthBalance = (month: IMonth | IYear): number => {
   let totalIncome = calculateTotal(month.incomes);
   let totalExpenses = calculateTotal(month.expenses);
@@ -52,7 +46,7 @@ export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { 
   }
 
   for (const category in categoryTotals) {
-    categoryTotals[category] = Number(categoryTotals[category].toFixed(2));
+    categoryTotals[category] = Number(categoryTotals[category]);
   }
 
   return { categoryTotals };
@@ -76,7 +70,7 @@ export const getCategoryPercentage = (total: number, amount: number) => {
     throw new Error('Total must be a positive number.');
   }
   const percentage = (amount / total) * 100;
-  return getFormatedAmountToDisplay(percentage) + '%';
+  return percentage.toFixed(2) + '%';
 };
 
 export const getGraphColors = (categoryType: string): string[] => {
