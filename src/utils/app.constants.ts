@@ -1,6 +1,9 @@
 export const APP = {
   name: 'Budget manager',
-  currency: '€',
+  currency: Intl.NumberFormat('en-PT', {
+    style: 'currency',
+    currency: 'EUR',
+  }),
   localStorage: {
     authToken: 'authToken',
   },
