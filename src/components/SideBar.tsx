@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
 import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
-import ModalCreateNewMonth from './ModalCreateNewMonth';
+import ModalCreateNewMonth from '@/components/ModalCreateNewMonth';
 
 const SideBar = () => {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
