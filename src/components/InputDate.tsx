@@ -13,7 +13,7 @@ const InputDate = ({ register, errors, inputName, monthDate }: Props) => {
   return (
     <div>
       <label className='text-lg capitalize'>
-        Date
+        <p className='text-sm text-gray-300'>Date</p>
         {/* div to fix safari not applying w-full to input */}
         <div className='w-[284px]'>
           <input
