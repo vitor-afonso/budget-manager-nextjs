@@ -45,12 +45,13 @@ export const APP = {
     title: 'title',
     category: 'category',
     amount: 'amount',
+    month: 'month',
   },
   buttonAction: {
     prev: 'prev',
     next: 'next',
     login: 'login',
-    newMonth: 'open new month',
+    seeMonths: 'see months',
   },
   pageRoutes: {
     home: '/',
