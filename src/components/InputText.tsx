@@ -12,7 +12,7 @@ const InputText = ({ register, errors, inputName, inputType, inputRules }: Props
   return (
     <div>
       <label className='text-gray-300 text-lg capitalize'>
-        {inputName}
+        <p className='text-sm'>{inputName}</p>
         <input
           type={inputType}
           {...register(inputName, inputRules)}

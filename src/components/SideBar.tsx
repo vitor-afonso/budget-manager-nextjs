@@ -6,16 +6,19 @@ import clsx from 'clsx';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
 import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
+import ModalCreateNewMonth from '@/components/ModalCreateNewMonth';
 
 const SideBar = () => {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
   const { resetAppStates } = useContext(UserDataContext) as IUserDataContext;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
 
   function toggleSideBar() {
     setIsDrawerOpen(!isDrawerOpen);
   }
+
   function handleLogout() {
     logOutUser();
     resetAppStates();
@@ -25,10 +28,19 @@ const SideBar = () => {
 
   return (
     <div>
-      <div className='text-slate-200 mb-2 cursor-pointer hover:text-slate-400 duration-300'>
-        <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='3.75 9 16.5 6.75' strokeWidth='3' stroke='currentColor' className='w-10 h-8' style={{ padding: 0 }} onClick={toggleSideBar}>
-          <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 9h16.5m-16.5 6.75h16.5' />
-        </svg>
+      <div className='text-slate-200 mb-2 flex justify-between w-full '>
+        <button className='cursor-pointer hover:text-slate-400 duration-300' onClick={toggleSideBar}>
+          <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='3.75 9 16.5 6.75' strokeWidth='3' stroke='currentColor' className='w-10 h-8 ' style={{ padding: 0 }}>
+            <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 9h16.5m-16.5 6.75h16.5' />
+          </svg>
+        </button>
+        {user && (
+          <button className='cursor-pointer hover:text-slate-400 duration-300' onClick={() => setIsModalOpen(true)}>
+            <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='3' stroke='currentColor' className='w-8 h-8 text-slate-200'>
+              <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
+            </svg>
+          </button>
+        )}
       </div>
       <div className={clsx(!isDrawerOpen && 'hidden', 'left-0 fixed top-0 bottom-0 w-full flex')}>
         <div className={`p-2 w-[50%] md:w-[25%] overflow-y-auto bg-slate-700 `}>
@@ -72,6 +84,7 @@ const SideBar = () => {
         </div>
         <div className='bg-black/50 w-[50%] md:w-[75%] h-full' onClick={toggleSideBar}></div>
       </div>
+      {isModalOpen && <ModalCreateNewMonth setIsModalOpen={setIsModalOpen} />}
     </div>
   );
 };

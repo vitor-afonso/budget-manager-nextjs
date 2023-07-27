@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface Props {
-  children: string | string[];
+  children: ReactNode;
   clickHandler?(): void;
 }
 
