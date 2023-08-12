@@ -52,6 +52,7 @@ export const APP = {
     next: 'next',
     login: 'login',
     seeMonths: 'see months',
+    openMonth: 'open month',
   },
   pageRoutes: {
     home: '/',
