@@ -24,6 +24,7 @@ export default function Month(): JSX.Element {
   // to set the current month
   useEffect(() => {
     if (userMonths.length > 0) {
+      const lastMonthIndex = userMonths.length - 1;
       let month = userMonths.find((oneMonth, i) => {
         if (isSameMonth(new Date(), oneMonth.createdAt)) {
           setMonthIndex(i);
@@ -33,7 +34,12 @@ export default function Month(): JSX.Element {
       if (month) {
         setCurrentMonth(month);
         setMonthId(month._id);
+        return;
       }
+      // set currentMonth to the last month of the array when current month is not open
+      setCurrentMonth(userMonths[lastMonthIndex]);
+      setMonthId(userMonths[lastMonthIndex]._id);
+      setMonthIndex(lastMonthIndex);
     }
   }, [userMonths]);
 

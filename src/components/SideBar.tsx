@@ -10,7 +10,7 @@ import ModalCreateNewMonth from '@/components/ModalCreateNewMonth';
 
 const SideBar = () => {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
-  const { resetAppStates } = useContext(UserDataContext) as IUserDataContext;
+  const { resetAppStates, userMonths } = useContext(UserDataContext) as IUserDataContext;
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
@@ -34,7 +34,7 @@ const SideBar = () => {
             <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 9h16.5m-16.5 6.75h16.5' />
           </svg>
         </button>
-        {user && (
+        {user && userMonths.length > 0 && (
           <button className='cursor-pointer hover:text-slate-400 duration-300' onClick={() => setIsModalOpen(true)}>
             <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='3' stroke='currentColor' className='w-8 h-8 text-slate-200'>
               <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
