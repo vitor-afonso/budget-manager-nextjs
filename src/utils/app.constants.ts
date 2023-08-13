@@ -51,7 +51,6 @@ export const APP = {
     prev: 'prev',
     next: 'next',
     login: 'login',
-    seeMonths: 'see months',
     openMonth: 'open month',
   },
   pageRoutes: {
@@ -60,6 +59,9 @@ export const APP = {
     year: '/year',
     login: '/login',
     signup: '/signup',
+  },
+  images: {
+    logo: '/images/budget-transparent-medium.png',
   },
   monthsOfTheYear: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   graphColdColors: ['#7FA2C0', '#419CAA', '#057692', '#004D6A', '#002842', '#00131F', '#000C16', '#00060D', '#000105', '#000001'],

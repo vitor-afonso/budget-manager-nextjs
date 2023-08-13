@@ -22,11 +22,7 @@ const Hero = () => {
   //check if current month is open
   useEffect(() => {
     if (userMonths.length > 0) {
-      let month = userMonths.find((oneMonth, i) => {
-        if (isSameMonth(new Date(), oneMonth.createdAt)) {
-          return oneMonth;
-        }
-      });
+      let month = userMonths.find((oneMonth) => isSameMonth(new Date(), oneMonth.createdAt));
       if (month) {
         setIsCurrentMonthOpen(true);
       }
@@ -39,7 +35,7 @@ const Hero = () => {
         <>
           {(!user || userIsLoggedInAndCurrentMonthIsNotOpen) && (
             <div className='w-full md:w-80 h-80 mb-4'>
-              <Image src='/images/budget-transparent-medium.png' width={320} height={320} alt='Colorful machine managing the money' priority />
+              <Image src={APP.images.logo} width={320} height={320} alt='Colorful machine managing the money' priority />
             </div>
           )}
 
