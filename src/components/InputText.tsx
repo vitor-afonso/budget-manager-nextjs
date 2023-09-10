@@ -1,4 +1,5 @@
 import React from 'react';
+import ErrorMessage from '@/components/ErrorMessage';
 
 interface Props {
   register: any;
@@ -19,7 +20,7 @@ const InputText = ({ register, errors, inputName, inputType, inputRules }: Props
           className='mt-1 w-full h-12 text-gray-800 rounded-md px-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400'
         />
       </label>
-      {errors[`${inputName}`]?.message && <p className='text-red-500 font-bold text-sm'>{errors[`${inputName}`].message}</p>}
+      {errors[`${inputName}`]?.message && <ErrorMessage>{errors[`${inputName}`].message}</ErrorMessage>}
     </div>
   );
 };
