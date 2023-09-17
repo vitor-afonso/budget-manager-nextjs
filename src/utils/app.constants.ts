@@ -45,7 +45,6 @@ export const APP = {
     name: 'name',
     email: 'email',
     password: 'password',
-    passwordConfirm: 'confirm password',
     date: 'date',
     title: 'title',
     category: 'category',
