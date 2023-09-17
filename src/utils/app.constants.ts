@@ -14,6 +14,9 @@ export const APP = {
     year: 'year',
   },
   formRules: {
+    name: {
+      required: 'Name is required',
+    },
     email: {
       required: 'Email is required',
     },
@@ -39,6 +42,7 @@ export const APP = {
     },
   },
   inputName: {
+    name: 'name',
     email: 'email',
     password: 'password',
     date: 'date',
@@ -51,6 +55,7 @@ export const APP = {
     prev: 'prev',
     next: 'next',
     login: 'login',
+    signup: 'register',
     openMonth: 'open month',
   },
   pageRoutes: {

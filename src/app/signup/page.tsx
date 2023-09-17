@@ -1,26 +1,40 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { signup } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
+import InputText from '@/components/InputText';
+import Spinner from '@/components/Spinner';
+import Button from '@/components/Button';
+import ErrorMessage from '@/components/ErrorMessage';
+
+const schema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const Signup = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const handleState = (e: ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<string>>) => {
-    setState(e.target.value);
-  };
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const handleSignupSubmit = async ({ name, email, password }: FormData): Promise<void> => {
+    setErrorMessage('');
     setIsLoading(true);
     try {
-      const data = await signup({ email, password, name });
+      await signup({ email, password, name });
       router.push(APP.pageRoutes.login);
     } catch (error: unknown) {
       console.error(error);
@@ -29,16 +43,18 @@ const Signup = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <div>
-      <h1>Signup</h1>(
-      <form noValidate onSubmit={handleSubmit}>
-        <input type='text' value={name} onChange={(e) => handleState(e, setName)} />
-        <input type='text' value={email} onChange={(e) => handleState(e, setEmail)} />
-        <input type='password' value={password} onChange={(e) => handleState(e, setPassword)} />
-        {!isLoading && <button>Submit</button>}
+      <h1 className='font-semibold text-lg uppercase mb-6 text-center text-gray-300'>Signup</h1>
+      <form noValidate onSubmit={handleSubmit(handleSignupSubmit)} className='mb-4 space-y-2'>
+        <InputText register={register} errors={errors} inputName={APP.inputName.name} inputRules={APP.formRules.name} />
+        <InputText register={register} errors={errors} inputName={APP.inputName.email} inputRules={APP.formRules.email} />
+        <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} inputRules={APP.formRules.signupPassword} />
+
+        <div className='flex justify-center !mt-6'>{isLoading ? <Spinner /> : <Button> {APP.buttonAction.signup} </Button>}</div>
       </form>
-      ){errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { APP } from '@/utils/app.constants';
 import { getMinMaxDate } from '@/utils/app.methods';
 import React from 'react';
+import ErrorMessage from '@/components/ErrorMessage';
 
 interface Props {
   register: any;
@@ -27,7 +28,7 @@ const InputDate = ({ register, errors, inputName, monthDate }: Props) => {
           />
         </div>
       </label>
-      {errors[`${inputName}`]?.message && <p className='text-red-500 font-bold text-sm'>{errors[`${inputName}`].message}</p>}
+      {errors[`${inputName}`]?.message && <ErrorMessage>{errors[`${inputName}`].message}</ErrorMessage>}
     </div>
   );
 };
