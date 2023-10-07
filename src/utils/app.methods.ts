@@ -32,22 +32,25 @@ export const getEventCreationDate = (creationDate: Date, eventType: string): str
   return format(new Date(year, 1, 1), 'yyyy');
 };
 
-export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { categoryTotals: { [category: string]: number } } => {
-  const categoryTotals: { [category: string]: number } = {};
-
+export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { categoryTotals: Map<string, number> } => {
+  const categoryTotalsObject = new Map<string, number>();
   for (const item of incomeExpenseList) {
     const { category, amount } = item;
     const categoryName = capitalize(category).trim();
-    if (categoryName in categoryTotals) {
-      categoryTotals[categoryName] += amount;
-    } else {
-      categoryTotals[categoryName] = amount;
-    }
+    const currentTotal = categoryTotalsObject.get(categoryName) || 0;
+    categoryTotalsObject.set(categoryName, currentTotal + amount);
   }
 
-  for (const category in categoryTotals) {
-    categoryTotals[category] = Number(categoryTotals[category]);
-  }
+  // convert Map to array
+  const keyValuePairs = Array.from(categoryTotalsObject.entries());
+
+  keyValuePairs.sort((a: any, b: any) => {
+    return b[1] - a[1];
+  });
+
+  // convert array to Map instead of to object
+  // so that we can keep the order of the properties
+  const categoryTotals = new Map(keyValuePairs);
 
   return { categoryTotals };
 };

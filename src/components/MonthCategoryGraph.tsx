@@ -18,12 +18,13 @@ export const options: ChartOptions = {
 
 const MonthCategoriesGraph = ({ incomeExpenseList, categoryType }: { incomeExpenseList: IIncome[] | IExpense[]; categoryType: string }): JSX.Element => {
   const { categoryTotals } = getCategoryTotals(incomeExpenseList);
+
   const data = {
-    labels: getCategoryNamestoShow(incomeExpenseList, categoryTotals),
+    labels: getCategoryNamestoShow(incomeExpenseList, Object.fromEntries(categoryTotals)),
     datasets: [
       {
         label: 'Total €',
-        data: Object.values(categoryTotals),
+        data: Array.from(categoryTotals.values()),
         backgroundColor: getGraphColors(categoryType),
         borderColor: '#000',
         borderWidth: 1,
