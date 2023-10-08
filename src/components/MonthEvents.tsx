@@ -1,8 +1,8 @@
-import { IncomeExpense } from './IncomeExpense';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { IExpense, IIncome } from '@/types/models';
 import { APP } from '@/utils/app.constants';
+import { IncomeExpense } from '@/components/IncomeExpense';
 import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense';
 
 interface Props {
@@ -14,6 +14,10 @@ interface Props {
 const MonthEvents = ({ events, eventType, monthId }: Props): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    events.sort((a: any, b: any) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf());
+  }, [events]);
+
   return (
     <div className='flex flex-col justify-between pb-4 border border-black max-h-64 rounded-3xl mt-4 bg-slate-200 w-full'>
       <div className='mb-2 w-full'>
@@ -21,11 +25,9 @@ const MonthEvents = ({ events, eventType, monthId }: Props): JSX.Element => {
           <h2 className='font-semibold'>{eventType === APP.eventType.income ? 'Incomes' : 'Expenses'}</h2>
         </div>
         <div className={clsx(screen.height < 800 ? 'max-h-20' : 'max-h-32', 'pb-2 pl-5 mt-5 mr-5 overflow-y-auto')}>
-          {events
-            .sort((a: any, b: any) => a.createdAt - b.createdAt)
-            .map((incomeExpense) => (
-              <IncomeExpense key={incomeExpense._id} incomeExpense={incomeExpense} eventType={eventType} />
-            ))}
+          {events.map((incomeExpense) => (
+            <IncomeExpense key={incomeExpense._id} incomeExpense={incomeExpense} eventType={eventType} />
+          ))}
         </div>
       </div>
       <button className='self-center rounded-full bg-slate-300 w-8 h-8 flex justify-center items-center' onClick={() => setIsModalOpen(true)}>
