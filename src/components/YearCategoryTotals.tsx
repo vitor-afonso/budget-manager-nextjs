@@ -8,8 +8,8 @@ const BIG_SCREEN_MIN_HEIGHT = 800;
 
 const YearCategoryTotals = ({ incomesExpenses, eventType }: { incomesExpenses: IIncome[] | IExpense[]; eventType: string }) => {
   const { categoryTotals } = getCategoryTotals(incomesExpenses);
-  const categoryNames = Object.keys(categoryTotals);
-  const categoryAmounts = Object.values(categoryTotals);
+  const categoryNames = Array.from(categoryTotals.keys());
+  const categoryAmounts = Array.from(categoryTotals.values());
 
   return (
     <div className='flex flex-col justify-between pb-4 border border-black max-h-64 rounded-3xl mt-4 bg-slate-200 w-full'>
