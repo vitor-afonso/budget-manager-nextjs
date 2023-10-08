@@ -1,34 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Budget Manager
+
+This is a budget manager project built using React with Next.js. It helps you keep track of your finances and manage your budget effectively. Follow the steps below to get started.
+
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Node.js installed on your computer.
+Clone the Repositories
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Clone this repository to your local machine using the following command:
+`git clone https://github.com/vitor-afonso/budget-manager-nextjs.git`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Clone the budget-manager-server repository to your local machine using the following command:
+`git clone https://github.com/vitor-afonso/budget-manager-server.git`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+### Node version: >=10
 
-To learn more about Next.js, take a look at the following resources:
+### Technology :wrench:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- TypeScript
+- ReactJS
+- NextJs
+- Tailwind
+- NodeJS
+- ExpressJS
+- MongoDB
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### DEV Usage
 
-## Deploy on Vercel
+- Clone project
+- Open with your favourite IDE
+- npm install - To instal the dependencies
+- create .env file in the root of the project - see .env-EXAMPLE
+- npm run dev - To run the app at localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contributions to this project are always welcome. To contribute, please follow these steps:
+
+- Fork the repository
+- Create a new branch
+- Make your changes
+- Test your changes
+- Submit a pull request
+
+Thanks for reading!! :v:
+
+---
+
+Check it [here](https://acozinhadasandra.netlify.app/). :rocket:
