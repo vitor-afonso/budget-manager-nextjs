@@ -34,8 +34,9 @@ Clone the budget-manager-server repository to your local machine using the follo
 - Clone project
 - Open with your favourite IDE
 - npm install - To instal the dependencies
-- create .env file in the root of the project - see .env-EXAMPLE
-- npm run dev - To run the app at localhost:3000
+- create .env file in the root of the project (see .env-EXAMPLE)
+- in `app.constants.ts` file, update the url of `projectApi` to => `http://localhost:3000`,
+- npm run dev - To run the app at localhost:3000 ([the server](https://github.com/vitor-afonso/budget-manager-server/tree/main) should be installed and running)
 
 ### Contributing
 
