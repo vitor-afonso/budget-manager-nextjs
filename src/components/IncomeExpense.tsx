@@ -34,7 +34,10 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
         <span className='text-xs'>{getEventCreationDate(incomeExpense.createdAt, eventType)}</span>
       </div>
       <div className='flex items-center text-md'>
-        <p>{APP.currency.format(incomeExpense.amount)}</p>
+        <div className='text-right leading-none'>
+          <p>{APP.currency.format(incomeExpense.amount)}</p>
+          <span className='text-xs capitalize'>{incomeExpense.category}</span>
+        </div>
         <button className='rounded-full bg-slate-300 w-5 h-5 flex justify-center items-center mx-1' onClick={() => setIsModalOpen(true)}>
           <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='5' stroke='currentColor' className='w-4 h-4 text-red-500'>
             <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
