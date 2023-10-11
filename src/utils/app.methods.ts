@@ -3,7 +3,9 @@ import { format } from 'date-fns';
 import { capitalize } from 'lodash';
 import { APP } from '@/utils/app.constants';
 
-export const calculateTotal = (incomeExpenseList: IExpense[] | IIncome[]): number => {
+export const calculateTotal = (
+  incomeExpenseList: IExpense[] | IIncome[],
+): number => {
   let total = 0;
   incomeExpenseList.forEach((element) => {
     total += element.amount;
@@ -17,7 +19,10 @@ export const getMonthBalance = (month: IMonth | IYear): number => {
   return totalIncome - totalExpenses;
 };
 
-export const getEventCreationDate = (creationDate: Date, eventType: string): string => {
+export const getEventCreationDate = (
+  creationDate: Date,
+  eventType: string,
+): string => {
   let monthYearDate = new Date(creationDate);
   let year = monthYearDate.getFullYear();
   let day = monthYearDate.getUTCDate();
@@ -25,14 +30,19 @@ export const getEventCreationDate = (creationDate: Date, eventType: string): str
   if (eventType === APP.eventType.month) {
     return format(new Date(year, month, day), 'MMM-yyyy');
   }
-  if (eventType === APP.eventType.income || eventType === APP.eventType.expense) {
+  if (
+    eventType === APP.eventType.income ||
+    eventType === APP.eventType.expense
+  ) {
     return format(new Date(year, month, day), 'dd-MMM-yyyy');
   }
 
   return format(new Date(year, 1, 1), 'yyyy');
 };
 
-export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { categoryTotals: Map<string, number> } => {
+export const getCategoryTotals = (
+  incomeExpenseList: (IIncome | IExpense)[],
+): { categoryTotals: Map<string, number> } => {
   const categoryTotalsObject = new Map<string, number>();
   for (const item of incomeExpenseList) {
     const { category, amount } = item;
@@ -55,13 +65,21 @@ export const getCategoryTotals = (incomeExpenseList: (IIncome | IExpense)[]): { 
   return { categoryTotals };
 };
 
-export const getCategoryNamestoShow = (incomeExpenseList: IIncome[] | IExpense[], categoryTotals: { [category: string]: number }) => {
+export const getCategoryNamestoShow = (
+  incomeExpenseList: IIncome[] | IExpense[],
+  categoryTotals: { [category: string]: number },
+) => {
   try {
     let total = calculateTotal(incomeExpenseList);
-    const categoryNames = Object.keys(categoryTotals).map((name) => capitalize(name));
+    const categoryNames = Object.keys(categoryTotals).map((name) =>
+      capitalize(name),
+    );
     let categoryAmounts = Object.values(categoryTotals);
 
-    let formattedNames = categoryAmounts.map((item: number, i) => `${categoryNames[i]} ${getCategoryPercentage(total, item)}`);
+    let formattedNames = categoryAmounts.map(
+      (item: number, i) =>
+        `${categoryNames[i]} ${getCategoryPercentage(total, item)}`,
+    );
     return formattedNames;
   } catch (error) {
     console.error(error);
@@ -77,7 +95,9 @@ export const getCategoryPercentage = (total: number, amount: number) => {
 };
 
 export const getGraphColors = (categoryType: string): string[] => {
-  return categoryType === APP.eventType.income ? APP.graphColdColors : APP.graphWarmColors;
+  return categoryType === APP.eventType.income
+    ? APP.graphColdColors
+    : APP.graphWarmColors;
 };
 
 export const changeMonthYear = (
@@ -85,7 +105,9 @@ export const changeMonthYear = (
   buttonAction: string,
   index: number | null,
   setIndex: React.Dispatch<React.SetStateAction<number | null>>,
-  setCurrentMonthYear: React.Dispatch<React.SetStateAction<IMonth | IYear | null>>
+  setCurrentMonthYear: React.Dispatch<
+    React.SetStateAction<IMonth | IYear | null>
+  >,
 ) => {
   if (index !== null) {
     const isPreviousButton = buttonAction === APP.buttonAction.prev;
@@ -105,7 +127,9 @@ export const changeMonthYear = (
   }
 };
 
-export const getYearIncomesExpensesBarData = (yearIncomeExpenses: IIncome[] | IExpense[]) => {
+export const getYearIncomesExpensesBarData = (
+  yearIncomeExpenses: IIncome[] | IExpense[],
+) => {
   const categoryTotals: { [category: string]: number } = {};
 
   for (const item of yearIncomeExpenses) {
@@ -122,7 +146,8 @@ export const getYearIncomesExpensesBarData = (yearIncomeExpenses: IIncome[] | IE
 };
 
 export const getMinMaxDate = (date: Date, minMax: string): string => {
-  const month = date.getMonth() < 10 ? 0 + String(date.getMonth() + 1) : date.getMonth();
+  const month =
+    date.getMonth() < 10 ? 0 + String(date.getMonth() + 1) : date.getMonth();
   const year = date.getFullYear();
   const lastDayOfMonth = new Date(year, Number(month), 0).getDate();
   if (minMax === 'min') {

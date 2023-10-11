@@ -2,7 +2,6 @@
 
 This is a budget manager project built using React with Next.js. It helps you keep track of your finances and manage your budget effectively. Follow the steps below to get started.
 
-
 ## Getting Started
 
 ### Prerequisites
@@ -15,7 +14,6 @@ Clone this repository to your local machine using the following command:
 
 Clone the budget-manager-server repository to your local machine using the following command:
 `git clone https://github.com/vitor-afonso/budget-manager-server.git`
-
 
 ### Node version: >=10
 

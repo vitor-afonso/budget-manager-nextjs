@@ -7,7 +7,10 @@ import { isSameMonth } from 'date-fns';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
 import Button from '@/components/Button';
-import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
+import {
+  IUserDataContext,
+  UserDataContext,
+} from '@/app/context/userData.context';
 import ModalCreateNewMonth from './ModalCreateNewMonth';
 
 const Hero = () => {
@@ -22,7 +25,9 @@ const Hero = () => {
   //check if current month is open
   useEffect(() => {
     if (userMonths.length > 0) {
-      let month = userMonths.find((oneMonth) => isSameMonth(new Date(), oneMonth.createdAt));
+      let month = userMonths.find((oneMonth) =>
+        isSameMonth(new Date(), oneMonth.createdAt),
+      );
       if (month) {
         setIsCurrentMonthOpen(true);
       }
@@ -30,19 +35,35 @@ const Hero = () => {
   }, [userMonths]);
 
   return (
-    <section className='w-full md:w-80'>
+    <section className="w-full md:w-80">
       {(!user || (user && userMonths.length < 1)) && (
         <>
           {(!user || userIsLoggedInAndCurrentMonthIsNotOpen) && (
-            <div className='w-full md:w-80 h-80 mb-4'>
-              <Image src={APP.images.logo} width={320} height={320} alt='Colorful machine managing the money' priority />
+            <div className="w-full md:w-80 h-80 mb-4">
+              <Image
+                src={APP.images.logo}
+                width={320}
+                height={320}
+                alt="Colorful machine managing the money"
+                priority
+              />
             </div>
           )}
 
-          {userIsLoggedInAndCurrentMonthIsNotOpen && <Button clickHandler={() => setIsModalOpen(true)}>{APP.buttonAction.openMonth}</Button>}
+          {userIsLoggedInAndCurrentMonthIsNotOpen && (
+            <Button clickHandler={() => setIsModalOpen(true)}>
+              {APP.buttonAction.openMonth}
+            </Button>
+          )}
 
-          {!user && <Button clickHandler={() => router.push(APP.pageRoutes.login)}>{APP.buttonAction.login}</Button>}
-          {isModalOpen && <ModalCreateNewMonth setIsModalOpen={setIsModalOpen} />}
+          {!user && (
+            <Button clickHandler={() => router.push(APP.pageRoutes.login)}>
+              {APP.buttonAction.login}
+            </Button>
+          )}
+          {isModalOpen && (
+            <ModalCreateNewMonth setIsModalOpen={setIsModalOpen} />
+          )}
         </>
       )}
     </section>

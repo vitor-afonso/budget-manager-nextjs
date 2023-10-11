@@ -20,7 +20,9 @@ type FormData = z.infer<typeof schema>;
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
-  const { storeToken, authenticateUser, isLoadingContext, user } = useContext(AuthContext) as IAppContext;
+  const { storeToken, authenticateUser, isLoadingContext, user } = useContext(
+    AuthContext,
+  ) as IAppContext;
 
   const {
     register,
@@ -45,17 +47,41 @@ const Login = () => {
 
   return (
     <div>
-      <h1 className='font-semibold text-lg uppercase mb-6 text-center text-gray-300'>Login</h1>
+      <h1 className="font-semibold text-lg uppercase mb-6 text-center text-gray-300">
+        Login
+      </h1>
 
       {!user && (
-        <form onSubmit={handleSubmit(handleLoginSubmit)} className='mb-0 space-y-2'>
-          <InputText register={register} errors={errors} inputName={APP.inputName.email} inputRules={APP.formRules.email} />
-          <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} inputRules={APP.formRules.loginPassword} />
-          <div className='flex justify-center !mt-6'>{!isLoadingContext ? <Button> {APP.buttonAction.login} </Button> : <Spinner />}</div>
+        <form
+          onSubmit={handleSubmit(handleLoginSubmit)}
+          className="mb-0 space-y-2"
+        >
+          <InputText
+            register={register}
+            errors={errors}
+            inputName={APP.inputName.email}
+            inputRules={APP.formRules.email}
+          />
+          <InputText
+            register={register}
+            errors={errors}
+            inputName={APP.inputName.password}
+            inputType={APP.inputName.password}
+            inputRules={APP.formRules.loginPassword}
+          />
+          <div className="flex justify-center !mt-6">
+            {!isLoadingContext ? (
+              <Button> {APP.buttonAction.login} </Button>
+            ) : (
+              <Spinner />
+            )}
+          </div>
         </form>
       )}
 
-      {errorMessage && <p className='text-red-500 capitalize'>{errorMessage}</p>}
+      {errorMessage && (
+        <p className="text-red-500 capitalize">{errorMessage}</p>
+      )}
     </div>
   );
 };

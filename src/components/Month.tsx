@@ -6,11 +6,16 @@ import { IMonth, IYear } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 import MonthEvents from '@/components/MonthEvents';
 import MonthYearHeader from '@/components/MonthYearHeader';
-import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
+import {
+  IUserDataContext,
+  UserDataContext,
+} from '@/app/context/userData.context';
 
 export default function Month(): JSX.Element {
   const { user } = useContext(AuthContext) as IAppContext;
-  const { userMonths, handleUserData } = useContext(UserDataContext) as IUserDataContext;
+  const { userMonths, handleUserData } = useContext(
+    UserDataContext,
+  ) as IUserDataContext;
   const [currentMonth, setCurrentMonth] = useState<IMonth | IYear | null>(null);
   const [monthIndex, setMonthIndex] = useState<number | null>(null);
   const [monthId, setMonthId] = useState<string>('');
@@ -50,12 +55,26 @@ export default function Month(): JSX.Element {
   }, [currentMonth]);
 
   return (
-    <section className='w-full sm:w-80'>
+    <section className="w-full sm:w-80">
       {currentMonth && userMonths.length > 0 && (
-        <div className='w-full'>
-          <MonthYearHeader userMonthsYears={userMonths} index={monthIndex} currentMonthYear={currentMonth} setCurrentMonthYear={setCurrentMonth} setIndex={setMonthIndex} />
-          <MonthEvents events={currentMonth.incomes} eventType={APP.eventType.income} monthId={monthId} />
-          <MonthEvents events={currentMonth.expenses} eventType={APP.eventType.expense} monthId={monthId} />
+        <div className="w-full">
+          <MonthYearHeader
+            userMonthsYears={userMonths}
+            index={monthIndex}
+            currentMonthYear={currentMonth}
+            setCurrentMonthYear={setCurrentMonth}
+            setIndex={setMonthIndex}
+          />
+          <MonthEvents
+            events={currentMonth.incomes}
+            eventType={APP.eventType.income}
+            monthId={monthId}
+          />
+          <MonthEvents
+            events={currentMonth.expenses}
+            eventType={APP.eventType.expense}
+            monthId={monthId}
+          />
         </div>
       )}
     </section>

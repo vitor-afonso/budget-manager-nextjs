@@ -9,7 +9,10 @@ interface CreateIncomeExpense {
   creationDate: Date;
 }
 
-export const createIncomeExpense = async (reqBody: CreateIncomeExpense, isExpense: boolean) => {
+export const createIncomeExpense = async (
+  reqBody: CreateIncomeExpense,
+  isExpense: boolean,
+) => {
   const routeName = isExpense ? '/expenses' : '/incomes';
   const apiUrl = `${APP.projectApi}${routeName}`;
   try {
@@ -23,16 +26,25 @@ export const createIncomeExpense = async (reqBody: CreateIncomeExpense, isExpens
     });
     let incomeExpense = await res.json();
     // parse date before sending it to component
-    return { ...incomeExpense, createdAt: parseISO(incomeExpense.createdAt), updatedAt: parseISO(incomeExpense.updatedAt) };
+    return {
+      ...incomeExpense,
+      createdAt: parseISO(incomeExpense.createdAt),
+      updatedAt: parseISO(incomeExpense.updatedAt),
+    };
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
 
-export const deleteIncomeExpense = async (incomeExpenseId: string, isExpense: boolean) => {
+export const deleteIncomeExpense = async (
+  incomeExpenseId: string,
+  isExpense: boolean,
+) => {
   const expenseBody = isExpense && { expenseId: incomeExpenseId };
   const incomeBody = !isExpense && { incomeId: incomeExpenseId };
-  const routeName = isExpense ? `/expenses/${incomeExpenseId}` : `/incomes/${incomeExpenseId}`;
+  const routeName = isExpense
+    ? `/expenses/${incomeExpenseId}`
+    : `/incomes/${incomeExpenseId}`;
 
   const apiUrl = `${APP.projectApi}${routeName}`;
   try {

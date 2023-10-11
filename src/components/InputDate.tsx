@@ -13,22 +13,24 @@ interface Props {
 const InputDate = ({ register, errors, inputName, monthDate }: Props) => {
   return (
     <div>
-      <label className='text-lg capitalize'>
-        <p className='text-sm text-gray-300'>Date</p>
+      <label className="text-lg capitalize">
+        <p className="text-sm text-gray-300">Date</p>
         {/* div to fix safari not applying w-full to input */}
-        <div className='w-[284px]'>
+        <div className="w-[284px]">
           <input
             type={APP.inputName.date}
             {...register(inputName, {
               required: 'Date is required',
             })}
-            className='w-[284px] h-12 rounded-md px-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400'
+            className="w-[284px] h-12 rounded-md px-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400"
             min={getMinMaxDate(monthDate, 'min')}
             max={getMinMaxDate(monthDate, 'max')}
           />
         </div>
       </label>
-      {errors[`${inputName}`]?.message && <ErrorMessage>{errors[`${inputName}`].message}</ErrorMessage>}
+      {errors[`${inputName}`]?.message && (
+        <ErrorMessage>{errors[`${inputName}`].message}</ErrorMessage>
+      )}
     </div>
   );
 };

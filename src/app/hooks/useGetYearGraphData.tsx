@@ -9,9 +9,14 @@ const useGetYearGraphData = (yearData: IYear) => {
     const isExpenses = eventType === APP.eventType.expense ? true : false;
     const allMonthNamesInIncomes = Object.keys(incomesObj);
     const allMonthNamesInExpenses = Object.keys(expensesObj);
-    const isExpensesBiggerThanIncomes = allMonthNamesInExpenses.length > allMonthNamesInIncomes.length;
-    const listWithLessMonthNames = isExpensesBiggerThanIncomes ? allMonthNamesInIncomes : allMonthNamesInExpenses;
-    const listWithMoreMonthNames = isExpensesBiggerThanIncomes ? allMonthNamesInExpenses : allMonthNamesInIncomes;
+    const isExpensesBiggerThanIncomes =
+      allMonthNamesInExpenses.length > allMonthNamesInIncomes.length;
+    const listWithLessMonthNames = isExpensesBiggerThanIncomes
+      ? allMonthNamesInIncomes
+      : allMonthNamesInExpenses;
+    const listWithMoreMonthNames = isExpensesBiggerThanIncomes
+      ? allMonthNamesInExpenses
+      : allMonthNamesInIncomes;
     const incomesExpensesObj: { [monthName: string]: number } = {};
 
     // expense include all existing month names
@@ -25,7 +30,9 @@ const useGetYearGraphData = (yearData: IYear) => {
 
     listWithMoreMonthNames.forEach((monthName) => {
       if (listWithLessMonthNames.includes(monthName)) {
-        incomesExpensesObj[monthName] = isExpenses ? expensesObj[monthName] : incomesObj[monthName];
+        incomesExpensesObj[monthName] = isExpenses
+          ? expensesObj[monthName]
+          : incomesObj[monthName];
       } else {
         incomesExpensesObj[monthName] = 0;
       }
@@ -34,8 +41,12 @@ const useGetYearGraphData = (yearData: IYear) => {
     return incomesExpensesObj;
   }
 
-  const incomeBarData = Object.values(getBarData(yearData, APP.eventType.income));
-  const expenseBarData = Object.values(getBarData(yearData, APP.eventType.expense));
+  const incomeBarData = Object.values(
+    getBarData(yearData, APP.eventType.income),
+  );
+  const expenseBarData = Object.values(
+    getBarData(yearData, APP.eventType.expense),
+  );
   const monthNames = Object.keys(getBarData(yearData, APP.eventType.expense));
 
   return {

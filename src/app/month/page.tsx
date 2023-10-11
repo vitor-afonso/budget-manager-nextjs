@@ -3,7 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { isSameMonth } from 'date-fns';
 import MonthCategoryGraph from '@/components/MonthCategoryGraph';
 import { IMonth, IYear } from '@/types/models';
-import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
+import {
+  IUserDataContext,
+  UserDataContext,
+} from '@/app/context/userData.context';
 import { APP } from '@/utils/app.constants';
 import MonthYearHeader from '@/components/MonthYearHeader';
 
@@ -28,12 +31,24 @@ const MonthInfo = () => {
   }, [userMonths]);
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       {currentMonth ? (
         <>
-          <MonthYearHeader userMonthsYears={userMonths} index={monthIndex} currentMonthYear={currentMonth} setCurrentMonthYear={setCurrentMonth} setIndex={setMonthIndex} />
-          <MonthCategoryGraph incomeExpenseList={currentMonth.incomes} categoryType={APP.eventType.income} />
-          <MonthCategoryGraph incomeExpenseList={currentMonth.expenses} categoryType={APP.eventType.expense} />
+          <MonthYearHeader
+            userMonthsYears={userMonths}
+            index={monthIndex}
+            currentMonthYear={currentMonth}
+            setCurrentMonthYear={setCurrentMonth}
+            setIndex={setMonthIndex}
+          />
+          <MonthCategoryGraph
+            incomeExpenseList={currentMonth.incomes}
+            categoryType={APP.eventType.income}
+          />
+          <MonthCategoryGraph
+            incomeExpenseList={currentMonth.expenses}
+            categoryType={APP.eventType.expense}
+          />
         </>
       ) : (
         <p>No month available to be displayed</p>

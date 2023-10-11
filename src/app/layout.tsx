@@ -8,17 +8,21 @@ import { UserDataProviderWrapper } from '@/app/context/userData.context';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Budget manager',
+  title: 'Budget Manager',
   description: 'Developed by Vitor A.',
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body className={clsx(inter.className, 'bg-slate-700 py-6')}>
         <AuthProviderWrapper>
           <UserDataProviderWrapper>
-            <div className='w-80 mx-auto'>
+            <div className="w-80 mx-auto">
               <SideBar />
               {children}
             </div>

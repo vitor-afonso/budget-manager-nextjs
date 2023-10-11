@@ -1,0 +1,10 @@
+{
+  "prettier.arrowParens": "always",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.printWidth": 200,
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "prettier.bracketSameLine": true,
+  "prettier.prettierPath": "./node_modules/prettier"
+}

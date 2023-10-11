@@ -30,7 +30,11 @@ const Signup = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const handleSignupSubmit = async ({ name, email, password }: FormData): Promise<void> => {
+  const handleSignupSubmit = async ({
+    name,
+    email,
+    password,
+  }: FormData): Promise<void> => {
     setErrorMessage('');
     setIsLoading(true);
     try {
@@ -46,13 +50,41 @@ const Signup = () => {
 
   return (
     <div>
-      <h1 className='font-semibold text-lg uppercase mb-6 text-center text-gray-300'>Signup</h1>
-      <form noValidate onSubmit={handleSubmit(handleSignupSubmit)} className='mb-4 space-y-2'>
-        <InputText register={register} errors={errors} inputName={APP.inputName.name} inputRules={APP.formRules.name} />
-        <InputText register={register} errors={errors} inputName={APP.inputName.email} inputRules={APP.formRules.email} />
-        <InputText register={register} errors={errors} inputName={APP.inputName.password} inputType={APP.inputName.password} inputRules={APP.formRules.signupPassword} />
+      <h1 className="font-semibold text-lg uppercase mb-6 text-center text-gray-300">
+        Signup
+      </h1>
+      <form
+        noValidate
+        onSubmit={handleSubmit(handleSignupSubmit)}
+        className="mb-4 space-y-2"
+      >
+        <InputText
+          register={register}
+          errors={errors}
+          inputName={APP.inputName.name}
+          inputRules={APP.formRules.name}
+        />
+        <InputText
+          register={register}
+          errors={errors}
+          inputName={APP.inputName.email}
+          inputRules={APP.formRules.email}
+        />
+        <InputText
+          register={register}
+          errors={errors}
+          inputName={APP.inputName.password}
+          inputType={APP.inputName.password}
+          inputRules={APP.formRules.signupPassword}
+        />
 
-        <div className='flex justify-center !mt-6'>{isLoading ? <Spinner /> : <Button> {APP.buttonAction.signup} </Button>}</div>
+        <div className="flex justify-center !mt-6">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Button> {APP.buttonAction.signup} </Button>
+          )}
+        </div>
       </form>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>

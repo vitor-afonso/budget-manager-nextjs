@@ -11,8 +11,15 @@ export interface IUserDataContext {
   userYears: IYear[];
   resetAppStates(): void;
   updateUserMonthsOnMonthCreation(createdMOnth: IMonth): void;
-  updateMonthIncomeExpenseCreation(createdIncomeExpense: IIncome | IExpense, monthId: string): void;
-  updateMonthIncomeExpenseDeletion(incomeExpenseId: string, monthId: string, isExpense: boolean): void;
+  updateMonthIncomeExpenseCreation(
+    createdIncomeExpense: IIncome | IExpense,
+    monthId: string,
+  ): void;
+  updateMonthIncomeExpenseDeletion(
+    incomeExpenseId: string,
+    monthId: string,
+    isExpense: boolean,
+  ): void;
   handleUserData(): void;
 }
 
@@ -20,7 +27,8 @@ const UserDataContext = createContext<IUserDataContext | null>(null);
 
 function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
   const { user } = useContext(AuthContext) as IAppContext;
-  const [isLoadingUserDataContext, setIsLoadingUserDataContext] = useState<boolean>(true);
+  const [isLoadingUserDataContext, setIsLoadingUserDataContext] =
+    useState<boolean>(true);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
   const [userYears, setUserYears] = useState<IYear[]>([]);
 
@@ -91,9 +99,16 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
     setUserYears(yearsData);
   };
 
-  const updateMonthIncomeExpenseCreation = async (createdIncomeExpense: IIncome | IExpense, monthId: string) => {
-    const monthToUpdate = userMonths.find((oneMonth) => oneMonth._id === monthId);
-    const filteredMonths = userMonths.filter((oneMonth) => oneMonth._id !== monthId);
+  const updateMonthIncomeExpenseCreation = async (
+    createdIncomeExpense: IIncome | IExpense,
+    monthId: string,
+  ) => {
+    const monthToUpdate = userMonths.find(
+      (oneMonth) => oneMonth._id === monthId,
+    );
+    const filteredMonths = userMonths.filter(
+      (oneMonth) => oneMonth._id !== monthId,
+    );
     if (monthToUpdate) {
       if ('title' in createdIncomeExpense) {
         monthToUpdate!.expenses.push(createdIncomeExpense);
@@ -109,15 +124,27 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const updateMonthIncomeExpenseDeletion = async (incomeExpenseId: string, monthId: string, isExpense: boolean) => {
-    const monthToUpdate = userMonths.find((oneMonth) => oneMonth._id === monthId);
-    const filteredMonths = userMonths.filter((oneMonth) => oneMonth._id !== monthId);
+  const updateMonthIncomeExpenseDeletion = async (
+    incomeExpenseId: string,
+    monthId: string,
+    isExpense: boolean,
+  ) => {
+    const monthToUpdate = userMonths.find(
+      (oneMonth) => oneMonth._id === monthId,
+    );
+    const filteredMonths = userMonths.filter(
+      (oneMonth) => oneMonth._id !== monthId,
+    );
     if (monthToUpdate) {
       if (isExpense) {
-        const filteredMonthExpenses = monthToUpdate.expenses.filter((oneExpense) => oneExpense._id !== incomeExpenseId);
+        const filteredMonthExpenses = monthToUpdate.expenses.filter(
+          (oneExpense) => oneExpense._id !== incomeExpenseId,
+        );
         monthToUpdate.expenses = filteredMonthExpenses;
       } else {
-        const filteredMonthIncomes = monthToUpdate.incomes.filter((oneIncome) => oneIncome._id !== incomeExpenseId);
+        const filteredMonthIncomes = monthToUpdate.incomes.filter(
+          (oneIncome) => oneIncome._id !== incomeExpenseId,
+        );
         monthToUpdate.incomes = filteredMonthIncomes;
       }
       // updates userMonths and UserYears

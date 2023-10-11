@@ -13,12 +13,19 @@ export const getUserMonths = async (userId: string | undefined) => {
   const data = await res.json();
   const userMonths = data.map((month: any) => {
     // parse date before sending it to context
-    return { ...month, createdAt: parseISO(month.createdAt), updatedAt: parseISO(month.updatedAt) };
+    return {
+      ...month,
+      createdAt: parseISO(month.createdAt),
+      updatedAt: parseISO(month.updatedAt),
+    };
   });
   return userMonths;
 };
 
-export const createMonth = async (requestBody: { userId: string; createdAt: Date }): Promise<IMonth> => {
+export const createMonth = async (requestBody: {
+  userId: string;
+  createdAt: Date;
+}): Promise<IMonth> => {
   try {
     const res = await fetch(`${APP.projectApi}/months`, {
       method: 'POST',
@@ -30,7 +37,11 @@ export const createMonth = async (requestBody: { userId: string; createdAt: Date
     });
     let month = await res.json();
     // parse date before sending it to component
-    return { ...month, createdAt: parseISO(month.createdAt), updatedAt: parseISO(month.updatedAt) };
+    return {
+      ...month,
+      createdAt: parseISO(month.createdAt),
+      updatedAt: parseISO(month.updatedAt),
+    };
   } catch (error: any) {
     throw new Error(error.message);
   }

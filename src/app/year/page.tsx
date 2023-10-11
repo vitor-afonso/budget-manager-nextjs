@@ -1,7 +1,10 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { isSameYear } from 'date-fns';
-import { IUserDataContext, UserDataContext } from '@/app/context/userData.context';
+import {
+  IUserDataContext,
+  UserDataContext,
+} from '@/app/context/userData.context';
 import { IYear } from '@/types/models';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import { APP } from '@/utils/app.constants';
@@ -30,13 +33,26 @@ const YearInfo = () => {
   }, [userYears]);
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       {currentYear ? (
         <>
-          <MonthYearHeader userMonthsYears={userYears} index={yearIndex} currentMonthYear={currentYear} eventType={APP.eventType.year} setCurrentMonthYear={setCurrentYear} setIndex={setYearIndex} />
+          <MonthYearHeader
+            userMonthsYears={userYears}
+            index={yearIndex}
+            currentMonthYear={currentYear}
+            eventType={APP.eventType.year}
+            setCurrentMonthYear={setCurrentYear}
+            setIndex={setYearIndex}
+          />
           <YearCategoriesGraph currentYear={currentYear} />
-          <YearCategoryTotals eventType={APP.eventType.income} incomesExpenses={currentYear.incomes} />
-          <YearCategoryTotals eventType={APP.eventType.expense} incomesExpenses={currentYear.expenses} />
+          <YearCategoryTotals
+            eventType={APP.eventType.income}
+            incomesExpenses={currentYear.incomes}
+          />
+          <YearCategoryTotals
+            eventType={APP.eventType.expense}
+            incomesExpenses={currentYear.expenses}
+          />
         </>
       ) : (
         <p>No year data available to display.</p>
