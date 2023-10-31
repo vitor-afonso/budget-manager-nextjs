@@ -51,7 +51,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
       <div className="flex items-center text-md">
         <div className="text-right leading-none">
           <p>{APP.currency.format(incomeExpense.amount)}</p>
-          <span className="text-xs capitalize">{incomeExpense.category}</span>
+          {isExpense && <span className="text-xs capitalize">{incomeExpense.category}</span>}
         </div>
         <button
           className="rounded-full bg-slate-300 w-5 h-5 flex justify-center items-center mx-1"
