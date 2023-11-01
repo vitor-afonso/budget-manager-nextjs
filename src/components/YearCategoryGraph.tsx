@@ -34,13 +34,14 @@ export const options = {
   },
 };
 
-const YearCategoriesGraph = ({
-  currentYear,
-}: {
+interface Props {
   currentYear: IYear;
-}): JSX.Element => {
+  allOpenMonths: Date[];
+}
+
+const YearCategoriesGraph = ({ currentYear, allOpenMonths}: Props): JSX.Element => {
   const { incomeBarData, expenseBarData, monthNames } =
-    useGetYearGraphData(currentYear);
+    useGetYearGraphData(currentYear, allOpenMonths);
 
   const data = {
     labels: monthNames,

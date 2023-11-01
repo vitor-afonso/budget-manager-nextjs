@@ -12,9 +12,10 @@ import YearCategoriesGraph from '@/components/YearCategoryGraph';
 import YearCategoryTotals from '@/components/YearCategoryTotals';
 
 const YearInfo = () => {
-  const { userYears } = useContext(UserDataContext) as IUserDataContext;
+  const { userYears, userMonths } = useContext(UserDataContext) as IUserDataContext;
   const [currentYear, setCurrentYear] = useState<IYear | null>(null);
   const [yearIndex, setYearIndex] = useState<number | null>(null);
+  const [allOpenMonths, setAllOpenMonths] = useState<Date[] | null>(null);
 
   // set current month
   useEffect(() => {
@@ -29,8 +30,10 @@ const YearInfo = () => {
       if (year) {
         setCurrentYear(year);
       }
+
+      setAllOpenMonths(userMonths.map(month => month.createdAt))
     }
-  }, [userYears]);
+  }, [userYears, userMonths]);
 
   return (
     <div className="flex flex-col items-center">
@@ -44,7 +47,7 @@ const YearInfo = () => {
             setCurrentMonthYear={setCurrentYear}
             setIndex={setYearIndex}
           />
-          <YearCategoriesGraph currentYear={currentYear} />
+          <YearCategoriesGraph currentYear={currentYear} allOpenMonths={allOpenMonths!}/>
           <YearCategoryTotals
             eventType={APP.eventType.income}
             incomesExpenses={currentYear.incomes}

@@ -128,21 +128,26 @@ export const changeMonthYear = (
 };
 
 export const getYearIncomesExpensesBarData = (
-  yearIncomeExpenses: IIncome[] | IExpense[],
+  yearIncomeExpenses: IIncome[] | IExpense[], allOpenMonths: string[]
 ) => {
-  const categoryTotals: { [category: string]: number } = {};
-
+  const allMonthsTotals: { [month: string]: number } = {};
   for (const item of yearIncomeExpenses) {
     const { createdAt, amount } = item;
     const monthIndex = new Date(createdAt).getUTCMonth();
-    if (APP.monthsOfTheYear[monthIndex] in categoryTotals) {
-      categoryTotals[APP.monthsOfTheYear[monthIndex]] += amount;
+    if (APP.monthsOfTheYear[monthIndex] in allMonthsTotals) {
+      allMonthsTotals[APP.monthsOfTheYear[monthIndex]] += amount;
     } else {
-      categoryTotals[APP.monthsOfTheYear[monthIndex]] = amount;
+      allMonthsTotals[APP.monthsOfTheYear[monthIndex]] = amount;
+    }
+  }
+  // add month with value of 0 if no income/expense exist
+  for (const monthName of allOpenMonths) {
+    if(!Object.keys(allMonthsTotals).includes(monthName)){
+      allMonthsTotals[monthName] = 0;
     }
   }
 
-  return categoryTotals;
+  return allMonthsTotals;
 };
 
 export const getMinMaxDate = (date: Date, minMax: string): string => {
