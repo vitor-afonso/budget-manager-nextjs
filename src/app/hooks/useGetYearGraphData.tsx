@@ -2,40 +2,19 @@ import { getYearIncomesExpensesBarData } from '@/utils/app.methods';
 import { IYear } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 
-const useGetYearGraphData = (yearData: IYear) => {
+const useGetYearGraphData = (yearData: IYear, allOpenMonths: Date[]) => {
+
   function getBarData(yearData: IYear, eventType: string) {
-    const incomesObj = getYearIncomesExpensesBarData(yearData.incomes);
-    const expensesObj = getYearIncomesExpensesBarData(yearData.expenses);
+    const allMonthNames = allOpenMonths.map(date => APP.monthsOfTheYear[date.getMonth()])
+    const incomesObj = getYearIncomesExpensesBarData(yearData.incomes, allMonthNames);
+    const expensesObj = getYearIncomesExpensesBarData(yearData.expenses, allMonthNames);
     const isExpenses = eventType === APP.eventType.expense ? true : false;
-    const allMonthNamesInIncomes = Object.keys(incomesObj);
-    const allMonthNamesInExpenses = Object.keys(expensesObj);
-    const isExpensesBiggerThanIncomes =
-      allMonthNamesInExpenses.length > allMonthNamesInIncomes.length;
-    const listWithLessMonthNames = isExpensesBiggerThanIncomes
-      ? allMonthNamesInIncomes
-      : allMonthNamesInExpenses;
-    const listWithMoreMonthNames = isExpensesBiggerThanIncomes
-      ? allMonthNamesInExpenses
-      : allMonthNamesInIncomes;
     const incomesExpensesObj: { [monthName: string]: number } = {};
 
-    // expense include all existing month names
-    if (isExpenses && isExpensesBiggerThanIncomes) {
-      return expensesObj;
-    }
-    // income includes all existing month names
-    if (!isExpenses && !isExpensesBiggerThanIncomes) {
-      return incomesObj;
-    }
-
-    listWithMoreMonthNames.forEach((monthName) => {
-      if (listWithLessMonthNames.includes(monthName)) {
-        incomesExpensesObj[monthName] = isExpenses
+    allMonthNames.forEach((monthName) => {
+      incomesExpensesObj[monthName] = isExpenses
           ? expensesObj[monthName]
           : incomesObj[monthName];
-      } else {
-        incomesExpensesObj[monthName] = 0;
-      }
     });
 
     return incomesExpensesObj;
