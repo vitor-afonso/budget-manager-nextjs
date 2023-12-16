@@ -28,14 +28,14 @@ const UserDataContext = createContext<IUserDataContext | null>(null);
 function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
   const { user } = useContext(AuthContext) as IAppContext;
   const [isLoadingUserDataContext, setIsLoadingUserDataContext] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
   const [userYears, setUserYears] = useState<IYear[]>([]);
 
   const handleUserData = async () => {
     if (user) {
+      setIsLoadingUserDataContext(true);
       try {
-        setIsLoadingUserDataContext(true);
         // After user is authenticated we get all user months
         let months = await getUserMonths(user._id);
         months.sort((a: any, b: any) => a.createdAt - b.createdAt);
@@ -45,11 +45,12 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
 
         setUserMonths(months);
         setUserYears(yearsData);
-        setIsLoadingUserDataContext(false);
       } catch (error) {
         // If the server sends an error response
         // Update state variables
         resetAppStates();
+      } finally {
+        setIsLoadingUserDataContext(false);
       }
     } else {
       // If the user is not available

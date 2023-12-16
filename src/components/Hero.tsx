@@ -16,7 +16,7 @@ import ModalCreateNewMonth from './ModalCreateNewMonth';
 const Hero = () => {
   const [isCurrentMonthOpen, setIsCurrentMonthOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { userMonths } = useContext(UserDataContext) as IUserDataContext;
+  const { userMonths, isLoadingUserDataContext } = useContext(UserDataContext) as IUserDataContext;
   const { user } = useContext(AuthContext) as IAppContext;
   const router = useRouter();
 
@@ -36,7 +36,7 @@ const Hero = () => {
 
   return (
     <section className="w-full md:w-80">
-      {(!user || (user && userMonths.length < 1)) && (
+      {(!user || (user && userMonths.length < 1 && !isLoadingUserDataContext)) && (
         <>
           {(!user || userIsLoggedInAndCurrentMonthIsNotOpen) && (
             <div className="w-full md:w-80 h-80 mb-4">
