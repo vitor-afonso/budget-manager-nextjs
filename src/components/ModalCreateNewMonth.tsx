@@ -102,8 +102,14 @@ const ModalCreateNewMonth = ({ setIsModalOpen }: Props) => {
             )}
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           </div>
-
-          {isLoading ? <Spinner /> : <Button>Add</Button>}
+          
+          <div className="flex justify-center">
+          {isLoading ? (
+            <Spinner size={80}/>
+          ) : (
+            <Button> Add </Button>
+          )}
+        </div>
         </form>
       </div>
 

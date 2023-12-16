@@ -19,7 +19,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, 'bg-slate-700 py-6')}>
+      <body className={clsx(inter.className, 'bg-slate-700 py-6 h-screen')}>
         <AuthProviderWrapper>
           <UserDataProviderWrapper>
             <div className="w-80 mx-auto">
