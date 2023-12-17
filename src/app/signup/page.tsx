@@ -51,7 +51,7 @@ const Signup = () => {
   return (
     <div>
       <h1 className="font-semibold text-lg uppercase mb-6 text-center text-gray-300">
-        Signup
+        {APP.buttonAction.signup}
       </h1>
       <form
         noValidate
@@ -78,7 +78,7 @@ const Signup = () => {
           inputRules={APP.formRules.signupPassword}
         />
 
-        <div className="flex justify-center !mt-6">
+        <div className="flex justify-center !mt-12">
           {isLoading ? (
             <Spinner />
           ) : (
