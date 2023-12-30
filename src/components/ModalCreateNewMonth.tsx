@@ -54,16 +54,15 @@ const ModalCreateNewMonth = ({ setIsModalOpen }: Props) => {
     return true;
   };
 
-  const handleCreateMonth = async ({ createdAt, weekLimitAmount }: FormData) => {
+  const handleCreateMonth = async (formData: FormData) => {
     if (!user) return;
     setErrorMessage('');
 
     try {
       setIsLoading(true);
       const requestBody = {
-        createdAt,
+        ...formData,
         userId: user._id,
-        weekLimitAmount,
       };
       const createdMonth: IMonth = await createMonth(requestBody);
       updateUserMonthsOnMonthCreation(createdMonth);
