@@ -14,6 +14,7 @@ import {
 import Spinner from '@/components/Spinner';
 import { IMonth } from '@/types/models';
 import ErrorMessage from '@/components/ErrorMessage';
+import InputText from './InputText';
 
 interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +22,7 @@ interface Props {
 
 const schema = z.object({
   createdAt: z.date(),
+  weekLimitAmount: z.string().transform((val) => Number(val)).optional(),
 });
 //get type from schema
 type FormData = z.infer<typeof schema>;
@@ -52,7 +54,7 @@ const ModalCreateNewMonth = ({ setIsModalOpen }: Props) => {
     return true;
   };
 
-  const handleCreateMonth = async ({ createdAt }: FormData) => {
+  const handleCreateMonth = async ({ createdAt, weekLimitAmount }: FormData) => {
     if (!user) return;
     setErrorMessage('');
 
@@ -61,6 +63,7 @@ const ModalCreateNewMonth = ({ setIsModalOpen }: Props) => {
       const requestBody = {
         createdAt,
         userId: user._id,
+        weekLimitAmount,
       };
       const createdMonth: IMonth = await createMonth(requestBody);
       updateUserMonthsOnMonthCreation(createdMonth);
@@ -80,7 +83,7 @@ const ModalCreateNewMonth = ({ setIsModalOpen }: Props) => {
         <form onSubmit={handleSubmit(handleCreateMonth)} className="w-full">
           <div className="mb-4 mt-2">
             <label className="text-lg capitalize">
-              <p className="text-gray-300 text-sm">Select month</p>
+              <p className="text-gray-300 text-sm mb-1">Select month*</p>
               {/* div to fix safari not applying w-full to input */}
               <div className="w-[284px] mb-1">
                 <input
@@ -93,14 +96,26 @@ const ModalCreateNewMonth = ({ setIsModalOpen }: Props) => {
                   max={inputMaxMonth}
                 />
               </div>
+
+              {errors.createdAt?.message && (
+                <ErrorMessage>{errors.createdAt.message}</ErrorMessage>
+              )}
+              {errors.createdAt?.type === 'validate' && (
+                <ErrorMessage>Selected month already exist</ErrorMessage>
+              )}
+
             </label>
-            {errors.createdAt?.message && (
-              <ErrorMessage>{errors.createdAt.message}</ErrorMessage>
-            )}
-            {errors.createdAt?.type === 'validate' && (
-              <ErrorMessage>Selected month already exist</ErrorMessage>
-            )}
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+
+            <div className='my-2'>
+              <InputText
+                register={register}
+                errors={errors}
+                inputName={'weekLimitAmount'}
+                inputRules={APP.formRules.weekLimitAmount}
+              />
+            
+              {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            </div>
           </div>
           
           <div className="flex justify-center">

@@ -2,15 +2,16 @@
 import { useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { isSameMonth } from 'date-fns';
-import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { IMonth, IYear } from '@/types/models';
-import { APP } from '@/utils/app.constants';
-import MonthEvents from '@/components/MonthEvents';
-import MonthYearHeader from '@/components/MonthYearHeader';
+import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import {
   IUserDataContext,
   UserDataContext,
 } from '@/app/context/userData.context';
+import { APP } from '@/utils/app.constants';
+import MonthEvents from '@/components/MonthEvents';
+import MonthYearHeader from '@/components/MonthYearHeader';
+import WeekBalanceSection from '@/components/WeekBalanceSection';
 
 export default function Month(): JSX.Element {
   const { user } = useContext(AuthContext) as IAppContext;
@@ -22,7 +23,7 @@ export default function Month(): JSX.Element {
   const [spentThisWeek, setSpentThisWeek] = useState<number | null>(null);
   const [monthId, setMonthId] = useState<string>('');
   const [weekBalance, setWeekBalance] = useState<number | null>(null);
-  const [weekLimit, setWeekLimit] = useState<number>(150);
+  const [weekLimit, setWeekLimit] = useState<number | null>(null);
   const [showWeekBalance, setShowWeekBalance] = useState<boolean>(false);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function Month(): JSX.Element {
       setMonthId(userMonths[lastMonthIndex]._id);
       setMonthIndex(lastMonthIndex);
     }
-  }, [userMonths]);
+  }, []);
 
   useEffect(() => {
     if (currentMonth && '_id' in currentMonth) {
@@ -74,11 +75,10 @@ export default function Month(): JSX.Element {
       if('weekLimitAmount' in currentMonth) {
         setWeekBalance(currentMonth.weekLimitAmount! - totalWeekExpenses)
         setWeekLimit(currentMonth.weekLimitAmount!)
-      } else {
-        setWeekBalance(weekLimit - totalWeekExpenses)
-      }
+      } 
 
-      setShowWeekBalance(isCurrentMonth)
+      setShowWeekBalance(isCurrentMonth && 'weekLimitAmount' in currentMonth)
+
     }
 
   }, [currentMonth]);
@@ -159,38 +159,7 @@ export default function Month(): JSX.Element {
             setIndex={setMonthIndex}
           />
           
-          { showWeekBalance && spentThisWeek && <div className="flex flex-col p-4 mt-4 items-center justify-around h-40 border border-black min-w-80 w-full rounded-3xl text-lg bg-slate-300">
-            <div className="flex items-center justify-around p-2 border border-black w-full rounded-3xl text-lg bg-slate-100 mb-2">
-
-              <div className="flex flex-col text-center text-md font-semibold">
-                <h2>
-                  Week Balance
-                </h2>
-                <span
-                  className={clsx(
-                    weekBalance! >= 0 ? 'text-green-500' : 'text-red-500',
-                  )}
-                >
-                  {APP.currency.format(weekBalance!)}
-                </span>
-              </div>
-              
-            </div>
-            <div className="flex justify-between items-center w-full">
-              <div className="flex flex-col border border-black text-xs rounded-3xl h-10 w-32  items-center justify-center bg-slate-100">
-                <h6 className="font-medium capitalize">{APP.eventType.weekLimit}</h6>
-                <span className="text-green-500">
-                  {weekLimit}
-                </span>
-              </div>
-              <div className="flex flex-col border border-black text-xs rounded-3xl h-10 w-32  items-center justify-center bg-slate-100">
-                <h6 className="font-medium capitalize">{APP.eventType.weekSpent}</h6>
-                <span className="text-red-500">
-                  {spentThisWeek}
-                </span>
-              </div>
-            </div>
-          </div>}
+          { showWeekBalance && <WeekBalanceSection weekBalance={weekBalance} weekLimit={weekLimit} spentThisWeek={spentThisWeek}/>}
 
           <MonthEvents
             events={currentMonth.incomes}
