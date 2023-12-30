@@ -1,6 +1,5 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { isSameMonth } from 'date-fns';
 import { IMonth, IYear } from '@/types/models';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
