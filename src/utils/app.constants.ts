@@ -12,6 +12,8 @@ export const APP = {
     expense: 'expense',
     month: 'month',
     year: 'year',
+    weekLimit: 'Week Limit',
+    weekSpent: 'Week Spent',
   },
   formRules: {
     name: {
@@ -41,6 +43,9 @@ export const APP = {
       required: 'Amount is required',
       pattern: { value: /^[0-9]*\.?[0-9]*$/, message: 'Invalid value' },
     },
+    weekLimitAmount: {
+      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: 'Invalid value' },
+    },
   },
   inputName: {
     name: 'name',
@@ -51,6 +56,7 @@ export const APP = {
     category: 'category',
     amount: 'amount',
     month: 'month',
+    weekLimitAmount: 'Week Limit Amount',
   },
   buttonAction: {
     prev: 'prev',
