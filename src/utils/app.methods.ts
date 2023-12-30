@@ -160,3 +160,68 @@ export const getMinMaxDate = (date: Date, minMax: string): string => {
   }
   return `${year}-${month}-${lastDayOfMonth}`;
 };
+
+export const getTotalExpensesOfLastMonthWeekDays = (numberOfDaysFromPreviousMonth: number, userMonths: IMonth[]):number => {
+  const LAST_DAY_OF_MONTH =  0;
+  const DECEMBER =  11;
+  const todaysDate = new Date();
+  const previousYear =  todaysDate.getFullYear() - 1;
+  const isPrevMonthFromThisYear = todaysDate.getMonth() !== 0;
+  let yearOfPrevMonth = isPrevMonthFromThisYear ? todaysDate.getFullYear() : previousYear;
+  let previousMonthNumber = isPrevMonthFromThisYear ? todaysDate.getMonth() - 1 : DECEMBER;
+  let previousMonth = userMonths.find(m => new Date(m.createdAt).getFullYear() === yearOfPrevMonth && new Date(m.createdAt).getMonth() === previousMonthNumber);
+  // must have "previousMonthNumber + 1" because LAST_DAY_OF_MONTH being 0 makes us get the month before the one we want
+  const lastDayOfPreviousMonth = new Date(yearOfPrevMonth, previousMonthNumber + 1, LAST_DAY_OF_MONTH).getDate();
+  let daysTotalExpenses = 0;
+
+  for (let index = 0; index < numberOfDaysFromPreviousMonth; index++) {
+
+    let dayExpenses = previousMonth?.expenses.filter(e => new Date(e.createdAt).getUTCDate() === lastDayOfPreviousMonth - index);
+    let allExpensesAmount = dayExpenses?.map(e => e.amount);
+    let sum = allExpensesAmount?.reduce((total, num) => total + num);
+    daysTotalExpenses += sum!;
+  }
+  return daysTotalExpenses;
+}
+
+export const getTotalExpensesOfThisMonthWeekDays = (weekDaysFromThisMonth: number[], currentMonth: IMonth): number => {
+  let totalWeekExpenses = 0;
+  currentMonth?.expenses.forEach((e) => {
+    let dayDate = new Date(e.createdAt).getUTCDate();
+   
+    if (weekDaysFromThisMonth.includes(dayDate) && e.category.toLowerCase() !== 'bills') {
+      totalWeekExpenses += e.amount;
+    }
+  });
+  return totalWeekExpenses;
+}
+
+export const getWeekDaysOfCurrentMonth = ():number[] => {
+  const todaysDate = new Date();
+  const weekDayNumber = todaysDate.getUTCDay();
+  let dayOfTheMonth = todaysDate.getUTCDate();
+  const weekDaysFromThisMonth: number[] = [];
+
+  for (let index = 0; index <= weekDayNumber; index++) {
+    const day = dayOfTheMonth - index;
+    if (day >= 0) {
+      weekDaysFromThisMonth.push(day);
+    }
+  }
+  return weekDaysFromThisMonth;
+}
+
+export const getNumberOfDaysFromPreviousMonth = ():number => {
+  const todaysDate = new Date();
+  const weekDayNumber = todaysDate.getUTCDay();
+  let dayOfTheMonth = todaysDate.getUTCDate();
+  let numberOfDaysFromPreviousMonth: number = 0;
+
+  for (let index = 0; index <= weekDayNumber; index++) {
+    const day = dayOfTheMonth - index;
+    if (day < 0) {
+      numberOfDaysFromPreviousMonth++;
+    }
+  }
+  return numberOfDaysFromPreviousMonth;
+}
