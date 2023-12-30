@@ -29,6 +29,7 @@ export interface IMonth {
   createdAt: Date;
   updatedAt: Date;
   deleted: boolean;
+  weekLimitAmount?: number;
 }
 
 export interface IYear {
