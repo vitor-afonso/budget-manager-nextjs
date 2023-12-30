@@ -8,10 +8,15 @@ import {
   UserDataContext,
 } from '@/app/context/userData.context';
 import { APP } from '@/utils/app.constants';
+import { 
+  getNumberOfDaysFromPreviousMonth, 
+  getTotalExpensesOfLastMonthWeekDays, 
+  getTotalExpensesOfThisMonthWeekDays, 
+  getWeekDaysOfCurrentMonth 
+} from '@/utils/app.methods';
 import MonthEvents from '@/components/MonthEvents';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import WeekBalanceSection from '@/components/WeekBalanceSection';
-import { getNumberOfDaysFromPreviousMonth, getTotalExpensesOfLastMonthWeekDays, getTotalExpensesOfThisMonthWeekDays, getWeekDaysOfCurrentMonth } from '@/utils/app.methods';
 
 export default function Month(): JSX.Element {
   const { user } = useContext(AuthContext) as IAppContext;
