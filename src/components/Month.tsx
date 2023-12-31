@@ -63,7 +63,9 @@ export default function Month(): JSX.Element {
     if (currentMonth && '_id' in currentMonth) {
       setMonthId(currentMonth._id);
     }
+  }, [currentMonth]);
 
+  useEffect(() => {
     // handles week balance
     if (currentMonth && 'weekLimitAmount' in currentMonth){
 
@@ -72,16 +74,15 @@ export default function Month(): JSX.Element {
       let weekDaysFromThisMonth: number[] = getWeekDaysOfCurrentMonth();
       
       const totalExpensesOfPreviousMonthWeekDays = getTotalExpensesOfLastMonthWeekDays(numberOfDaysFromPreviousMonth, userMonths) | 0;
-      const totalExpensesOfThisMonthWeekDays = getTotalExpensesOfThisMonthWeekDays(weekDaysFromThisMonth, currentMonth as IMonth) | 0;
+      const totalExpensesOfThisMonthWeekDays = getTotalExpensesOfThisMonthWeekDays(weekDaysFromThisMonth, currentMonth as IMonth);
       const totalWeekExpenses = totalExpensesOfPreviousMonthWeekDays + totalExpensesOfThisMonthWeekDays;
-   
+      
       setSpentThisWeek(totalWeekExpenses);
       setWeekBalance(currentMonth.weekLimitAmount! - totalWeekExpenses)
       setWeekLimit(currentMonth.weekLimitAmount!)
       setShowWeekBalance(isCurrentMonth)
     }
-
-  }, [currentMonth]);
+  }, [currentMonth, userMonths]);
 
   return (
     <section className="w-full sm:w-80">
