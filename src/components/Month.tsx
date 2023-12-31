@@ -57,7 +57,7 @@ export default function Month(): JSX.Element {
       setMonthId(userMonths[lastMonthIndex]._id);
       setMonthIndex(lastMonthIndex);
     }
-  }, []);
+  }, [userMonths]);
 
   useEffect(() => {
     if (currentMonth && '_id' in currentMonth) {
@@ -65,7 +65,7 @@ export default function Month(): JSX.Element {
     }
 
     // handles week balance
-    if (currentMonth){
+    if (currentMonth && 'weekLimitAmount' in currentMonth){
 
       let isCurrentMonth = isSameMonth(new Date(), currentMonth.createdAt!)
       let numberOfDaysFromPreviousMonth: number = getNumberOfDaysFromPreviousMonth() | 0;
@@ -76,13 +76,9 @@ export default function Month(): JSX.Element {
       const totalWeekExpenses = totalExpensesOfPreviousMonthWeekDays + totalExpensesOfThisMonthWeekDays;
    
       setSpentThisWeek(totalWeekExpenses);
-
-      if('weekLimitAmount' in currentMonth) {
-        setWeekBalance(currentMonth.weekLimitAmount! - totalWeekExpenses)
-        setWeekLimit(currentMonth.weekLimitAmount!)
-      } 
-
-      setShowWeekBalance(isCurrentMonth && 'weekLimitAmount' in currentMonth)
+      setWeekBalance(currentMonth.weekLimitAmount! - totalWeekExpenses)
+      setWeekLimit(currentMonth.weekLimitAmount!)
+      setShowWeekBalance(isCurrentMonth)
     }
 
   }, [currentMonth]);
