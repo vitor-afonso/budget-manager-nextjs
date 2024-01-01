@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable no-unused-vars */
+
 'use client';
 
 import React, { createContext, useEffect, useState } from 'react';
@@ -26,6 +29,12 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
     localStorage.setItem(APP.localStorage.authToken, token);
   };
 
+  const resetAppStates = () => {
+    setIsLoggedIn(false);
+    setIsLoadingContext(false);
+    setUser(null);
+  };
+
   const authenticateUser = async () => {
     // Get the stored token from the localStorage
     const storedToken = localStorage.getItem(APP.localStorage.authToken);
@@ -33,11 +42,11 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
       try {
         setIsLoadingContext(true);
         // We must send the JWT token in the request's "Authorization" Headers
-        let user = await verify(storedToken);
+        const userInfo = await verify(storedToken);
 
         setIsLoggedIn(true);
         setIsLoadingContext(false);
-        setUser(user);
+        setUser(userInfo);
       } catch (error) {
         // If the server sends an error response (invalid token)
         // Update state variables
@@ -47,12 +56,6 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
       // If the token is not available (or is removed)
       resetAppStates();
     }
-  };
-
-  const resetAppStates = () => {
-    setIsLoggedIn(false);
-    setIsLoadingContext(false);
-    setUser(null);
   };
 
   const removeToken = () => {
@@ -68,7 +71,8 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
     router.push(APP.pageRoutes.home);
   };
 
-  //checks if theres any valid token in localStore in case user is returning after having closed the page
+  // checks if theres any valid token in localStore
+  // in case user is returning after having closed the page
   useEffect(() => {
     authenticateUser();
   }, []);

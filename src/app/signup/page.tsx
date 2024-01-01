@@ -19,7 +19,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const Signup = () => {
+function Signup() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -89,6 +89,6 @@ const Signup = () => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
-};
+}
 
 export default Signup;

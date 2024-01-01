@@ -1,10 +1,16 @@
-import React from 'react';
 import Image from 'next/image';
 
-const Spinner = ({ size }:{ size?: number }) => {
-  return <div className="text-center">
-    <Image src="./images/budget-spinner.svg" alt="spinner" width={size || 100} height={size || 100} />
-  </div>;
-};
+function Spinner({ size = 100 }: { size?: number }) {
+  return (
+    <div className='text-center'>
+      <Image
+        src='./images/budget-spinner.svg'
+        alt='spinner'
+        width={size}
+        height={size}
+      />
+    </div>
+  );
+}
 
 export default Spinner;

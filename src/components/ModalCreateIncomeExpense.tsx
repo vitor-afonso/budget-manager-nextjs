@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,14 +24,14 @@ const schema = z.object({
   amount: z.string().transform((val) => Number(val)),
   creationDate: z.date(),
 });
-//get type from schema
+// get type from schema
 type FormData = z.infer<typeof schema>;
 
-const ModalCreateIncomeExpense = ({
+function ModalCreateIncomeExpense({
   setIsModalOpen,
   monthId,
   eventType,
-}: Props) => {
+}: Props) {
   const { updateMonthIncomeExpenseCreation, userMonths } = useContext(
     UserDataContext,
   ) as IUserDataContext;
@@ -74,15 +75,15 @@ const ModalCreateIncomeExpense = ({
   };
 
   return (
-    <div className="absolute top-0 left-0 z-10 w-screen h-screen ">
-      <div className="absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center">
-        <p className="text-gray-300 uppercase font-semibold">
+    <div className='absolute top-0 left-0 z-10 w-screen h-screen '>
+      <div className='absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center'>
+        <p className='text-gray-300 uppercase font-semibold'>
           {isExpense ? APP.eventType.expense : APP.eventType.income}
         </p>
 
         <form
           onSubmit={handleSubmit(handleCreateMonth)}
-          className="space-y-2 w-full"
+          className='space-y-2 w-full'
         >
           {isExpense && (
             <InputText
@@ -111,7 +112,7 @@ const ModalCreateIncomeExpense = ({
             <InputDate
               register={register}
               errors={errors}
-              inputName="creationDate"
+              inputName='creationDate'
               monthDate={currentMonthDate}
             />
           )}
@@ -122,11 +123,15 @@ const ModalCreateIncomeExpense = ({
       </div>
 
       <div
-        className="bg-black/50 w-full h-full absolute z-20"
+        role='button'
         onClick={() => setIsModalOpen(false)}
-      ></div>
+        onKeyDown={() => setIsModalOpen(false)}
+        aria-label='Close menu'
+        tabIndex={0}
+        className='bg-black/50 w-full h-full absolute z-20'
+      />
     </div>
   );
-};
+}
 
 export default ModalCreateIncomeExpense;
