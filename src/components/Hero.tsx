@@ -27,9 +27,7 @@ function Hero() {
   // check if current month is open
   useEffect(() => {
     if (userMonths.length > 0) {
-      const month = userMonths.find((oneMonth) =>
-        isSameMonth(new Date(), oneMonth.createdAt),
-      );
+      const month = userMonths.find((oneMonth) => isSameMonth(new Date(), oneMonth.createdAt));
       if (month) {
         setIsCurrentMonthOpen(true);
       }
@@ -37,17 +35,17 @@ function Hero() {
   }, [userMonths]);
 
   return (
-    <section className="w-full md:w-80">
-      {(!user ||
-        (user && userMonths.length < 1 && !isLoadingUserDataContext)) && (
+    <section className='w-full md:w-80'>
+      {(!user
+        || (user && userMonths.length < 1 && !isLoadingUserDataContext)) && (
         <>
           {(!user || userIsLoggedInAndCurrentMonthIsNotOpen) && (
-            <div className="w-full md:w-80 h-80 mb-4">
+            <div className='w-full md:w-80 h-80 mb-4'>
               <Image
                 src={APP.images.logo}
                 width={320}
                 height={320}
-                alt="Colorful machine managing the money"
+                alt='Colorful machine managing the money'
                 priority
               />
             </div>
