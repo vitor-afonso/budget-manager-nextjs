@@ -70,10 +70,10 @@ export default function Month(): JSX.Element {
     if (currentMonth && 'weekLimitAmount' in currentMonth){
 
       let isCurrentMonth = isSameMonth(new Date(), currentMonth.createdAt!)
-      let numberOfDaysFromPreviousMonth: number = getNumberOfDaysFromPreviousMonth() | 0;
+      let numberOfDaysFromPreviousMonth: number = getNumberOfDaysFromPreviousMonth();
       let weekDaysFromThisMonth: number[] = getWeekDaysOfCurrentMonth();
       
-      const totalExpensesOfPreviousMonthWeekDays = getTotalExpensesOfLastMonthWeekDays(numberOfDaysFromPreviousMonth, userMonths) | 0;
+      const totalExpensesOfPreviousMonthWeekDays = getTotalExpensesOfLastMonthWeekDays(numberOfDaysFromPreviousMonth, userMonths);
       const totalExpensesOfThisMonthWeekDays = getTotalExpensesOfThisMonthWeekDays(weekDaysFromThisMonth, currentMonth as IMonth);
       const totalWeekExpenses = totalExpensesOfPreviousMonthWeekDays + totalExpensesOfThisMonthWeekDays;
       

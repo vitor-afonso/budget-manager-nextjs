@@ -215,11 +215,11 @@ export const getNumberOfDaysFromPreviousMonth = ():number => {
   const todaysDate = new Date();
   const weekDayNumber = todaysDate.getUTCDay();
   let dayOfTheMonth = todaysDate.getUTCDate();
-  let numberOfDaysFromPreviousMonth: number = 0;
+  let numberOfDaysFromPreviousMonth = 0;
 
   for (let index = 0; index <= weekDayNumber; index++) {
     const day = dayOfTheMonth - index;
-    if (day < 0) {
+    if (day <= 0) {
       numberOfDaysFromPreviousMonth++;
     }
   }
