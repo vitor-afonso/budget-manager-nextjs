@@ -186,7 +186,7 @@ export const getTotalExpensesOfLastMonthWeekDays = (
       (e) => new Date(e.createdAt).getUTCDate() === lastDayOfPreviousMonth - index,
     );
     const allExpensesAmount = dayExpenses?.map((e) => e.amount);
-    const sum = allExpensesAmount?.reduce((total, num) => total + num);
+    const sum = allExpensesAmount?.reduce((total, num) => total + num, 0);
     daysTotalExpenses += sum!;
   }
   return daysTotalExpenses;
