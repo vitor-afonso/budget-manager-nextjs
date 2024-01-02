@@ -19,7 +19,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const Signup = () => {
+function Signup() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -50,13 +50,13 @@ const Signup = () => {
 
   return (
     <div>
-      <h1 className="font-semibold text-lg uppercase mb-6 text-center text-gray-300">
+      <h1 className='font-semibold text-lg uppercase mb-6 text-center text-gray-300'>
         {APP.buttonAction.signup}
       </h1>
       <form
         noValidate
         onSubmit={handleSubmit(handleSignupSubmit)}
-        className="mb-4 space-y-2"
+        className='mb-4 space-y-2'
       >
         <InputText
           register={register}
@@ -78,17 +78,21 @@ const Signup = () => {
           inputRules={APP.formRules.signupPassword}
         />
 
-        <div className="flex justify-center !mt-12">
+        <div className='flex justify-center !mt-12'>
           {isLoading ? (
             <Spinner />
           ) : (
-            <Button> {APP.buttonAction.signup} </Button>
+            <Button>
+              {' '}
+              {APP.buttonAction.signup}
+              {' '}
+            </Button>
           )}
         </div>
       </form>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
   );
-};
+}
 
 export default Signup;

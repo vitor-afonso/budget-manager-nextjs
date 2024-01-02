@@ -18,11 +18,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className={clsx(inter.className, 'bg-slate-700 py-6 h-full')}>
         <AuthProviderWrapper>
           <UserDataProviderWrapper>
-            <div className="w-80 mx-auto">
+            <div className='w-80 mx-auto'>
               <SideBar />
               {children}
             </div>

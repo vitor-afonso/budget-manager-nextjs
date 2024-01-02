@@ -1,3 +1,4 @@
+/* eslint-disable import/no-mutable-exports */
 import { MongoClient } from 'mongodb';
 
 const URI = process.env.MONGODB_URI;
@@ -6,7 +7,7 @@ const options = {};
 if (!process.env.MONGODB_URI) {
   throw new Error('Add Mongo URI to .env.local');
 }
-let client = new MongoClient(URI, options);
+const client = new MongoClient(URI, options);
 let clientPromise;
 
 if (process.env.NODE_ENV !== 'production') {

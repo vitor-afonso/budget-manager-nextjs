@@ -16,7 +16,7 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const options: ChartOptions = {
-  //events: ['click'],
+  // events: ['click'],
   plugins: {
     legend: {
       display: true,
@@ -26,13 +26,13 @@ export const options: ChartOptions = {
   },
 };
 
-const MonthCategoriesGraph = ({
+function MonthCategoriesGraph({
   incomeExpenseList,
   categoryType,
 }: {
   incomeExpenseList: IIncome[] | IExpense[];
   categoryType: string;
-}): JSX.Element => {
+}): JSX.Element {
   const { categoryTotals } = getCategoryTotals(incomeExpenseList);
 
   const data = {
@@ -52,16 +52,17 @@ const MonthCategoriesGraph = ({
   };
 
   return (
-    <div className="flex flex-col items-center text-gray-100 mb-4">
-      <h1 className="text-xl font-semibold my-4 capitalize">
-        {categoryType}s by category
+    <div className='flex flex-col items-center text-gray-100 mb-4'>
+      <h1 className='text-xl font-semibold my-4 capitalize'>
+        {categoryType}
+        s by category
       </h1>
       {incomeExpenseList.length > 0 && <Pie data={data} options={options} />}
       {incomeExpenseList.length === 0 && (
-        <p className="text-gray-400">{`No ${categoryType} to display.`}</p>
+        <p className='text-gray-400'>{`No ${categoryType} to display.`}</p>
       )}
     </div>
   );
-};
+}
 
 export default MonthCategoriesGraph;

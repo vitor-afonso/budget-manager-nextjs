@@ -13,21 +13,21 @@ import {
 } from '@/app/context/userData.context';
 import ModalCreateNewMonth from './ModalCreateNewMonth';
 
-const Hero = () => {
+function Hero() {
   const [isCurrentMonthOpen, setIsCurrentMonthOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { userMonths, isLoadingUserDataContext } = useContext(UserDataContext) as IUserDataContext;
+  const { userMonths, isLoadingUserDataContext } = useContext(
+    UserDataContext,
+  ) as IUserDataContext;
   const { user } = useContext(AuthContext) as IAppContext;
   const router = useRouter();
 
-  let userIsLoggedInAndCurrentMonthIsNotOpen = user && !isCurrentMonthOpen;
+  const userIsLoggedInAndCurrentMonthIsNotOpen = user && !isCurrentMonthOpen;
 
-  //check if current month is open
+  // check if current month is open
   useEffect(() => {
     if (userMonths.length > 0) {
-      let month = userMonths.find((oneMonth) =>
-        isSameMonth(new Date(), oneMonth.createdAt),
-      );
+      const month = userMonths.find((oneMonth) => isSameMonth(new Date(), oneMonth.createdAt));
       if (month) {
         setIsCurrentMonthOpen(true);
       }
@@ -35,16 +35,17 @@ const Hero = () => {
   }, [userMonths]);
 
   return (
-    <section className="w-full md:w-80">
-      {(!user || (user && userMonths.length < 1 && !isLoadingUserDataContext)) && (
+    <section className='w-full md:w-80'>
+      {(!user
+        || (user && userMonths.length < 1 && !isLoadingUserDataContext)) && (
         <>
           {(!user || userIsLoggedInAndCurrentMonthIsNotOpen) && (
-            <div className="w-full md:w-80 h-80 mb-4">
+            <div className='w-full md:w-80 h-80 mb-4'>
               <Image
                 src={APP.images.logo}
                 width={320}
                 height={320}
-                alt="Colorful machine managing the money"
+                alt='Colorful machine managing the money'
                 priority
               />
             </div>
@@ -68,6 +69,6 @@ const Hero = () => {
       )}
     </section>
   );
-};
+}
 
 export default Hero;

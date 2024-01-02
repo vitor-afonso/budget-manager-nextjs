@@ -25,7 +25,6 @@ export async function getMonths() {
     const result = await months.find({ deleted: false }).toArray();
 
     // Fetch incomes for each month
-    const monthIds = result.map((month) => month._id);
     const incomes = await db
       .collection('incomes')
       .find()

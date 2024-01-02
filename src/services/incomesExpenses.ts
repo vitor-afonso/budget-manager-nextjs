@@ -24,7 +24,7 @@ export const createIncomeExpense = async (
       },
       body: JSON.stringify(reqBody),
     });
-    let incomeExpense = await res.json();
+    const incomeExpense = await res.json();
     // parse date before sending it to component
     return {
       ...incomeExpense,
@@ -56,7 +56,7 @@ export const deleteIncomeExpense = async (
       },
       body: JSON.stringify(isExpense ? expenseBody : incomeBody),
     });
-    let { message } = await res.json();
+    const { message } = await res.json();
     return message;
   } catch (error: any) {
     throw new Error(error.message);

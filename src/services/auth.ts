@@ -9,7 +9,6 @@ export const signup = async (requestBody: ISignupUser) => {
     },
     body: JSON.stringify(requestBody),
   });
-  const data = await res.json();
   return res;
 };
 

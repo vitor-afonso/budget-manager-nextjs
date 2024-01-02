@@ -1,0 +1,4 @@
+tailwind.config.js
+src/lib/mongodb/
+postcss.config.js
+next.config.js

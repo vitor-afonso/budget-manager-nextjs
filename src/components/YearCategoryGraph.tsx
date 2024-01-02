@@ -39,9 +39,14 @@ interface Props {
   allOpenMonths: Date[];
 }
 
-const YearCategoriesGraph = ({ currentYear, allOpenMonths}: Props): JSX.Element => {
-  const { incomeBarData, expenseBarData, monthNames } =
-    useGetYearGraphData(currentYear, allOpenMonths);
+function YearCategoriesGraph({
+  currentYear,
+  allOpenMonths,
+}: Props): JSX.Element {
+  const { incomeBarData, expenseBarData, monthNames } = useGetYearGraphData(
+    currentYear,
+    allOpenMonths,
+  );
 
   const data = {
     labels: monthNames,
@@ -59,10 +64,10 @@ const YearCategoriesGraph = ({ currentYear, allOpenMonths}: Props): JSX.Element 
     ],
   };
   return (
-    <div className="flex flex-col items-center text-gray-100 my-4">
+    <div className='flex flex-col items-center text-gray-100 my-4'>
       <Bar options={options} data={data} />
     </div>
   );
-};
+}
 
 export default YearCategoriesGraph;
