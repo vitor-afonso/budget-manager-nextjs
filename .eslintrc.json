@@ -14,10 +14,8 @@
   "overrides": [
     {
       "files": [
-        "src/**/*.js",
         "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/tailwind.config.js"
+        "src/**/*.tsx"
       ],
       "rules": {
         "no-undef": "off",
@@ -39,7 +37,8 @@
           {
             "explicitSpread": "ignore"
           }
-        ]
+        ],
+        "react-hooks/exhaustive-deps": "off"
       }
     }
   ],
