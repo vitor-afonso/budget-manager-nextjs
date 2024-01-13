@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { APP } from '@/utils/app.constants';
-import { createIncomeExpense } from '@/services/incomesExpenses';
+import { createIncomeExpense } from '@/services/incomesExpenses.services';
 import {
   IUserDataContext,
   UserDataContext,
