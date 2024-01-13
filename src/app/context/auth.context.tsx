@@ -4,7 +4,6 @@
 'use client';
 
 import React, { createContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { IUser } from '@/types/models';
 import { verify } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
@@ -24,7 +23,6 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoadingContext, setIsLoadingContext] = useState<boolean>(true);
   const [user, setUser] = useState<IAppContext['user'] | null>(null);
-  const router = useRouter();
   const storeToken = (token: string) => {
     localStorage.setItem(APP.localStorage.authToken, token);
   };
@@ -68,7 +66,7 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
     removeToken();
     // and update the state variables
     resetAppStates();
-    router.push(APP.pageRoutes.home);
+    window.location.href = APP.pageRoutes.home
   };
 
   // checks if theres any valid token in localStore

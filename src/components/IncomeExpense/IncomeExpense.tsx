@@ -3,7 +3,7 @@ import { IExpense, IIncome } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 import { getEventCreationDate } from '@/utils/app.methods';
 import ModalCustom from '@/components/ModalCustom';
-import { deleteIncomeExpense } from '@/services/incomesExpenses';
+import { deleteIncomeExpense } from '@/services/incomesExpenses.services';
 import {
   IUserDataContext,
   UserDataContext,
@@ -23,7 +23,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
   const incomeExpenseName = isExpense
     ? incomeExpense.title
     : incomeExpense.category;
-
+    
   const handleDeleteIncomeExpense = async () => {
     try {
       const response = await deleteIncomeExpense(incomeExpense._id, isExpense);
