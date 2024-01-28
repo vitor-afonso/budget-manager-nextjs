@@ -4,9 +4,7 @@
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
-import {
-  IExpense, IIncome, IMonth, IYear,
-} from '@/types/models';
+import { IExpense, IIncome, IMonth, IYear } from '@/types/models';
 import { getUserMonths } from '@/services/months';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 
@@ -32,7 +30,8 @@ const UserDataContext = createContext<IUserDataContext | null>(null);
 
 function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
   const { user } = useContext(AuthContext) as IAppContext;
-  const [isLoadingUserDataContext, setIsLoadingUserDataContext] = useState<boolean>(false);
+  const [isLoadingUserDataContext, setIsLoadingUserDataContext] =
+    useState<boolean>(false);
   const [userMonths, setUserMonths] = useState<IMonth[]>([]);
   const [userYears, setUserYears] = useState<IYear[]>([]);
 

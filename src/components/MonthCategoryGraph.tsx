@@ -54,8 +54,7 @@ function MonthCategoriesGraph({
   return (
     <div className='flex flex-col items-center text-gray-100 mb-4'>
       <h1 className='text-xl font-semibold my-4 capitalize'>
-        {categoryType}
-        s by category
+        {categoryType}s by category
       </h1>
       {incomeExpenseList.length > 0 && <Pie data={data} options={options} />}
       {incomeExpenseList.length === 0 && (

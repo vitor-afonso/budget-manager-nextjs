@@ -1,8 +1,6 @@
 /* eslint-disable no-plusplus */
 
-import {
-  IExpense, IIncome, IMonth, IYear,
-} from '@/types/models';
+import { IExpense, IIncome, IMonth, IYear } from '@/types/models';
 import { format } from 'date-fns';
 import { capitalize } from 'lodash';
 import { APP } from '@/utils/app.constants';
@@ -36,8 +34,8 @@ export const getEventCreationDate = (
     return format(new Date(year, month, day), 'MMM-yyyy');
   }
   if (
-    eventType === APP.eventType.income
-    || eventType === APP.eventType.expense
+    eventType === APP.eventType.income ||
+    eventType === APP.eventType.expense
   ) {
     return format(new Date(year, month, day), 'dd-MMM-yyyy');
   }
@@ -81,11 +79,14 @@ export const getCategoryNamestoShow = (
   categoryTotals: { [category: string]: number },
 ) => {
   const total = calculateTotal(incomeExpenseList);
-  const categoryNames = Object.keys(categoryTotals).map((name) => capitalize(name));
+  const categoryNames = Object.keys(categoryTotals).map((name) =>
+    capitalize(name),
+  );
   const categoryAmounts = Object.values(categoryTotals);
 
   const formattedNames = categoryAmounts.map(
-    (item: number, i) => `${categoryNames[i]} ${getCategoryPercentage(total, item)}`,
+    (item: number, i) =>
+      `${categoryNames[i]} ${getCategoryPercentage(total, item)}`,
   );
   return formattedNames;
 };
@@ -101,7 +102,7 @@ export const changeMonthYear = (
   index: number | null,
   setIndex: React.Dispatch<React.SetStateAction<number | null>>,
   setCurrentMonthYear: React.Dispatch<
-  React.SetStateAction<IMonth | IYear | null>
+    React.SetStateAction<IMonth | IYear | null>
   >,
 ) => {
   if (index !== null) {
@@ -144,7 +145,8 @@ export const getYearIncomesExpensesBarData = (
 };
 
 export const getMinMaxDate = (date: Date, minMax: string): string => {
-  const month = date.getMonth() < 9 ? 0 + String(date.getMonth() + 1) : date.getMonth() + 1;
+  const month =
+    date.getMonth() < 9 ? 0 + String(date.getMonth() + 1) : date.getMonth() + 1;
   const year = date.getFullYear();
   const lastDayOfMonth = new Date(year, Number(month), 0).getDate();
   if (minMax === 'min') {
@@ -169,8 +171,9 @@ export const getTotalExpensesOfLastMonthWeekDays = (
     ? todaysDate.getMonth() - 1
     : DECEMBER;
   const previousMonth = userMonths.find(
-    (m) => new Date(m.createdAt).getFullYear() === yearOfPrevMonth
-      && new Date(m.createdAt).getMonth() === previousMonthNumber,
+    (m) =>
+      new Date(m.createdAt).getFullYear() === yearOfPrevMonth &&
+      new Date(m.createdAt).getMonth() === previousMonthNumber,
   );
   // must have "previousMonthNumber + 1"
   // because LAST_DAY_OF_MONTH being 0 makes us get the month before the one we want
@@ -183,7 +186,8 @@ export const getTotalExpensesOfLastMonthWeekDays = (
 
   for (let index = 0; index < numberOfDaysFromPreviousMonth; index++) {
     const dayExpenses = previousMonth?.expenses.filter(
-      (e) => new Date(e.createdAt).getUTCDate() === lastDayOfPreviousMonth - index,
+      (e) =>
+        new Date(e.createdAt).getUTCDate() === lastDayOfPreviousMonth - index,
     );
     const allExpensesAmount = dayExpenses?.map((e) => e.amount);
     const sum = allExpensesAmount?.reduce((total, num) => total + num, 0);
@@ -201,8 +205,8 @@ export const getTotalExpensesOfThisMonthWeekDays = (
     const dayDate = new Date(e.createdAt).getUTCDate();
 
     if (
-      weekDaysFromThisMonth.includes(dayDate)
-      && e.category.toLowerCase() !== 'bills'
+      weekDaysFromThisMonth.includes(dayDate) &&
+      e.category.toLowerCase() !== 'bills'
     ) {
       totalWeekExpenses += e.amount;
     }

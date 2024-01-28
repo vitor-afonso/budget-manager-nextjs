@@ -16,7 +16,8 @@ function MonthEvents({ events, eventType, monthId }: Props): JSX.Element {
 
   useEffect(() => {
     events.sort(
-      (a: any, b: any) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf(),
+      (a: any, b: any) =>
+        new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf(),
     );
   }, [events]);
 

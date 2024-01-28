@@ -10,9 +10,7 @@ interface Props {
   monthDate: Date;
 }
 
-function InputDate({
-  register, errors, inputName, monthDate,
-}: Props) {
+function InputDate({ register, errors, inputName, monthDate }: Props) {
   return (
     <div>
       <label className='text-lg capitalize' htmlFor={inputName}>

@@ -83,11 +83,7 @@ function Signup() {
           {isLoading ? (
             <Spinner />
           ) : (
-            <Button>
-              {' '}
-              {APP.buttonAction.signup}
-              {' '}
-            </Button>
+            <Button> {APP.buttonAction.signup} </Button>
           )}
         </div>
       </form>

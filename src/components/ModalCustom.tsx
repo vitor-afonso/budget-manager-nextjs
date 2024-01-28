@@ -21,10 +21,7 @@ function ModalCustom({
     <div className='absolute top-0 left-0 z-10 w-screen h-screen'>
       <div className='absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center'>
         <p className='capitalize text-gray-200'>
-          {buttonText}
-          {' '}
-          <span className='font-semibold'>{question}</span>
-          ?
+          {buttonText} <span className='font-semibold'>{question}</span>?
         </p>
         <div className='flex'>
           <button
