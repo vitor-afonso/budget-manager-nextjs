@@ -50,14 +50,14 @@ export const deleteIncomeExpense = async (
 
   const apiUrl = `${APP.projectApi}${routeName}`;
 
-  const options ={
+  const options = {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
     },
     body: JSON.stringify(isExpense ? expenseBody : incomeBody),
-  }
-  const {data} = await axios.delete(apiUrl,options)
+  };
+  const { data } = await axios.delete(apiUrl, options);
 
-  return data.message
+  return data.message;
 };

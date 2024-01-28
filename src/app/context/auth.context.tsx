@@ -66,7 +66,7 @@ function AuthProviderWrapper({ children }: { children: React.ReactNode }) {
     removeToken();
     // and update the state variables
     resetAppStates();
-    window.location.href = APP.pageRoutes.home
+    window.location.href = APP.pageRoutes.home;
   };
 
   // checks if theres any valid token in localStore

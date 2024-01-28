@@ -67,6 +67,7 @@ function ModalCreateIncomeExpense({
       );
       updateMonthIncomeExpenseCreation(createdIncomeExpense, monthId);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       // setErrorMessage(error)
     } finally {

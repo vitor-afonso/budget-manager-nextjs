@@ -44,6 +44,7 @@ function Login() {
       await authenticateUser();
       router.push(APP.pageRoutes.home);
     } catch (error: unknown) {
+      // eslint-disable-next-line no-console
       console.error(error);
     } finally {
       setIsLoading(!isLoading);
