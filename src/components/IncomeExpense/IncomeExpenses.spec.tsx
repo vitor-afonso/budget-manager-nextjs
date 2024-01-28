@@ -1,23 +1,21 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { act } from 'react-dom/test-utils';
-import { IncomeExpense } from '@/components/IncomeExpense/IncomeExpense'; 
+import { IncomeExpense } from '@/components/IncomeExpense/IncomeExpense';
 import { UserDataProviderWrapper } from '@/app/context/userData.context';
 import { AuthProviderWrapper } from '@/app/context/auth.context';
+import ModalCustom from '@/components/ModalCustom';
 
-const contextWrapper = ({children}:{
-  children: React.ReactNode;
-}) => (
+jest.mock('@/services/incomesExpenses.services');
+
+const contextWrapper = ({ children }: { children: React.ReactNode }) => (
   <AuthProviderWrapper>
-  <UserDataProviderWrapper>
-    {children}
-  </UserDataProviderWrapper>
+    <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
   </AuthProviderWrapper>
-)
+);
 
 describe('IncomeExpense Component', () => {
-  
   const mockExpense = {
     _id: '1',
     title: 'Mock Expense',
@@ -31,33 +29,31 @@ describe('IncomeExpense Component', () => {
   const mockEventType = 'expense';
 
   beforeEach(() => {
-    render(<IncomeExpense incomeExpense={mockExpense} eventType={mockEventType} />, {wrapper:contextWrapper});
-  })
+    render(
+      <IncomeExpense incomeExpense={mockExpense} eventType={mockEventType} />,
+      { wrapper: contextWrapper },
+    );
+  });
 
   it('should render the income or expense with the provided props', () => {
-
     expect(screen.getByText('Mock Expense')).toBeInTheDocument();
   });
 
-   it('opens the delete confirmation modal on button click', () => {
-   
+  it('opens the delete confirmation modal on button click', () => {
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByText('Delete')).toBeInTheDocument();
   });
-
-  it('calls the delete function when modal is confirmed', async () => {
-
-    const deleteIncomeExpense = jest.fn();
-    const isExpense = true;
-    
-    fireEvent.click(screen.getByRole('button'));
-
-    expect(screen.getByText('Cancel')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Cancel'));
-    expect(screen.getByText('Delete')).not.toBeInTheDocument();
-    
-     /*await waitFor(() => {
-      expect(deleteIncomeExpense).toHaveBeenCalledWith(mockExpense._id, isExpense);
-    }); */
+  it('calls the handleDeleteIncomeExpense function when modal is confirmed', async () => {
+    const handleDeleteIncomeExpense = jest.fn();
+    render(
+      <ModalCustom
+        setIsModalOpen={() => {}}
+        mainFunction={handleDeleteIncomeExpense}
+        question={mockExpense.title}
+        buttonText='Delete'
+      />,
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Delete/i }));
+    expect(handleDeleteIncomeExpense).toHaveBeenCalledTimes(1);
   });
 });

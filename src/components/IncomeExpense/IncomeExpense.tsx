@@ -23,18 +23,18 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
   const incomeExpenseName = isExpense
     ? incomeExpense.title
     : incomeExpense.category;
-    
+
   const handleDeleteIncomeExpense = async () => {
     try {
-      const response = await deleteIncomeExpense(incomeExpense._id, isExpense);
+      await deleteIncomeExpense(incomeExpense._id, isExpense);
       updateMonthIncomeExpenseDeletion(
         incomeExpense._id,
         incomeExpense.monthId,
         isExpense,
       );
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
