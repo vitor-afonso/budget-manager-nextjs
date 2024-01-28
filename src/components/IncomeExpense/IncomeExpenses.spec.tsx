@@ -39,11 +39,11 @@ describe('IncomeExpense Component', () => {
     expect(screen.getByText('Mock Expense')).toBeInTheDocument();
   });
 
-  it('opens the delete confirmation modal on button click', () => {
+  it('should open the delete confirmation modal on button click', () => {
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByText('Delete')).toBeInTheDocument();
   });
-  it('calls the handleDeleteIncomeExpense function when modal is confirmed', async () => {
+  it('should call the handleDeleteIncomeExpense function when modal is confirmed', async () => {
     const handleDeleteIncomeExpense = jest.fn();
     render(
       <ModalCustom
