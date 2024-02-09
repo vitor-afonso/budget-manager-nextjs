@@ -1,5 +1,6 @@
 import { parseISO } from 'date-fns';
 import { APP } from '@/utils/app.constants';
+import axios from 'axios';
 
 interface CreateIncomeExpense {
   title?: string;
@@ -25,6 +26,7 @@ export const createIncomeExpense = async (
       body: JSON.stringify(reqBody),
     });
     const incomeExpense = await res.json();
+
     // parse date before sending it to component
     return {
       ...incomeExpense,
@@ -47,18 +49,15 @@ export const deleteIncomeExpense = async (
     : `/incomes/${incomeExpenseId}`;
 
   const apiUrl = `${APP.projectApi}${routeName}`;
-  try {
-    const res = await fetch(apiUrl, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-      },
-      body: JSON.stringify(isExpense ? expenseBody : incomeBody),
-    });
-    const { message } = await res.json();
-    return message;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+
+  const options = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: JSON.stringify(isExpense ? expenseBody : incomeBody),
+  };
+  const { data } = await axios.delete(apiUrl, options);
+
+  return data.message;
 };

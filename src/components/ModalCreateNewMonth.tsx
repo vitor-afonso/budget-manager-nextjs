@@ -53,24 +53,31 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
 
   const isValidMonth = (month: Date) => {
     if (userMonths.length > 0) {
-      const foundMonth = userMonths.find((oneMonth) => isSameMonth(new Date(month), oneMonth.createdAt));
+      const foundMonth = userMonths.find((oneMonth) =>
+        isSameMonth(new Date(month), oneMonth.createdAt),
+      );
       if (foundMonth) return false;
     }
     return true;
   };
 
-  const handleCreateMonth = async ({ createdAt, weekLimitAmount }: FormData) => {
+  const handleCreateMonth = async ({
+    createdAt,
+    weekLimitAmount,
+  }: FormData) => {
     if (!user) return;
     setErrorMessage('');
 
-    const requestBody = weekLimitAmount ? {
-      createdAt,
-      weekLimitAmount,
-      userId: user._id,
-    } : {
-      createdAt,
-      userId: user._id,
-    };
+    const requestBody = weekLimitAmount
+      ? {
+          createdAt,
+          weekLimitAmount,
+          userId: user._id,
+        }
+      : {
+          createdAt,
+          userId: user._id,
+        };
 
     try {
       setIsLoading(true);

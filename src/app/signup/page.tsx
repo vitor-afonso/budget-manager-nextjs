@@ -41,6 +41,7 @@ function Signup() {
       await signup({ email, password, name });
       router.push(APP.pageRoutes.login);
     } catch (error: unknown) {
+      // eslint-disable-next-line no-console
       console.error(error);
       setErrorMessage(`${error}`);
     } finally {
@@ -82,11 +83,7 @@ function Signup() {
           {isLoading ? (
             <Spinner />
           ) : (
-            <Button>
-              {' '}
-              {APP.buttonAction.signup}
-              {' '}
-            </Button>
+            <Button> {APP.buttonAction.signup} </Button>
           )}
         </div>
       </form>

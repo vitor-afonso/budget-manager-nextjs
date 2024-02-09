@@ -71,18 +71,22 @@ export default function Month(): JSX.Element {
     // handles week balance
     if (currentMonth && 'weekLimitAmount' in currentMonth) {
       const isCurrentMonth = isSameMonth(new Date(), currentMonth.createdAt!);
-      const numberOfDaysFromPreviousMonth: number = getNumberOfDaysFromPreviousMonth();
+      const numberOfDaysFromPreviousMonth: number =
+        getNumberOfDaysFromPreviousMonth();
       const weekDaysFromThisMonth: number[] = getWeekDaysOfCurrentMonth();
 
-      const totalExpensesOfPreviousMonthWeekDays = getTotalExpensesOfLastMonthWeekDays(
-        numberOfDaysFromPreviousMonth,
-        userMonths,
-      );
-      const totalExpensesOfThisMonthWeekDays = getTotalExpensesOfThisMonthWeekDays(
-        weekDaysFromThisMonth,
-        currentMonth as IMonth,
-      );
-      const totalWeekExpenses = totalExpensesOfPreviousMonthWeekDays + totalExpensesOfThisMonthWeekDays;
+      const totalExpensesOfPreviousMonthWeekDays =
+        getTotalExpensesOfLastMonthWeekDays(
+          numberOfDaysFromPreviousMonth,
+          userMonths,
+        );
+      const totalExpensesOfThisMonthWeekDays =
+        getTotalExpensesOfThisMonthWeekDays(
+          weekDaysFromThisMonth,
+          currentMonth as IMonth,
+        );
+      const totalWeekExpenses =
+        totalExpensesOfPreviousMonthWeekDays + totalExpensesOfThisMonthWeekDays;
 
       setSpentThisWeek(totalWeekExpenses);
       setWeekBalance(currentMonth.weekLimitAmount! - totalWeekExpenses);

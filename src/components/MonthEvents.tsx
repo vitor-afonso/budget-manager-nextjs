@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { IExpense, IIncome } from '@/types/models';
 import { APP } from '@/utils/app.constants';
-import { IncomeExpense } from '@/components/IncomeExpense';
+import { IncomeExpense } from '@/components/IncomeExpense/IncomeExpense';
 import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense';
 
 interface Props {
@@ -16,7 +16,8 @@ function MonthEvents({ events, eventType, monthId }: Props): JSX.Element {
 
   useEffect(() => {
     events.sort(
-      (a: any, b: any) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf(),
+      (a: any, b: any) =>
+        new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf(),
     );
   }, [events]);
 

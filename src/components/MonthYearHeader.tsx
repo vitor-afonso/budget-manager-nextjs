@@ -16,7 +16,7 @@ interface IProps {
   eventType?: string | null;
   setIndex: React.Dispatch<React.SetStateAction<number | null>>;
   setCurrentMonthYear: React.Dispatch<
-  React.SetStateAction<IMonth | IYear | null>
+    React.SetStateAction<IMonth | IYear | null>
   >;
 }
 
@@ -66,8 +66,7 @@ function MonthYearHeader({
             {getEventCreationDate(
               currentMonthYear!.createdAt!,
               eventType ? APP.eventType.year : APP.eventType.month,
-            ).replace('-', '/')}
-            {' '}
+            ).replace('-', '/')}{' '}
             Balance
           </h2>
           <span

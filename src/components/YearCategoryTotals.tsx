@@ -21,9 +21,7 @@ function YearCategoryTotals({
       <div className='mb-2 w-full'>
         <div className='border border-black text-xl rounded-3xl h-10 w-full flex items-center justify-center bg-slate-100'>
           <h2>
-            {eventType === APP.eventType.income ? 'Incomes ' : 'Expenses '}
-            {' '}
-            by
+            {eventType === APP.eventType.income ? 'Incomes ' : 'Expenses '} by
             category
           </h2>
         </div>
