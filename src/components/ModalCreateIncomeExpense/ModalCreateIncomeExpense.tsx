@@ -51,7 +51,7 @@ function ModalCreateIncomeExpense({
     }
   }, [userMonths, monthId]);
 
-  const handleCreateMonth = async (formData: FormData) => {
+  const handleCreateIncomeExpense = async (formData: FormData) => {
     if (!monthId) return;
 
     try {
@@ -83,7 +83,7 @@ function ModalCreateIncomeExpense({
         </p>
 
         <form
-          onSubmit={handleSubmit(handleCreateMonth)}
+          onSubmit={handleSubmit(handleCreateIncomeExpense)}
           className='space-y-2 w-full'
         >
           {isExpense && (

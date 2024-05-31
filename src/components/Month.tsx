@@ -15,7 +15,7 @@ import {
   getTotalExpensesOfThisMonthWeekDays,
   getWeekDaysOfCurrentMonth,
 } from '@/utils/app.methods';
-import MonthEvents from '@/components/MonthEvents';
+import MonthEvents from '@/components/MonthEvents/MonthEvents';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import WeekBalanceSection from '@/components/WeekBalanceSection';
 
@@ -31,6 +31,7 @@ export default function Month(): JSX.Element {
   const [weekBalance, setWeekBalance] = useState<number | null>(null);
   const [weekLimit, setWeekLimit] = useState<number | null>(null);
   const [showWeekBalance, setShowWeekBalance] = useState<boolean>(false);
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
   useEffect(() => {
     if (user) {
@@ -40,7 +41,8 @@ export default function Month(): JSX.Element {
 
   // to set the current month
   useEffect(() => {
-    if (userMonths.length > 0) {
+    if (userMonths.length > 0 && isFirstRender) {
+      setIsFirstRender(false);
       const lastMonthIndex = userMonths.length - 1;
       const month = userMonths.find((oneMonth, i) => {
         if (isSameMonth(new Date(), oneMonth.createdAt)) {
