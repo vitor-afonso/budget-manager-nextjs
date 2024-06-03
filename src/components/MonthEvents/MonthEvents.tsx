@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { IExpense, IIncome } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 import { IncomeExpense } from '@/components/IncomeExpense/IncomeExpense';
-import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense';
+import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense/ModalCreateIncomeExpense';
 
 interface Props {
   events: IIncome[] | IExpense[];
@@ -48,6 +48,7 @@ function MonthEvents({ events, eventType, monthId }: Props): JSX.Element {
         type='button'
         className='self-center rounded-full bg-slate-300 w-8 h-8 flex justify-center items-center'
         onClick={() => setIsModalOpen(true)}
+        data-testid='add-income-expense'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
