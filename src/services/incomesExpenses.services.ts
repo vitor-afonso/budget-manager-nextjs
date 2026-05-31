@@ -38,6 +38,34 @@ export const createIncomeExpense = async (
   }
 };
 
+export const updateIncomeExpense = async (
+  id: string,
+  reqBody: Partial<CreateIncomeExpense>,
+  isExpense: boolean,
+) => {
+  const routeName = isExpense ? `/expenses/${id}` : `/incomes/${id}`;
+  const apiUrl = `${APP.projectApi}${routeName}`;
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
+      body: JSON.stringify(reqBody),
+    });
+    const incomeExpense = await res.json();
+
+    return {
+      ...incomeExpense,
+      createdAt: parseISO(incomeExpense.createdAt),
+      updatedAt: parseISO(incomeExpense.updatedAt),
+    };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 export const deleteIncomeExpense = async (
   incomeExpenseId: string,
   isExpense: boolean,
