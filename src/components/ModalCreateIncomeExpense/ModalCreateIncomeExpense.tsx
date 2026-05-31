@@ -8,6 +8,7 @@ import {
   createIncomeExpense,
   updateIncomeExpense,
 } from '@/services/incomesExpenses.services';
+import { toast } from 'sonner';
 import {
   IUserDataContext,
   UserDataContext,
@@ -16,6 +17,7 @@ import Button from '@/components/Button';
 import InputText from '@/components/InputText';
 import InputDate from '@/components/InputDate';
 import { getDistinctCategories } from '@/utils/app.methods';
+import { format } from 'date-fns';
 import { IExpense, IIncome } from '@/types/models';
 
 interface Props {
@@ -39,9 +41,11 @@ function ModalCreateIncomeExpense({
   eventType,
   existingItem,
 }: Props) {
-  const { updateMonthIncomeExpenseCreation, updateMonthIncomeExpenseEdit, userMonths } = useContext(
-    UserDataContext,
-  ) as IUserDataContext;
+  const {
+    updateMonthIncomeExpenseCreation,
+    updateMonthIncomeExpenseEdit,
+    userMonths,
+  } = useContext(UserDataContext) as IUserDataContext;
   const isEditMode = !!existingItem;
   const [currentMonthDate, setCurrentMonthDate] = useState<Date | null>(null);
   const categories = useMemo(
@@ -59,7 +63,10 @@ function ModalCreateIncomeExpense({
           title: isExpense ? (existingItem as IExpense).title : undefined,
           category: existingItem.category,
           amount: String(existingItem.amount) as unknown as number,
-          creationDate: new Date(existingItem.createdAt),
+          creationDate: format(
+            new Date(existingItem.createdAt),
+            'yyyy-MM-dd',
+          ) as unknown as Date,
         }
       : undefined,
   });
@@ -82,6 +89,7 @@ function ModalCreateIncomeExpense({
         monthId,
       };
 
+      const label = isExpense ? 'Expense' : 'Income';
       if (isEditMode && existingItem) {
         const updatedIncomeExpense = await updateIncomeExpense(
           existingItem._id,
@@ -89,16 +97,19 @@ function ModalCreateIncomeExpense({
           isExpense,
         );
         updateMonthIncomeExpenseEdit(updatedIncomeExpense, monthId);
+        toast.success(`${label} updated successfully`);
       } else {
         const createdIncomeExpense = await createIncomeExpense(
           requestBody,
           isExpense,
         );
         updateMonthIncomeExpenseCreation(createdIncomeExpense, monthId);
+        toast.success(`${label} added successfully`);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setIsModalOpen(false);
     }
@@ -108,7 +119,8 @@ function ModalCreateIncomeExpense({
     <div className='fixed top-0 left-0 z-10 w-screen h-screen '>
       <div className='absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center'>
         <p className='text-gray-300 uppercase font-semibold'>
-          {isEditMode ? 'Edit ' : ''}{isExpense ? APP.eventType.expense : APP.eventType.income}
+          {isEditMode ? 'Edit ' : ''}
+          {isExpense ? APP.eventType.expense : APP.eventType.income}
         </p>
 
         <form

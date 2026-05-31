@@ -39,7 +39,7 @@ export default function Month(): JSX.Element {
     }
   }, [user]);
 
-  // to set the current month
+  // to set the current month on first load
   useEffect(() => {
     if (userMonths.length > 0 && isFirstRender) {
       setIsFirstRender(false);
@@ -60,6 +60,14 @@ export default function Month(): JSX.Element {
       setCurrentMonth(userMonths[lastMonthIndex]);
       setMonthId(userMonths[lastMonthIndex]._id);
       setMonthIndex(lastMonthIndex);
+    }
+  }, [userMonths]);
+
+  // keep currentMonth in sync when userMonths updates (after create/edit/delete)
+  useEffect(() => {
+    if (!isFirstRender && monthId) {
+      const updated = userMonths.find((m) => m._id === monthId);
+      if (updated) setCurrentMonth(updated);
     }
   }, [userMonths]);
 
