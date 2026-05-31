@@ -21,8 +21,9 @@
 
 .datalist-input::-webkit-calendar-picker-indicator,
 .datalist-input::-webkit-list-button {
-  display: none !important;
   opacity: 0;
-  width: 0;
-  pointer-events: none;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  margin-inline-end: 0.25rem;
 }

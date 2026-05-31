@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import clsx from 'clsx';
 import ErrorMessage from '@/components/ErrorMessage';
 
 interface Props {
@@ -29,7 +30,11 @@ function InputText({
             type={inputType}
             list={listId}
             {...register(inputName, inputRules)}
-            className={`w-full h-12 text-gray-800 rounded-md px-2 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400${listId ? ' datalist-input pr-8' : ''}`}
+            className={clsx(
+              'w-full h-12 text-gray-800 rounded-md px-2 border border-transparent',
+              'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400',
+              listId && 'datalist-input pr-8',
+            )}
           />
           {listId && (
             <span className='pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500'>
@@ -37,7 +42,7 @@ function InputText({
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 20 20'
                 fill='currentColor'
-                className='w-4 h-4'
+                className='h-4 w-4'
                 aria-hidden='true'
               >
                 <path
