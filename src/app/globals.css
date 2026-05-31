@@ -18,3 +18,11 @@
   display: inline-block;
   white-space: nowrap;
 }
+
+.datalist-input::-webkit-calendar-picker-indicator,
+.datalist-input::-webkit-list-button {
+  display: none !important;
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
