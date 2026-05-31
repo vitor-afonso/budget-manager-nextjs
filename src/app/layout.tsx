@@ -4,6 +4,7 @@ import { AuthProviderWrapper } from '@/app/context/auth.context';
 import clsx from 'clsx';
 import SideBar from '@/components/SideBar';
 import { UserDataProviderWrapper } from '@/app/context/userData.context';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,6 +29,7 @@ export default async function RootLayout({
             </div>
           </UserDataProviderWrapper>
         </AuthProviderWrapper>
+        <Toaster position='top-center' richColors />
       </body>
     </html>
   );
