@@ -4,7 +4,10 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { APP } from '@/utils/app.constants';
-import { createIncomeExpense } from '@/services/incomesExpenses.services';
+import {
+  createIncomeExpense,
+  updateIncomeExpense,
+} from '@/services/incomesExpenses.services';
 import {
   IUserDataContext,
   UserDataContext,
@@ -13,11 +16,13 @@ import Button from '@/components/Button';
 import InputText from '@/components/InputText';
 import InputDate from '@/components/InputDate';
 import { getDistinctCategories } from '@/utils/app.methods';
+import { IExpense, IIncome } from '@/types/models';
 
 interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   monthId: string;
   eventType: string;
+  existingItem?: IIncome | IExpense;
 }
 const schema = z.object({
   title: z.string().optional(),
@@ -32,21 +37,32 @@ function ModalCreateIncomeExpense({
   setIsModalOpen,
   monthId,
   eventType,
+  existingItem,
 }: Props) {
-  const { updateMonthIncomeExpenseCreation, userMonths } = useContext(
+  const { updateMonthIncomeExpenseCreation, updateMonthIncomeExpenseEdit, userMonths } = useContext(
     UserDataContext,
   ) as IUserDataContext;
+  const isEditMode = !!existingItem;
   const [currentMonthDate, setCurrentMonthDate] = useState<Date | null>(null);
   const categories = useMemo(
     () => getDistinctCategories(userMonths ?? [], eventType),
     [userMonths, eventType],
   );
+  const isExpense = eventType === APP.eventType.expense;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
-  const isExpense = eventType === APP.eventType.expense;
+  } = useForm<FormData>({
+    defaultValues: existingItem
+      ? {
+          title: isExpense ? (existingItem as IExpense).title : undefined,
+          category: existingItem.category,
+          amount: String(existingItem.amount) as unknown as number,
+          creationDate: new Date(existingItem.createdAt),
+        }
+      : undefined,
+  });
 
   useEffect(() => {
     if (userMonths) {
@@ -56,7 +72,7 @@ function ModalCreateIncomeExpense({
     }
   }, [userMonths, monthId]);
 
-  const handleCreateIncomeExpense = async (formData: FormData) => {
+  const handleSubmitIncomeExpense = async (formData: FormData) => {
     if (!monthId) return;
 
     try {
@@ -66,15 +82,23 @@ function ModalCreateIncomeExpense({
         monthId,
       };
 
-      const createdIncomeExpense = await createIncomeExpense(
-        requestBody,
-        isExpense,
-      );
-      updateMonthIncomeExpenseCreation(createdIncomeExpense, monthId);
+      if (isEditMode && existingItem) {
+        const updatedIncomeExpense = await updateIncomeExpense(
+          existingItem._id,
+          requestBody,
+          isExpense,
+        );
+        updateMonthIncomeExpenseEdit(updatedIncomeExpense, monthId);
+      } else {
+        const createdIncomeExpense = await createIncomeExpense(
+          requestBody,
+          isExpense,
+        );
+        updateMonthIncomeExpenseCreation(createdIncomeExpense, monthId);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      // setErrorMessage(error)
     } finally {
       setIsModalOpen(false);
     }
@@ -84,11 +108,11 @@ function ModalCreateIncomeExpense({
     <div className='fixed top-0 left-0 z-10 w-screen h-screen '>
       <div className='absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center'>
         <p className='text-gray-300 uppercase font-semibold'>
-          {isExpense ? APP.eventType.expense : APP.eventType.income}
+          {isEditMode ? 'Edit ' : ''}{isExpense ? APP.eventType.expense : APP.eventType.income}
         </p>
 
         <form
-          onSubmit={handleSubmit(handleCreateIncomeExpense)}
+          onSubmit={handleSubmit(handleSubmitIncomeExpense)}
           className='space-y-2 w-full'
         >
           {isExpense && (
@@ -125,7 +149,7 @@ function ModalCreateIncomeExpense({
           )}
 
           <br />
-          <Button>Add</Button>
+          <Button>{isEditMode ? 'Save' : 'Add'}</Button>
         </form>
       </div>
 

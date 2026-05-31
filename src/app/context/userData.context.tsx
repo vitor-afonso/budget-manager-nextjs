@@ -23,6 +23,10 @@ export interface IUserDataContext {
     monthId: string,
     isExpense: boolean,
   ): void;
+  updateMonthIncomeExpenseEdit(
+    updated: IIncome | IExpense,
+    monthId: string,
+  ): void;
   handleUserData(): void;
 }
 
@@ -130,6 +134,34 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateMonthIncomeExpenseEdit = async (
+    updated: IIncome | IExpense,
+    monthId: string,
+  ) => {
+    const monthToUpdate = userMonths.find(
+      (oneMonth) => oneMonth._id === monthId,
+    );
+    const filteredMonths = userMonths.filter(
+      (oneMonth) => oneMonth._id !== monthId,
+    );
+    if (monthToUpdate) {
+      if ('title' in updated) {
+        monthToUpdate.expenses = monthToUpdate.expenses.map((e) =>
+          e._id === updated._id ? (updated as IExpense) : e,
+        );
+      } else {
+        monthToUpdate.incomes = monthToUpdate.incomes.map((i) =>
+          i._id === updated._id ? (updated as IIncome) : i,
+        );
+      }
+      const updatedUserMonths = [...filteredMonths, monthToUpdate];
+      updatedUserMonths.sort((a: any, b: any) => a.createdAt - b.createdAt);
+      setUserMonths(updatedUserMonths);
+      const yearsData = await getYearsData(updatedUserMonths);
+      setUserYears(yearsData);
+    }
+  };
+
   const updateMonthIncomeExpenseDeletion = async (
     incomeExpenseId: string,
     monthId: string,
@@ -172,6 +204,7 @@ function UserDataProviderWrapper({ children }: { children: React.ReactNode }) {
         updateUserMonthsOnMonthCreation,
         updateMonthIncomeExpenseCreation,
         updateMonthIncomeExpenseDeletion,
+        updateMonthIncomeExpenseEdit,
         handleUserData,
       }}
     >
