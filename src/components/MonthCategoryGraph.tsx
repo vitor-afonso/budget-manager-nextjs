@@ -15,7 +15,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const options: ChartOptions = {
+export const options: ChartOptions<'pie'> = {
   // events: ['click'],
   plugins: {
     legend: {
