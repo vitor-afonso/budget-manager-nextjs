@@ -1,3 +1,4 @@
+next-env.d.ts
 tailwind.config.js
 src/lib/mongodb/
 postcss.config.js

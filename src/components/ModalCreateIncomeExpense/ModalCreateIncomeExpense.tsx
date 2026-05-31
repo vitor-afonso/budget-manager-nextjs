@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { APP } from '@/utils/app.constants';
@@ -12,6 +12,7 @@ import {
 import Button from '@/components/Button';
 import InputText from '@/components/InputText';
 import InputDate from '@/components/InputDate';
+import { getDistinctCategories } from '@/utils/app.methods';
 
 interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +37,10 @@ function ModalCreateIncomeExpense({
     UserDataContext,
   ) as IUserDataContext;
   const [currentMonthDate, setCurrentMonthDate] = useState<Date | null>(null);
+  const categories = useMemo(
+    () => getDistinctCategories(userMonths ?? [], eventType),
+    [userMonths, eventType],
+  );
   const {
     register,
     handleSubmit,
@@ -100,6 +105,7 @@ function ModalCreateIncomeExpense({
             errors={errors}
             inputName={APP.inputName.category}
             inputRules={APP.formRules.category}
+            suggestions={categories}
           />
 
           <InputText
