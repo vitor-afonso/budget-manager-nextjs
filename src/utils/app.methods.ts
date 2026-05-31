@@ -229,6 +229,22 @@ export const getWeekDaysOfCurrentMonth = (): number[] => {
   return weekDaysFromThisMonth;
 };
 
+export const getDistinctCategories = (
+  userMonths: IMonth[],
+  eventType: string,
+): string[] => {
+  const set = new Set<string>();
+  userMonths?.forEach((month) => {
+    const list =
+      eventType === APP.eventType.expense ? month.expenses : month.incomes;
+    list.forEach((item) => {
+      const name = capitalize(item.category).trim();
+      if (name) set.add(name);
+    });
+  });
+  return Array.from(set).sort((a, b) => a.localeCompare(b));
+};
+
 export const getNumberOfDaysFromPreviousMonth = (): number => {
   const todaysDate = new Date();
   const weekDayNumber = todaysDate.getUTCDay();
