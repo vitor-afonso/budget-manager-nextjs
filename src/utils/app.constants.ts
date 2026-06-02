@@ -104,8 +104,8 @@ export const APP = {
     '#470400',
     '#330000',
   ],
-  // projectApi: 'https://budget-manager-server.onrender.com/api',
-  projectApi: 'http://localhost:5005/api',
+  projectApi: 'https://budget-manager-server.onrender.com/api',
+  //projectApi: 'http://localhost:5005/api',
 };
 
 export function getCurrencyFormatter(locale: string) {
