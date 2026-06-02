@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
 import {
@@ -11,6 +12,8 @@ import {
   UserDataContext,
 } from '@/app/context/userData.context';
 import ModalCreateNewMonth from '@/components/ModalCreateNewMonth';
+import { useLocale } from '@/app/providers/LocaleProvider';
+import { type Locale } from '@/i18n/config';
 
 function SideBar() {
   const { user, logOutUser } = useContext(AuthContext) as IAppContext;
@@ -20,12 +23,19 @@ function SideBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
+  const t = useTranslations('nav');
+  const { locale, setLocale } = useLocale();
 
   function handleLogout() {
     logOutUser();
     resetAppStates();
-    setIsDrawerOpen(!isDrawerOpen);
+    setIsDrawerOpen(false);
     router.push(APP.pageRoutes.home);
+  }
+
+  function handleLocaleChange(newLocale: Locale) {
+    setLocale(newLocale);
+    setIsDrawerOpen(false);
   }
 
   return (
@@ -78,15 +88,13 @@ function SideBar() {
       <div
         className={clsx(
           !isDrawerOpen && 'hidden',
-          'left-0 fixed top-0 bottom-0 w-full flex',
+          'left-0 fixed top-0 bottom-0 w-full flex z-[60]',
         )}
       >
         <div className='p-2 w-[50%] md:w-[25%] overflow-y-auto bg-slate-700 '>
           <div className='text-gray-100 text-sm'>
             <div className='flex items-center justify-center'>
-              <h1 className='font-bold text-gray-200'>
-                Money doesn&apos;t sleep
-              </h1>
+              <h1 className='font-bold text-gray-200'>{t('slogan')}</h1>
             </div>
             <div className='my-2 bg-gray-600 h-[1px]' />
           </div>
@@ -94,10 +102,10 @@ function SideBar() {
           <Link
             href={APP.pageRoutes.home}
             className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500'
-            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+            onClick={() => setIsDrawerOpen(false)}
           >
             <span className='text-4 text-gray-200 font-bold capitalize'>
-              {user ? 'Current Month' : 'Home'}
+              {user ? t('currentMonth') : t('home')}
             </span>
           </Link>
           {user && (
@@ -105,19 +113,19 @@ function SideBar() {
               <Link
                 href={APP.pageRoutes.month}
                 className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500'
-                onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                onClick={() => setIsDrawerOpen(false)}
               >
                 <span className='text-4 text-gray-200 font-bold capitalize'>
-                  Month details
+                  {t('monthDetails')}
                 </span>
               </Link>
               <Link
                 href={APP.pageRoutes.year}
                 className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500'
-                onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                onClick={() => setIsDrawerOpen(false)}
               >
                 <span className='text-4 text-gray-200 font-bold capitalize'>
-                  Year details
+                  {t('yearDetails')}
                 </span>
               </Link>
             </>
@@ -128,16 +136,20 @@ function SideBar() {
               <Link
                 href={APP.pageRoutes.login}
                 className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500'
-                onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                onClick={() => setIsDrawerOpen(false)}
               >
-                <span className='text-4 text-gray-200 font-bold'>Login</span>
+                <span className='text-4 text-gray-200 font-bold'>
+                  {t('login')}
+                </span>
               </Link>
               <Link
                 href={APP.pageRoutes.signup}
                 className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 cursor-pointer hover:bg-slate-500'
-                onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                onClick={() => setIsDrawerOpen(false)}
               >
-                <span className='text-4 text-gray-200 font-bold'>Signup</span>
+                <span className='text-4 text-gray-200 font-bold'>
+                  {t('signup')}
+                </span>
               </Link>
             </>
           )}
@@ -148,16 +160,49 @@ function SideBar() {
               className='py-2 px-4 mt-3 flex items-center rounded-md duration-300 hover:bg-slate-400 w-full'
               onClick={handleLogout}
             >
-              <span className='text-4 text-gray-200 font-bold'>Logout</span>
+              <span className='text-4 text-gray-200 font-bold'>
+                {t('logout')}
+              </span>
             </button>
           )}
+
+          <div className='my-2 bg-gray-600 h-[1px]' />
+          <div className='py-2 px-4 flex items-center gap-2'>
+            <span className='text-xs text-gray-400'>
+              {t('languageSelector')}:
+            </span>
+            <button
+              type='button'
+              onClick={() => handleLocaleChange('pt-PT')}
+              className={clsx(
+                'text-xs px-2 py-1 rounded-md duration-300',
+                locale === 'pt-PT'
+                  ? 'bg-slate-500 text-gray-100 font-bold'
+                  : 'text-gray-400 hover:text-gray-200',
+              )}
+            >
+              PT
+            </button>
+            <button
+              type='button'
+              onClick={() => handleLocaleChange('en')}
+              className={clsx(
+                'text-xs px-2 py-1 rounded-md duration-300',
+                locale === 'en'
+                  ? 'bg-slate-500 text-gray-100 font-bold'
+                  : 'text-gray-400 hover:text-gray-200',
+              )}
+            >
+              EN
+            </button>
+          </div>
         </div>
         <div
           role='button'
           className='bg-black/50 w-[50%] md:w-[75%] h-full'
-          onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-          onKeyDown={() => setIsDrawerOpen(!isDrawerOpen)}
-          aria-label='Close menu'
+          onClick={() => setIsDrawerOpen(false)}
+          onKeyDown={() => setIsDrawerOpen(false)}
+          aria-label={t('closeMenu')}
           tabIndex={0}
         />
       </div>

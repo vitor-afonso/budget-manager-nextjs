@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { isSameMonth } from 'date-fns';
+import { useTranslations } from 'next-intl';
 import MonthCategoryGraph from '@/components/MonthCategoryGraph';
 import { IMonth, IYear } from '@/types/models';
 import {
@@ -10,6 +11,11 @@ import {
 } from '@/app/context/userData.context';
 import { APP } from '@/utils/app.constants';
 import MonthYearHeader from '@/components/MonthYearHeader';
+
+function NoMonthMessage() {
+  const t = useTranslations('pages');
+  return <p>{t('noMonthAvailable')}</p>;
+}
 
 function MonthInfo() {
   const { userMonths } = useContext(UserDataContext) as IUserDataContext;
@@ -53,7 +59,7 @@ function MonthInfo() {
           />
         </>
       ) : (
-        <p>No month available to be displayed</p>
+        <NoMonthMessage />
       )}
     </div>
   );

@@ -1,7 +1,11 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { IExpense, IIncome } from '@/types/models';
-import { APP } from '@/utils/app.constants';
+import { getCurrencyFormatter, APP } from '@/utils/app.constants';
 import { getCategoryTotals } from '@/utils/app.methods';
 import clsx from 'clsx';
+import { useLocale } from '@/app/providers/LocaleProvider';
 
 const BIG_SCREEN_MIN_HEIGHT = 800;
 
@@ -12,6 +16,9 @@ function YearCategoryTotals({
   incomesExpenses: IIncome[] | IExpense[];
   eventType: string;
 }) {
+  const t = useTranslations('charts');
+  const { locale } = useLocale();
+  const currency = getCurrencyFormatter(locale);
   const { categoryTotals } = getCategoryTotals(incomesExpenses);
   const categoryNames = Array.from(categoryTotals.keys());
   const categoryAmounts = Array.from(categoryTotals.values());
@@ -21,8 +28,9 @@ function YearCategoryTotals({
       <div className='mb-2 w-full'>
         <div className='border border-black text-xl rounded-3xl h-10 w-full flex items-center justify-center bg-slate-100'>
           <h2>
-            {eventType === APP.eventType.income ? 'Incomes ' : 'Expenses '} by
-            category
+            {eventType === APP.eventType.income
+              ? t('incomesByCategory')
+              : t('expensesByCategory')}
           </h2>
         </div>
         <div
@@ -42,7 +50,7 @@ function YearCategoryTotals({
                 <p className='text-md truncate capitalize'>{oneName}</p>
               </div>
               <div className='flex items-center text-md'>
-                <p>{APP.currency.format(categoryAmounts[i])}</p>
+                <p>{currency.format(categoryAmounts[i])}</p>
               </div>
             </div>
           ))}

@@ -1,8 +1,11 @@
+'use client';
+
 import { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { CSSProperties } from 'react';
+import { useTranslations } from 'next-intl';
 import { IExpense, IIncome } from '@/types/models';
-import { APP } from '@/utils/app.constants';
+import { getCurrencyFormatter } from '@/utils/app.constants';
 import { getEventCreationDate } from '@/utils/app.methods';
 import ModalCustom from '@/components/ModalCustom';
 import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense/ModalCreateIncomeExpense';
@@ -12,6 +15,7 @@ import {
   IUserDataContext,
   UserDataContext,
 } from '@/app/context/userData.context';
+import { useLocale } from '@/app/providers/LocaleProvider';
 
 interface Props {
   incomeExpense: IIncome | IExpense;
@@ -33,6 +37,9 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
   const [marqueeOffset, setMarqueeOffset] = useState<number | null>(null);
+  const t = useTranslations('events');
+  const { locale } = useLocale();
+  const currency = getCurrencyFormatter(locale);
 
   useLayoutEffect(() => {
     requestAnimationFrame(() => {
@@ -61,11 +68,13 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
         incomeExpense.monthId,
         isExpense,
       );
-      toast.success(`${isExpense ? 'Expense' : 'Income'} deleted successfully`);
+      toast.success(
+        isExpense ? t('expenseDeletedSuccess') : t('incomeDeletedSuccess'),
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-      toast.error('Something went wrong. Please try again.');
+      toast.error(t('somethingWentWrong'));
     }
   };
 
@@ -96,7 +105,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
 
       <div className='flex items-center text-md'>
         <div className='text-right leading-none'>
-          <p>{APP.currency.format(incomeExpense.amount)}</p>
+          <p>{currency.format(incomeExpense.amount)}</p>
           {isExpense && (
             <span className='text-xs capitalize'>{incomeExpense.category}</span>
           )}
@@ -137,7 +146,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                 <div
                   role='button'
                   tabIndex={-1}
-                  aria-label='Close actions'
+                  aria-label={t('closeActions')}
                   className='fixed inset-0 z-40'
                   onClick={() => setIsActionsOpen(false)}
                   onKeyDown={() => setIsActionsOpen(false)}
@@ -171,7 +180,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                         d='M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4.5 1.125 1.125-4.5L16.862 3.487z'
                       />
                     </svg>
-                    Edit
+                    {t('edit')}
                   </button>
                   <button
                     type='button'
@@ -195,7 +204,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                         d='M6 18L18 6M6 6l12 12'
                       />
                     </svg>
-                    Delete
+                    {t('delete')}
                   </button>
                 </div>
               </>,
@@ -209,7 +218,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
           setIsModalOpen={setIsModalOpen}
           mainFunction={handleDeleteIncomeExpense}
           question={incomeExpenseName}
-          buttonText='Delete'
+          buttonText={t('delete')}
         />
       )}
 

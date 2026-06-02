@@ -1,5 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { IExpense, IIncome } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 import { IncomeExpense } from '@/components/IncomeExpense/IncomeExpense';
@@ -13,6 +16,7 @@ interface Props {
 
 function MonthEvents({ events, eventType, monthId }: Props): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const t = useTranslations('events');
 
   useEffect(() => {
     events.sort(
@@ -26,7 +30,7 @@ function MonthEvents({ events, eventType, monthId }: Props): JSX.Element {
       <div className='mb-2 w-full'>
         <div className='border border-black text-xl rounded-3xl h-10 w-full flex items-center justify-center bg-slate-100'>
           <h2 className='font-semibold'>
-            {eventType === APP.eventType.income ? 'Incomes' : 'Expenses'}
+            {eventType === APP.eventType.income ? t('incomes') : t('expenses')}
           </h2>
         </div>
         <div

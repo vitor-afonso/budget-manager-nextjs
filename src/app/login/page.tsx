@@ -3,6 +3,7 @@
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
+import { useTranslations } from 'next-intl';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { login } from '@/services/auth';
 import { APP } from '@/utils/app.constants';
@@ -10,12 +11,13 @@ import { useForm } from 'react-hook-form';
 import Spinner from '@/components/Spinner';
 import InputText from '@/components/InputText';
 import Button from '@/components/Button';
+import { useFormRules } from '@/app/hooks/useFormRules';
+import { translateApiError } from '@/utils/translateApiError';
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
-// get type from schema
 type FormData = z.infer<typeof schema>;
 
 function Login() {
@@ -25,6 +27,9 @@ function Login() {
   const { storeToken, authenticateUser, user } = useContext(
     AuthContext,
   ) as IAppContext;
+  const t = useTranslations('nav');
+  const tErrors = useTranslations('apiErrors');
+  const formRules = useFormRules();
 
   const {
     register,
@@ -37,7 +42,7 @@ function Login() {
     try {
       const data = await login({ email, password });
       if (!data.authToken) {
-        setErrorMessage(data.message);
+        setErrorMessage(translateApiError(data.message, tErrors));
         return;
       }
       storeToken(data.authToken);
@@ -56,7 +61,7 @@ function Login() {
       {!user && (
         <>
           <h1 className='font-semibold text-lg uppercase mb-6 text-center text-gray-300'>
-            {APP.buttonAction.login}
+            {t('login')}
           </h1>
 
           <form
@@ -67,21 +72,17 @@ function Login() {
               register={register}
               errors={errors}
               inputName={APP.inputName.email}
-              inputRules={APP.formRules.email}
+              inputRules={formRules.email}
             />
             <InputText
               register={register}
               errors={errors}
               inputName={APP.inputName.password}
               inputType={APP.inputName.password}
-              inputRules={APP.formRules.loginPassword}
+              inputRules={formRules.loginPassword}
             />
             <div className='flex justify-center !mt-12'>
-              {isLoading ? (
-                <Spinner />
-              ) : (
-                <Button>{APP.buttonAction.login}</Button>
-              )}
+              {isLoading ? <Spinner /> : <Button>{t('login')}</Button>}
             </div>
           </form>
         </>

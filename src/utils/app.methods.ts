@@ -31,13 +31,13 @@ export const getEventCreationDate = (
   const day = monthYearDate.getUTCDate();
   const month = monthYearDate.getUTCMonth();
   if (eventType === APP.eventType.month) {
-    return format(new Date(year, month, day), 'MMM-yyyy');
+    return format(new Date(year, month, day), 'MMM/yyyy');
   }
   if (
     eventType === APP.eventType.income ||
     eventType === APP.eventType.expense
   ) {
-    return format(new Date(year, month, day), 'dd-MMM-yyyy');
+    return format(new Date(year, month, day), 'dd/MMM/yyyy');
   }
 
   return format(new Date(year, 1, 1), 'yyyy');

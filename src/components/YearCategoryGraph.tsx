@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useTranslations } from 'next-intl';
 import { IYear } from '@/types/models';
 import useGetYearGraphData from '@/app/hooks/useGetYearGraphData';
 
@@ -43,6 +46,7 @@ function YearCategoriesGraph({
   currentYear,
   allOpenMonths,
 }: Props): JSX.Element {
+  const t = useTranslations('events');
   const { incomeBarData, expenseBarData, monthNames } = useGetYearGraphData(
     currentYear,
     allOpenMonths,
@@ -52,12 +56,12 @@ function YearCategoriesGraph({
     labels: monthNames,
     datasets: [
       {
-        label: 'Incomes',
+        label: t('incomes'),
         data: incomeBarData,
         backgroundColor: '#21C55D',
       },
       {
-        label: 'Expenses',
+        label: t('expenses'),
         data: expenseBarData,
         backgroundColor: '#EF4444',
       },

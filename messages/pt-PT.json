@@ -1,0 +1,114 @@
+{
+  "app": {
+    "name": "Gestor de Orçamento"
+  },
+  "nav": {
+    "slogan": "O dinheiro não dorme",
+    "currentMonth": "Mês Atual",
+    "home": "Início",
+    "monthDetails": "Detalhes do mês",
+    "yearDetails": "Detalhes do ano",
+    "login": "Entrar",
+    "signup": "Registar",
+    "logout": "Sair",
+    "languageSelector": "Idioma",
+    "closeMenu": "Fechar menu"
+  },
+  "forms": {
+    "labels": {
+      "name": "nome",
+      "email": "email",
+      "password": "palavra-passe",
+      "title": "título",
+      "category": "categoria",
+      "amount": "valor",
+      "weekLimitAmount": "Limite Semanal",
+      "date": "Data"
+    },
+    "validation": {
+      "nameRequired": "O nome é obrigatório",
+      "emailRequired": "O email é obrigatório",
+      "passwordRequired": "A palavra-passe é obrigatória",
+      "passwordPattern": "A palavra-passe deve ter pelo menos 6 caracteres e conter pelo menos um número, uma letra minúscula e uma letra maiúscula.",
+      "titleRequired": "O título é obrigatório",
+      "categoryRequired": "A categoria é obrigatória",
+      "amountRequired": "O valor é obrigatório",
+      "amountInvalid": "Valor inválido",
+      "weekLimitInvalid": "Valor inválido",
+      "dateRequired": "A data é obrigatória",
+      "monthRequired": "O mês é obrigatório",
+      "monthExists": "O mês selecionado já existe"
+    },
+    "hints": {
+      "selectOrType": "Seleciona da lista ou escreve uma nova"
+    },
+    "aria": {
+      "showSuggestions": "Mostrar sugestões de categoria"
+    }
+  },
+  "events": {
+    "income": "receita",
+    "expense": "despesa",
+    "incomes": "Receitas",
+    "expenses": "Despesas",
+    "weekLimit": "Limite Semanal",
+    "weekSpent": "Gasto Semanal",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "add": "Adicionar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "addMonth": "Adicionar Mês",
+    "selectMonth": "Selecionar mês*",
+    "incomeDeletedSuccess": "Receita eliminada com sucesso",
+    "expenseDeletedSuccess": "Despesa eliminada com sucesso",
+    "incomeUpdatedSuccess": "Receita atualizada com sucesso",
+    "expenseUpdatedSuccess": "Despesa atualizada com sucesso",
+    "incomeAddedSuccess": "Receita adicionada com sucesso",
+    "expenseAddedSuccess": "Despesa adicionada com sucesso",
+    "somethingWentWrong": "Algo correu mal. Tenta novamente.",
+    "confirmDelete": "Tens a certeza que queres {action} {item}?",
+    "closeActions": "Fechar ações",
+    "closeModal": "Fechar modal"
+  },
+  "charts": {
+    "balance": "Saldo",
+    "weekBalance": "Saldo Semanal",
+    "totalEur": "Total €",
+    "incomesByCategory": "Receitas por categoria",
+    "expensesByCategory": "Despesas por categoria",
+    "noIncomeData": "Sem receitas para mostrar.",
+    "noExpenseData": "Sem despesas para mostrar."
+  },
+  "pages": {
+    "noMonthAvailable": "Nenhum mês disponível para mostrar",
+    "noYearAvailable": "Sem dados anuais disponíveis para mostrar."
+  },
+  "hero": {
+    "logoAlt": "Máquina colorida a gerir o dinheiro",
+    "openMonth": "abrir mês"
+  },
+  "months": {
+    "jan": "Jan",
+    "feb": "Fev",
+    "mar": "Mar",
+    "apr": "Abr",
+    "may": "Mai",
+    "jun": "Jun",
+    "jul": "Jul",
+    "aug": "Ago",
+    "sep": "Set",
+    "oct": "Out",
+    "nov": "Nov",
+    "dec": "Dez"
+  },
+  "apiErrors": {
+    "provideEmailPasswordName": "Por favor fornece o teu email, palavra-passe e nome.",
+    "invalidEmail": "Por favor fornece um endereço de email válido.",
+    "passwordRules": "A palavra-passe deve ter pelo menos 6 caracteres e conter pelo menos um número, uma letra minúscula e uma letra maiúscula.",
+    "userExists": "Já existe uma conta com este email.",
+    "provideEmailPassword": "Por favor fornece o teu email e palavra-passe.",
+    "userNotFound": "Não foi encontrada nenhuma conta com este email.",
+    "authFailed": "Palavra-passe incorreta. Tenta novamente."
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "app": {
+    "name": "Budget Manager"
+  },
+  "nav": {
+    "slogan": "Money doesn't sleep",
+    "currentMonth": "Current Month",
+    "home": "Home",
+    "monthDetails": "Month details",
+    "yearDetails": "Year details",
+    "login": "Login",
+    "signup": "Signup",
+    "logout": "Logout",
+    "languageSelector": "Language",
+    "closeMenu": "Close menu"
+  },
+  "forms": {
+    "labels": {
+      "name": "name",
+      "email": "email",
+      "password": "password",
+      "title": "title",
+      "category": "category",
+      "amount": "amount",
+      "weekLimitAmount": "Week Limit Amount",
+      "date": "Date"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "passwordPattern": "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+      "titleRequired": "Title is required",
+      "categoryRequired": "Category is required",
+      "amountRequired": "Amount is required",
+      "amountInvalid": "Invalid value",
+      "weekLimitInvalid": "Invalid value",
+      "dateRequired": "Date is required",
+      "monthRequired": "Month is required",
+      "monthExists": "Selected month already exists"
+    },
+    "hints": {
+      "selectOrType": "Select from the list or type a new one"
+    },
+    "aria": {
+      "showSuggestions": "Show category suggestions"
+    }
+  },
+  "events": {
+    "income": "income",
+    "expense": "expense",
+    "incomes": "Incomes",
+    "expenses": "Expenses",
+    "weekLimit": "Week Limit",
+    "weekSpent": "Week Spent",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "addMonth": "Add Month",
+    "selectMonth": "Select month*",
+    "incomeDeletedSuccess": "Income deleted successfully",
+    "expenseDeletedSuccess": "Expense deleted successfully",
+    "incomeUpdatedSuccess": "Income updated successfully",
+    "expenseUpdatedSuccess": "Expense updated successfully",
+    "incomeAddedSuccess": "Income added successfully",
+    "expenseAddedSuccess": "Expense added successfully",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "confirmDelete": "Are you sure you want to {action} {item}?",
+    "closeActions": "Close actions",
+    "closeModal": "Close modal"
+  },
+  "charts": {
+    "balance": "Balance",
+    "weekBalance": "Week Balance",
+    "totalEur": "Total €",
+    "incomesByCategory": "Incomes by category",
+    "expensesByCategory": "Expenses by category",
+    "noIncomeData": "No incomes to display.",
+    "noExpenseData": "No expenses to display."
+  },
+  "pages": {
+    "noMonthAvailable": "No month available to be displayed",
+    "noYearAvailable": "No year data available to display."
+  },
+  "hero": {
+    "logoAlt": "Colorful machine managing the money",
+    "openMonth": "open month"
+  },
+  "months": {
+    "jan": "Jan",
+    "feb": "Feb",
+    "mar": "Mar",
+    "apr": "Apr",
+    "may": "May",
+    "jun": "Jun",
+    "jul": "Jul",
+    "aug": "Aug",
+    "sep": "Sep",
+    "oct": "Oct",
+    "nov": "Nov",
+    "dec": "Dec"
+  },
+  "apiErrors": {
+    "provideEmailPasswordName": "Please provide your email, password, and name.",
+    "invalidEmail": "Please provide a valid email address.",
+    "passwordRules": "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+    "userExists": "An account with this email already exists.",
+    "provideEmailPassword": "Please provide your email and password.",
+    "userNotFound": "No account found with this email.",
+    "authFailed": "Incorrect password. Please try again."
+  }
+}

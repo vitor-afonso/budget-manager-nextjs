@@ -6,13 +6,20 @@ import { IncomeExpense } from '@/components/IncomeExpense/IncomeExpense';
 import { UserDataProviderWrapper } from '@/app/context/userData.context';
 import { AuthProviderWrapper } from '@/app/context/auth.context';
 import ModalCustom from '@/components/ModalCustom';
+import { I18nWrapper } from '@/test-utils/i18n';
 
 jest.mock('@/services/incomesExpenses.services');
+jest.mock('@/app/providers/LocaleProvider', () => ({
+  useLocale: () => ({ locale: 'en', setLocale: jest.fn() }),
+  LocaleProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
 
 const contextWrapper = ({ children }: { children: React.ReactNode }) => (
-  <AuthProviderWrapper>
-    <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
-  </AuthProviderWrapper>
+  <I18nWrapper>
+    <AuthProviderWrapper>
+      <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
+    </AuthProviderWrapper>
+  </I18nWrapper>
 );
 
 describe('IncomeExpense Component', () => {
@@ -46,12 +53,14 @@ describe('IncomeExpense Component', () => {
   it('should call the handleDeleteIncomeExpense function when modal is confirmed', async () => {
     const handleDeleteIncomeExpense = jest.fn();
     render(
-      <ModalCustom
-        setIsModalOpen={() => {}}
-        mainFunction={handleDeleteIncomeExpense}
-        question={mockExpense.title}
-        buttonText='Delete'
-      />,
+      <I18nWrapper>
+        <ModalCustom
+          setIsModalOpen={() => {}}
+          mainFunction={handleDeleteIncomeExpense}
+          question={mockExpense.title}
+          buttonText='Delete'
+        />
+      </I18nWrapper>,
     );
     fireEvent.click(screen.getByRole('button', { name: /Delete/i }));
     expect(handleDeleteIncomeExpense).toHaveBeenCalledTimes(1);

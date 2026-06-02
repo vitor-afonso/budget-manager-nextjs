@@ -5,13 +5,16 @@ import '@testing-library/jest-dom';
 import { UserDataProviderWrapper } from '@/app/context/userData.context';
 import { AuthProviderWrapper } from '@/app/context/auth.context';
 import ModalCreateIncomeExpense from '@/components/ModalCreateIncomeExpense/ModalCreateIncomeExpense';
+import { I18nWrapper } from '@/test-utils/i18n';
 
 jest.mock('@/services/incomesExpenses.services');
 
 const contextWrapper = ({ children }: { children: React.ReactNode }) => (
-  <AuthProviderWrapper>
-    <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
-  </AuthProviderWrapper>
+  <I18nWrapper>
+    <AuthProviderWrapper>
+      <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
+    </AuthProviderWrapper>
+  </I18nWrapper>
 );
 
 describe('IncomeExpense Component', () => {

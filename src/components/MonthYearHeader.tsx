@@ -1,13 +1,17 @@
+'use client';
+
 import React from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import {
   calculateTotal,
   changeMonthYear,
   getEventCreationDate,
   getMonthBalance,
 } from '@/utils/app.methods';
-import { APP } from '@/utils/app.constants';
+import { getCurrencyFormatter, APP } from '@/utils/app.constants';
 import { IMonth, IYear } from '@/types/models';
+import { useLocale } from '@/app/providers/LocaleProvider';
 
 interface IProps {
   userMonthsYears: IMonth[] | IYear[];
@@ -28,6 +32,10 @@ function MonthYearHeader({
   setIndex,
   setCurrentMonthYear,
 }: IProps) {
+  const t = useTranslations('charts');
+  const tEvents = useTranslations('events');
+  const { locale } = useLocale();
+  const currency = getCurrencyFormatter(locale);
   const currentMonthBalance = getMonthBalance(currentMonthYear!);
 
   return (
@@ -66,15 +74,15 @@ function MonthYearHeader({
             {getEventCreationDate(
               currentMonthYear!.createdAt!,
               eventType ? APP.eventType.year : APP.eventType.month,
-            ).replace('-', '/')}{' '}
-            Balance
+            )}{' '}
+            {t('balance')}
           </h2>
           <span
             className={clsx(
               currentMonthBalance >= 0 ? 'text-green-500' : 'text-red-500',
             )}
           >
-            {APP.currency.format(currentMonthBalance)}
+            {currency.format(currentMonthBalance)}
           </span>
         </div>
         <button
@@ -110,15 +118,15 @@ function MonthYearHeader({
       </div>
       <div className='flex justify-between items-center w-full'>
         <div className='flex flex-col border border-black text-xs rounded-3xl h-10 w-32  items-center justify-center bg-slate-100'>
-          <h6 className='font-medium capitalize'>{APP.eventType.income}</h6>
+          <h6 className='font-medium capitalize'>{tEvents('income')}</h6>
           <span className='text-green-500'>
-            {APP.currency.format(calculateTotal(currentMonthYear!.incomes))}
+            {currency.format(calculateTotal(currentMonthYear!.incomes))}
           </span>
         </div>
         <div className='flex flex-col border border-black text-xs rounded-3xl h-10 w-32  items-center justify-center bg-slate-100'>
-          <h6 className='font-medium capitalize'>{APP.eventType.expense}</h6>
+          <h6 className='font-medium capitalize'>{tEvents('expense')}</h6>
           <span className='text-red-500'>
-            {APP.currency.format(calculateTotal(currentMonthYear!.expenses))}
+            {currency.format(calculateTotal(currentMonthYear!.expenses))}
           </span>
         </div>
       </div>

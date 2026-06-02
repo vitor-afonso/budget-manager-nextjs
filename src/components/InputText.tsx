@@ -1,6 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
+
+'use client';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import ErrorMessage from '@/components/ErrorMessage';
 
 interface Props {
@@ -10,6 +14,7 @@ interface Props {
   inputType?: string;
   inputRules: any;
   suggestions?: string[];
+  label?: string;
 }
 
 function setNativeInputValue(input: HTMLInputElement, value: string) {
@@ -29,7 +34,10 @@ function InputText({
   inputType,
   inputRules,
   suggestions,
+  label,
 }: Props) {
+  const tLabels = useTranslations('forms.labels');
+  const tForms = useTranslations('forms');
   const listId = suggestions?.length ? `${inputName}-list` : undefined;
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -41,6 +49,10 @@ function InputText({
     onFocus: registerOnFocus,
     ...registerProps
   } = register(inputName, inputRules);
+
+  const resolvedLabel =
+    label ??
+    (tLabels.has(inputName as any) ? tLabels(inputName as any) : inputName);
 
   const filteredSuggestions = useMemo(() => {
     if (!suggestions?.length) return [];
@@ -85,7 +97,7 @@ function InputText({
   return (
     <div>
       <label className='text-gray-300 text-lg capitalize' htmlFor={inputName}>
-        <p className='text-sm'>{inputName}</p>
+        <p className='text-sm'>{resolvedLabel}</p>
         <div className='relative mt-1' ref={wrapperRef}>
           <input
             type={inputType}
@@ -115,7 +127,7 @@ function InputText({
               <button
                 type='button'
                 tabIndex={-1}
-                aria-label='Show category suggestions'
+                aria-label={tForms('aria.showSuggestions')}
                 aria-expanded={isSuggestionsOpen}
                 className='absolute right-0 top-0 flex h-12 w-10 items-center justify-center text-gray-500'
                 onMouseDown={(event) => event.preventDefault()}
@@ -160,7 +172,7 @@ function InputText({
       </label>
       {listId && (
         <p className='text-xs text-gray-300 mt-1'>
-          Select from the list or type a new one
+          {tForms('hints.selectOrType')}
         </p>
       )}
       {errors[`${inputName}`]?.message && (

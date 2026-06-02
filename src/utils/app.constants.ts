@@ -1,9 +1,5 @@
 export const APP = {
   name: 'Budget manager',
-  currency: Intl.NumberFormat('en-PT', {
-    style: 'currency',
-    currency: 'EUR',
-  }),
   localStorage: {
     authToken: 'authToken',
   },
@@ -12,39 +8,36 @@ export const APP = {
     expense: 'expense',
     month: 'month',
     year: 'year',
-    weekLimit: 'Week Limit',
-    weekSpent: 'Week Spent',
   },
   formRules: {
     name: {
-      required: 'Name is required',
+      required: true,
     },
     email: {
-      required: 'Email is required',
+      required: true,
     },
     loginPassword: {
-      required: 'Password is required',
+      required: true,
     },
     signupPassword: {
-      required: 'Password is required',
+      required: true,
       pattern: {
         value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
-        message:
-          'Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.',
+        message: '__passwordPattern__',
       },
     },
     title: {
-      required: 'Title is required',
+      required: true,
     },
     category: {
-      required: 'Category is required',
+      required: true,
     },
     amount: {
-      required: 'Amount is required',
-      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: 'Invalid value' },
+      required: true,
+      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: '__amountInvalid__' },
     },
     weekLimitAmount: {
-      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: 'Invalid value' },
+      pattern: { value: /^[0-9]*\.?[0-9]*$/, message: '__weekLimitInvalid__' },
     },
   },
   inputName: {
@@ -56,14 +49,11 @@ export const APP = {
     category: 'category',
     amount: 'amount',
     month: 'month',
-    weekLimitAmount: 'Week Limit Amount',
+    weekLimitAmount: 'weekLimitAmount',
   },
   buttonAction: {
     prev: 'prev',
     next: 'next',
-    login: 'login',
-    signup: 'register',
-    openMonth: 'open month',
   },
   pageRoutes: {
     home: '/',
@@ -114,6 +104,13 @@ export const APP = {
     '#470400',
     '#330000',
   ],
-  projectApi: 'https://budget-manager-server.onrender.com/api',
-  // projectApi: 'http://localhost:5005/api',
+  // projectApi: 'https://budget-manager-server.onrender.com/api',
+  projectApi: 'http://localhost:5005/api',
 };
+
+export function getCurrencyFormatter(locale: string) {
+  return Intl.NumberFormat(locale === 'pt-PT' ? 'pt-PT' : 'en-GB', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+}

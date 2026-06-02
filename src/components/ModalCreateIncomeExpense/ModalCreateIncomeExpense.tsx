@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 'use client';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useTranslations } from 'next-intl';
 import { APP } from '@/utils/app.constants';
 import {
   createIncomeExpense,
@@ -19,6 +22,7 @@ import InputDate from '@/components/InputDate';
 import { getDistinctCategories } from '@/utils/app.methods';
 import { format } from 'date-fns';
 import { IExpense, IIncome } from '@/types/models';
+import { useFormRules } from '@/app/hooks/useFormRules';
 
 interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +36,6 @@ const schema = z.object({
   amount: z.string().transform((val) => Number(val)),
   creationDate: z.date(),
 });
-// get type from schema
 type FormData = z.infer<typeof schema>;
 
 function ModalCreateIncomeExpense({
@@ -48,6 +51,8 @@ function ModalCreateIncomeExpense({
   } = useContext(UserDataContext) as IUserDataContext;
   const isEditMode = !!existingItem;
   const [currentMonthDate, setCurrentMonthDate] = useState<Date | null>(null);
+  const t = useTranslations('events');
+  const formRules = useFormRules();
   const categories = useMemo(
     () => getDistinctCategories(userMonths ?? [], eventType),
     [userMonths, eventType],
@@ -89,7 +94,6 @@ function ModalCreateIncomeExpense({
         monthId,
       };
 
-      const label = isExpense ? 'Expense' : 'Income';
       if (isEditMode && existingItem) {
         const updatedIncomeExpense = await updateIncomeExpense(
           existingItem._id,
@@ -97,19 +101,23 @@ function ModalCreateIncomeExpense({
           isExpense,
         );
         updateMonthIncomeExpenseEdit(updatedIncomeExpense, monthId);
-        toast.success(`${label} updated successfully`);
+        toast.success(
+          isExpense ? t('expenseUpdatedSuccess') : t('incomeUpdatedSuccess'),
+        );
       } else {
         const createdIncomeExpense = await createIncomeExpense(
           requestBody,
           isExpense,
         );
         updateMonthIncomeExpenseCreation(createdIncomeExpense, monthId);
-        toast.success(`${label} added successfully`);
+        toast.success(
+          isExpense ? t('expenseAddedSuccess') : t('incomeAddedSuccess'),
+        );
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      toast.error('Something went wrong. Please try again.');
+      toast.error(t('somethingWentWrong'));
     } finally {
       setIsModalOpen(false);
     }
@@ -119,8 +127,8 @@ function ModalCreateIncomeExpense({
     <div className='fixed top-0 left-0 z-10 w-screen h-screen '>
       <div className='absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center'>
         <p className='text-gray-300 uppercase font-semibold'>
-          {isEditMode ? 'Edit ' : ''}
-          {isExpense ? APP.eventType.expense : APP.eventType.income}
+          {isEditMode ? `${t('edit')} ` : ''}
+          {isExpense ? t('expense') : t('income')}
         </p>
 
         <form
@@ -132,7 +140,7 @@ function ModalCreateIncomeExpense({
               register={register}
               errors={errors}
               inputName={APP.inputName.title}
-              inputRules={APP.formRules.title}
+              inputRules={formRules.title}
             />
           )}
 
@@ -140,7 +148,7 @@ function ModalCreateIncomeExpense({
             register={register}
             errors={errors}
             inputName={APP.inputName.category}
-            inputRules={APP.formRules.category}
+            inputRules={formRules.category}
             suggestions={categories}
           />
 
@@ -148,7 +156,7 @@ function ModalCreateIncomeExpense({
             register={register}
             errors={errors}
             inputName={APP.inputName.amount}
-            inputRules={APP.formRules.amount}
+            inputRules={formRules.amount}
           />
 
           {currentMonthDate && (
@@ -161,7 +169,7 @@ function ModalCreateIncomeExpense({
           )}
 
           <br />
-          <Button>{isEditMode ? 'Save' : 'Add'}</Button>
+          <Button>{isEditMode ? t('save') : t('add')}</Button>
         </form>
       </div>
 
@@ -169,7 +177,7 @@ function ModalCreateIncomeExpense({
         role='button'
         onClick={() => setIsModalOpen(false)}
         onKeyDown={() => setIsModalOpen(false)}
-        aria-label='Close menu'
+        aria-label={t('closeModal')}
         tabIndex={0}
         className='bg-black/50 w-full h-full absolute z-20'
       />

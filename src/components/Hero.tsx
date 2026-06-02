@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { isSameMonth } from 'date-fns';
+import { useTranslations } from 'next-intl';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
 import { APP } from '@/utils/app.constants';
 import Button from '@/components/Button';
@@ -21,10 +22,11 @@ function Hero() {
   ) as IUserDataContext;
   const { user } = useContext(AuthContext) as IAppContext;
   const router = useRouter();
+  const tHero = useTranslations('hero');
+  const tNav = useTranslations('nav');
 
   const userIsLoggedInAndCurrentMonthIsNotOpen = user && !isCurrentMonthOpen;
 
-  // check if current month is open
   useEffect(() => {
     if (userMonths.length > 0) {
       const month = userMonths.find((oneMonth) =>
@@ -47,7 +49,7 @@ function Hero() {
                 src={APP.images.logo}
                 width={320}
                 height={320}
-                alt='Colorful machine managing the money'
+                alt={tHero('logoAlt')}
                 priority
               />
             </div>
@@ -55,13 +57,13 @@ function Hero() {
 
           {userIsLoggedInAndCurrentMonthIsNotOpen && (
             <Button clickHandler={() => setIsModalOpen(true)}>
-              {APP.buttonAction.openMonth}
+              {tHero('openMonth')}
             </Button>
           )}
 
           {!user && (
             <Button clickHandler={() => router.push(APP.pageRoutes.login)}>
-              {APP.buttonAction.login}
+              {tNav('login')}
             </Button>
           )}
           {isModalOpen && (

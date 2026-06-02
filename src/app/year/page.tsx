@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { isSameYear } from 'date-fns';
+import { useTranslations } from 'next-intl';
 import {
   IUserDataContext,
   UserDataContext,
@@ -11,6 +12,11 @@ import MonthYearHeader from '@/components/MonthYearHeader';
 import { APP } from '@/utils/app.constants';
 import YearCategoriesGraph from '@/components/YearCategoryGraph';
 import YearCategoryTotals from '@/components/YearCategoryTotals';
+
+function NoYearMessage() {
+  const t = useTranslations('pages');
+  return <p>{t('noYearAvailable')}</p>;
+}
 
 function YearInfo() {
   const { userYears, userMonths } = useContext(
@@ -65,7 +71,7 @@ function YearInfo() {
           />
         </>
       ) : (
-        <p>No year data available to display.</p>
+        <NoYearMessage />
       )}
     </div>
   );

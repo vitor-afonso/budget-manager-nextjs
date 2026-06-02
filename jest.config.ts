@@ -12,6 +12,8 @@ const config: Config = {
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^next-intl$': '<rootDir>/src/__mocks__/next-intl.tsx',
+    '^next-intl/(.*)$': '<rootDir>/src/__mocks__/next-intl.tsx',
   },
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

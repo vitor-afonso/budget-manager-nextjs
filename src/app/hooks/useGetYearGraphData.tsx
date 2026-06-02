@@ -1,30 +1,56 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { getYearIncomesExpensesBarData } from '@/utils/app.methods';
 import { IYear } from '@/types/models';
 import { APP } from '@/utils/app.constants';
 
+const EN_MONTHS = APP.monthsOfTheYear;
+
 const useGetYearGraphData = (yearData: IYear, allOpenMonths: Date[]) => {
+  const tMonths = useTranslations('months');
+
+  const translatedMonths = EN_MONTHS.map((_, i) => {
+    const keys = [
+      'jan',
+      'feb',
+      'mar',
+      'apr',
+      'may',
+      'jun',
+      'jul',
+      'aug',
+      'sep',
+      'oct',
+      'nov',
+      'dec',
+    ] as const;
+    return tMonths(keys[i]);
+  });
+
   function getBarData(year: IYear, eventType: string) {
-    const allMonthNames = allOpenMonths.map(
-      (date) => APP.monthsOfTheYear[date.getMonth()],
+    const allMonthNamesEN = allOpenMonths.map(
+      (date) => EN_MONTHS[new Date(date).getMonth()],
     );
     const incomesObj = getYearIncomesExpensesBarData(
       year.incomes,
-      allMonthNames,
+      allMonthNamesEN,
     );
     const expensesObj = getYearIncomesExpensesBarData(
       year.expenses,
-      allMonthNames,
+      allMonthNamesEN,
     );
     const isExpenses = eventType === APP.eventType.expense;
-    const incomesExpensesObj: { [monthName: string]: number } = {};
+    const result: { [monthName: string]: number } = {};
 
-    allMonthNames.forEach((monthName) => {
-      incomesExpensesObj[monthName] = isExpenses
-        ? expensesObj[monthName]
-        : incomesObj[monthName];
+    allMonthNamesEN.forEach((enName) => {
+      const translatedName = translatedMonths[EN_MONTHS.indexOf(enName)];
+      result[translatedName] = isExpenses
+        ? expensesObj[enName]
+        : incomesObj[enName];
     });
 
-    return incomesExpensesObj;
+    return result;
   }
 
   const incomeBarData = Object.values(

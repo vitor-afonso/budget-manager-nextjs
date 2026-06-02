@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import SideBar from '@/components/SideBar';
 import { UserDataProviderWrapper } from '@/app/context/userData.context';
 import { Toaster } from 'sonner';
+import { LocaleProvider } from '@/app/providers/LocaleProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,14 +20,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang='pt-PT'>
       <body className={clsx(inter.className, 'bg-slate-700 py-6 h-full')}>
         <AuthProviderWrapper>
           <UserDataProviderWrapper>
-            <div className='w-80 mx-auto'>
-              <SideBar />
-              {children}
-            </div>
+            <LocaleProvider>
+              <div className='w-80 mx-auto'>
+                <SideBar />
+                {children}
+              </div>
+            </LocaleProvider>
           </UserDataProviderWrapper>
         </AuthProviderWrapper>
         <Toaster position='top-center' richColors />

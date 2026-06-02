@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +16,8 @@ function ModalCustom({
   question,
   buttonText,
 }: Props) {
+  const t = useTranslations('events');
+
   const runMainFunction = () => {
     mainFunction();
     setIsModalOpen(false);
@@ -29,7 +34,7 @@ function ModalCustom({
             onClick={() => setIsModalOpen(false)}
             className='mr-2 text-slate-800'
           >
-            Cancel
+            {t('cancel')}
           </button>
           <button
             type='button'
@@ -46,7 +51,7 @@ function ModalCustom({
         className='bg-black/50 w-full h-full absolute z-20'
         onClick={() => setIsModalOpen(false)}
         onKeyDown={() => setIsModalOpen(false)}
-        aria-label='Close modal'
+        aria-label={t('closeModal')}
         tabIndex={0}
       />
     </div>

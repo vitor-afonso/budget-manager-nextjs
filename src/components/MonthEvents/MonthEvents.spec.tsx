@@ -5,13 +5,20 @@ import '@testing-library/jest-dom';
 import { UserDataProviderWrapper } from '@/app/context/userData.context';
 import { AuthProviderWrapper } from '@/app/context/auth.context';
 import MonthEvents from '@/components/MonthEvents/MonthEvents';
+import { I18nWrapper } from '@/test-utils/i18n';
 
 jest.mock('@/services/incomesExpenses.services');
+jest.mock('@/app/providers/LocaleProvider', () => ({
+  useLocale: () => ({ locale: 'en', setLocale: jest.fn() }),
+  LocaleProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
 
 const contextWrapper = ({ children }: { children: React.ReactNode }) => (
-  <AuthProviderWrapper>
-    <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
-  </AuthProviderWrapper>
+  <I18nWrapper>
+    <AuthProviderWrapper>
+      <UserDataProviderWrapper>{children}</UserDataProviderWrapper>
+    </AuthProviderWrapper>
+  </I18nWrapper>
 );
 
 describe('IncomeExpense Component', () => {

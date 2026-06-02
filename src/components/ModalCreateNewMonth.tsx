@@ -6,6 +6,7 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { isSameMonth } from 'date-fns';
 import { z } from 'zod';
+import { useTranslations } from 'next-intl';
 import { APP } from '@/utils/app.constants';
 import Button from '@/components/Button';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
@@ -17,6 +18,7 @@ import {
 import Spinner from '@/components/Spinner';
 import { IMonth } from '@/types/models';
 import ErrorMessage from '@/components/ErrorMessage';
+import { useFormRules } from '@/app/hooks/useFormRules';
 import InputText from './InputText';
 
 interface Props {
@@ -30,7 +32,6 @@ const schema = z.object({
     .transform((val) => Number(val))
     .optional(),
 });
-// get type from schema
 type FormData = z.infer<typeof schema>;
 
 function ModalCreateNewMonth({ setIsModalOpen }: Props) {
@@ -40,6 +41,9 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
   ) as IUserDataContext;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const t = useTranslations('events');
+  const tValidation = useTranslations('forms.validation');
+  const formRules = useFormRules();
   const {
     register,
     handleSubmit,
@@ -97,18 +101,18 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
         className='absolute z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs
         bg-slate-500 border-2 border-slate-800 rounded-3xl shadow-24 p-4 flex flex-col items-center'
       >
-        <p className='text-gray-300 uppercase font-semibold'>Add Month</p>
+        <p className='text-gray-300 uppercase font-semibold'>{t('addMonth')}</p>
 
         <form onSubmit={handleSubmit(handleCreateMonth)} className='w-full'>
           <div className='mb-4 mt-2'>
             <label className='text-lg capitalize' htmlFor='createdAt'>
-              <p className='text-gray-300 text-sm mb-1'>Select month*</p>
+              <p className='text-gray-300 text-sm mb-1'>{t('selectMonth')}</p>
               {/* div to fix safari not applying w-full to input */}
               <div className='w-[284px] mb-1'>
                 <input
                   type={APP.inputName.month}
                   {...register('createdAt', {
-                    required: 'Month is required',
+                    required: tValidation('monthRequired'),
                     validate: isValidMonth,
                   })}
                   className='w-[284px] h-12 rounded-md px-2 border border-transparent
@@ -121,7 +125,7 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
                 <ErrorMessage>{errors.createdAt.message}</ErrorMessage>
               )}
               {errors.createdAt?.type === 'validate' && (
-                <ErrorMessage>Selected month already exist</ErrorMessage>
+                <ErrorMessage>{tValidation('monthExists')}</ErrorMessage>
               )}
             </label>
 
@@ -129,8 +133,8 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
               <InputText
                 register={register}
                 errors={errors}
-                inputName='weekLimitAmount'
-                inputRules={APP.formRules.weekLimitAmount}
+                inputName={APP.inputName.weekLimitAmount}
+                inputRules={formRules.weekLimitAmount}
               />
 
               {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
@@ -138,7 +142,7 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
           </div>
 
           <div className='flex justify-center'>
-            {isLoading ? <Spinner size={80} /> : <Button> Add </Button>}
+            {isLoading ? <Spinner size={80} /> : <Button>{t('add')}</Button>}
           </div>
         </form>
       </div>
@@ -148,7 +152,7 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
         role='button'
         onClick={() => setIsModalOpen(false)}
         onKeyDown={() => setIsModalOpen(false)}
-        aria-label='Close modal'
+        aria-label={t('closeModal')}
         tabIndex={0}
       />
     </div>
