@@ -102,11 +102,11 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
           )}
         </div>
 
-        <div className='relative ml-1'>
+        <div className='relative ml-1 shrink-0'>
           <button
             ref={actionsBtnRef}
             type='button'
-            className='rounded-full bg-slate-300 w-5 h-5 flex justify-center items-center'
+            className='rounded-full bg-slate-300 w-9 h-9 flex justify-center items-center'
             onClick={() => {
               if (!isActionsOpen && actionsBtnRef.current) {
                 const rect = actionsBtnRef.current.getBoundingClientRect();
@@ -122,7 +122,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
               xmlns='http://www.w3.org/2000/svg'
               fill='currentColor'
               viewBox='0 0 24 24'
-              className='w-3 h-3 text-slate-700'
+              className='w-4 h-4 text-slate-700'
             >
               <circle cx='5' cy='12' r='1.5' />
               <circle cx='12' cy='12' r='1.5' />
@@ -143,7 +143,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                   onKeyDown={() => setIsActionsOpen(false)}
                 />
                 <div
-                  className='fixed z-50 flex flex-col bg-slate-600 border border-slate-700 rounded-xl shadow-lg overflow-hidden min-w-[120px]'
+                  className='fixed z-50 flex flex-col bg-slate-600 border border-slate-700 rounded-xl shadow-lg overflow-hidden min-w-[148px]'
                   style={{
                     bottom: dropdownPos.bottom,
                     right: dropdownPos.right,
@@ -151,7 +151,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                 >
                   <button
                     type='button'
-                    className='px-4 py-3 text-sm text-left text-gray-200 hover:bg-slate-500 flex items-center gap-2'
+                    className='min-h-11 px-5 py-3.5 text-base text-left text-gray-200 hover:bg-slate-500 flex items-center gap-3'
                     onClick={() => {
                       setIsActionsOpen(false);
                       setIsEditModalOpen(true);
@@ -163,7 +163,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                       viewBox='0 0 24 24'
                       strokeWidth='2'
                       stroke='currentColor'
-                      className='w-4 h-4'
+                      className='w-5 h-5 shrink-0'
                     >
                       <path
                         strokeLinecap='round'
@@ -175,7 +175,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                   </button>
                   <button
                     type='button'
-                    className='px-4 py-3 text-sm text-left text-red-400 hover:bg-slate-500 flex items-center gap-2'
+                    className='min-h-11 px-5 py-3.5 text-base text-left text-red-400 hover:bg-slate-500 flex items-center gap-3'
                     onClick={() => {
                       setIsActionsOpen(false);
                       setIsModalOpen(true);
@@ -187,7 +187,7 @@ export function IncomeExpense({ incomeExpense, eventType }: Props) {
                       viewBox='0 0 24 24'
                       strokeWidth='2.5'
                       stroke='currentColor'
-                      className='w-4 h-4'
+                      className='w-5 h-5 shrink-0'
                     >
                       <path
                         strokeLinecap='round'

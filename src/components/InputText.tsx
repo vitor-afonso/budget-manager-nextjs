@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -32,12 +32,28 @@ function InputText({
 }: Props) {
   const listId = suggestions?.length ? `${inputName}-list` : undefined;
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
+  const [query, setQuery] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { ref: registerRef, ...registerProps } = register(
-    inputName,
-    inputRules,
-  );
+  const {
+    ref: registerRef,
+    onChange: registerOnChange,
+    onFocus: registerOnFocus,
+    ...registerProps
+  } = register(inputName, inputRules);
+
+  const filteredSuggestions = useMemo(() => {
+    if (!suggestions?.length) return [];
+
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return suggestions;
+
+    return suggestions.filter((suggestion) =>
+      suggestion.toLowerCase().includes(normalized),
+    );
+  }, [suggestions, query]);
+
+  const showSuggestions = isSuggestionsOpen && filteredSuggestions.length > 0;
 
   useEffect(() => {
     if (!isSuggestionsOpen) return undefined;
@@ -52,11 +68,16 @@ function InputText({
     return () => document.removeEventListener('mousedown', handlePointerDown);
   }, [isSuggestionsOpen]);
 
+  const syncQueryFromInput = () => {
+    setQuery(inputRef.current?.value ?? '');
+  };
+
   const selectSuggestion = (value: string) => {
     const input = inputRef.current;
     if (!input) return;
 
     setNativeInputValue(input, value);
+    setQuery(value);
     input.focus();
     setIsSuggestionsOpen(false);
   };
@@ -68,8 +89,17 @@ function InputText({
         <div className='relative mt-1' ref={wrapperRef}>
           <input
             type={inputType}
-            list={listId}
             {...registerProps}
+            onChange={(event) => {
+              registerOnChange(event);
+              setQuery(event.target.value);
+              setIsSuggestionsOpen(true);
+            }}
+            onFocus={(event) => {
+              registerOnFocus?.(event);
+              syncQueryFromInput();
+              setIsSuggestionsOpen(true);
+            }}
             ref={(element) => {
               registerRef(element);
               inputRef.current = element;
@@ -77,7 +107,7 @@ function InputText({
             className={clsx(
               'w-full h-12 text-gray-800 rounded-md px-2 border border-transparent',
               'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400',
-              listId && 'datalist-input pr-10',
+              listId && 'pr-10',
             )}
           />
           {listId && (
@@ -89,7 +119,10 @@ function InputText({
                 aria-expanded={isSuggestionsOpen}
                 className='absolute right-0 top-0 flex h-12 w-10 items-center justify-center text-gray-500'
                 onMouseDown={(event) => event.preventDefault()}
-                onClick={() => setIsSuggestionsOpen((prev) => !prev)}
+                onClick={() => {
+                  syncQueryFromInput();
+                  setIsSuggestionsOpen((prev) => !prev);
+                }}
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -105,9 +138,9 @@ function InputText({
                   />
                 </svg>
               </button>
-              {isSuggestionsOpen && (
+              {showSuggestions && (
                 <ul className='absolute left-0 right-0 top-full z-50 mt-1 max-h-40 overflow-y-auto rounded-md border border-slate-300 bg-slate-100 shadow-lg'>
-                  {suggestions!.map((suggestion) => (
+                  {filteredSuggestions.map((suggestion) => (
                     <li key={suggestion}>
                       <button
                         type='button'
@@ -126,18 +159,9 @@ function InputText({
         </div>
       </label>
       {listId && (
-        <>
-          <datalist id={listId}>
-            {suggestions!.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </datalist>
-          <p className='text-xs text-gray-300 mt-1'>
-            Select from the list or type a new one
-          </p>
-        </>
+        <p className='text-xs text-gray-300 mt-1'>
+          Select from the list or type a new one
+        </p>
       )}
       {errors[`${inputName}`]?.message && (
         <ErrorMessage>{errors[`${inputName}`].message}</ErrorMessage>
