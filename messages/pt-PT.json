@@ -3,7 +3,7 @@
     "name": "Gestor de Orçamento"
   },
   "nav": {
-    "slogan": "O dinheiro não dorme",
+    "slogan": "Money doesn't sleep",
     "currentMonth": "Mês Atual",
     "home": "Início",
     "monthDetails": "Detalhes do mês",
@@ -74,6 +74,8 @@
   "charts": {
     "balance": "Saldo",
     "weekBalance": "Saldo Semanal",
+    "weekExcludeCategories": "Excluir do gasto semanal",
+    "weekExcludePlaceholder": "Pesquisar categoria...",
     "totalEur": "Total €",
     "incomesByCategory": "Receitas por categoria",
     "expensesByCategory": "Despesas por categoria",

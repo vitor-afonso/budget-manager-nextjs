@@ -74,12 +74,14 @@ function Signup() {
           errors={errors}
           inputName={APP.inputName.name}
           inputRules={formRules.name}
+          disabled={isLoading}
         />
         <InputText
           register={register}
           errors={errors}
           inputName={APP.inputName.email}
           inputRules={formRules.email}
+          disabled={isLoading}
         />
         <InputText
           register={register}
@@ -87,6 +89,7 @@ function Signup() {
           inputName={APP.inputName.password}
           inputType={APP.inputName.password}
           inputRules={formRules.signupPassword}
+          disabled={isLoading}
         />
 
         <div className='flex justify-center !mt-12'>

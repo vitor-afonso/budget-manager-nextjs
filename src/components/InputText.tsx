@@ -15,6 +15,7 @@ interface Props {
   inputRules: any;
   suggestions?: string[];
   label?: string;
+  disabled?: boolean;
 }
 
 function setNativeInputValue(input: HTMLInputElement, value: string) {
@@ -35,6 +36,7 @@ function InputText({
   inputRules,
   suggestions,
   label,
+  disabled,
 }: Props) {
   const tLabels = useTranslations('forms.labels');
   const tForms = useTranslations('forms');
@@ -102,6 +104,7 @@ function InputText({
           <input
             type={inputType}
             {...registerProps}
+            disabled={disabled}
             onChange={(event) => {
               registerOnChange(event);
               setQuery(event.target.value);
@@ -120,6 +123,7 @@ function InputText({
               'w-full h-12 text-gray-800 rounded-md px-2 border border-transparent',
               'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400',
               listId && 'pr-10',
+              disabled && 'opacity-50 cursor-not-allowed',
             )}
           />
           {listId && (

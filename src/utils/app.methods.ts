@@ -155,9 +155,18 @@ export const getMinMaxDate = (date: Date, minMax: string): string => {
   return `${year}-${month}-${lastDayOfMonth}`;
 };
 
+const isCategoryExcluded = (
+  category: string,
+  excludedCategories: string[],
+): boolean =>
+  excludedCategories.some(
+    (excluded) => excluded.toLowerCase() === category.toLowerCase(),
+  );
+
 export const getTotalExpensesOfLastMonthWeekDays = (
   numberOfDaysFromPreviousMonth: number,
   userMonths: IMonth[],
+  excludedCategories: string[] = [],
 ): number => {
   const LAST_DAY_OF_MONTH = 0;
   const DECEMBER = 11;
@@ -187,11 +196,12 @@ export const getTotalExpensesOfLastMonthWeekDays = (
   for (let index = 0; index < numberOfDaysFromPreviousMonth; index++) {
     const dayExpenses = previousMonth?.expenses.filter(
       (e) =>
-        new Date(e.createdAt).getUTCDate() === lastDayOfPreviousMonth - index,
+        new Date(e.createdAt).getUTCDate() === lastDayOfPreviousMonth - index &&
+        !isCategoryExcluded(e.category, excludedCategories),
     );
-    const allExpensesAmount = dayExpenses?.map((e) => e.amount);
-    const sum = allExpensesAmount?.reduce((total, num) => total + num, 0);
-    daysTotalExpenses += sum!;
+    const sum =
+      dayExpenses?.reduce((total, e) => total + e.amount, 0) ?? 0;
+    daysTotalExpenses += sum;
   }
   return daysTotalExpenses;
 };
@@ -199,6 +209,7 @@ export const getTotalExpensesOfLastMonthWeekDays = (
 export const getTotalExpensesOfThisMonthWeekDays = (
   weekDaysFromThisMonth: number[],
   currentMonth: IMonth,
+  excludedCategories: string[] = [],
 ): number => {
   let totalWeekExpenses = 0;
   currentMonth?.expenses.forEach((e) => {
@@ -206,12 +217,64 @@ export const getTotalExpensesOfThisMonthWeekDays = (
 
     if (
       weekDaysFromThisMonth.includes(dayDate) &&
-      e.category.toLowerCase() !== 'bills'
+      !isCategoryExcluded(e.category, excludedCategories)
     ) {
       totalWeekExpenses += e.amount;
     }
   });
   return totalWeekExpenses;
+};
+
+export const getWeekExpenseCategories = (
+  weekDaysFromThisMonth: number[],
+  currentMonth: IMonth,
+  numberOfDaysFromPreviousMonth: number,
+  userMonths: IMonth[],
+): string[] => {
+  const set = new Set<string>();
+
+  currentMonth?.expenses.forEach((e) => {
+    const dayDate = new Date(e.createdAt).getUTCDate();
+    if (weekDaysFromThisMonth.includes(dayDate)) {
+      set.add(capitalize(e.category).trim());
+    }
+  });
+
+  if (numberOfDaysFromPreviousMonth > 0) {
+    const LAST_DAY_OF_MONTH = 0;
+    const DECEMBER = 11;
+    const todaysDate = new Date();
+    const previousYear = todaysDate.getFullYear() - 1;
+    const isPrevMonthFromThisYear = todaysDate.getMonth() !== 0;
+    const yearOfPrevMonth = isPrevMonthFromThisYear
+      ? todaysDate.getFullYear()
+      : previousYear;
+    const previousMonthNumber = isPrevMonthFromThisYear
+      ? todaysDate.getMonth() - 1
+      : DECEMBER;
+    const previousMonth = userMonths.find(
+      (m) =>
+        new Date(m.createdAt).getFullYear() === yearOfPrevMonth &&
+        new Date(m.createdAt).getMonth() === previousMonthNumber,
+    );
+    const lastDayOfPreviousMonth = new Date(
+      yearOfPrevMonth,
+      previousMonthNumber + 1,
+      LAST_DAY_OF_MONTH,
+    ).getDate();
+
+    for (let index = 0; index < numberOfDaysFromPreviousMonth; index++) {
+      previousMonth?.expenses
+        .filter(
+          (e) =>
+            new Date(e.createdAt).getUTCDate() ===
+            lastDayOfPreviousMonth - index,
+        )
+        .forEach((e) => set.add(capitalize(e.category).trim()));
+    }
+  }
+
+  return Array.from(set).sort((a, b) => a.localeCompare(b));
 };
 
 export const getWeekDaysOfCurrentMonth = (): number[] => {

@@ -14,7 +14,9 @@ import {
   getTotalExpensesOfLastMonthWeekDays,
   getTotalExpensesOfThisMonthWeekDays,
   getWeekDaysOfCurrentMonth,
+  getWeekExpenseCategories,
 } from '@/utils/app.methods';
+import { useWeekExcludedCategories } from '@/app/hooks/useWeekExcludedCategories';
 import MonthEvents from '@/components/MonthEvents/MonthEvents';
 import MonthYearHeader from '@/components/MonthYearHeader';
 import WeekBalanceSection from '@/components/WeekBalanceSection';
@@ -32,6 +34,9 @@ export default function Month(): JSX.Element {
   const [weekLimit, setWeekLimit] = useState<number | null>(null);
   const [showWeekBalance, setShowWeekBalance] = useState<boolean>(false);
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
+  const [weekCategories, setWeekCategories] = useState<string[]>([]);
+  const { excludedCategories, toggleCategory, isExcluded } =
+    useWeekExcludedCategories();
 
   useEffect(() => {
     if (user) {
@@ -84,16 +89,28 @@ export default function Month(): JSX.Element {
       const numberOfDaysFromPreviousMonth: number =
         getNumberOfDaysFromPreviousMonth();
       const weekDaysFromThisMonth: number[] = getWeekDaysOfCurrentMonth();
+      const excluded = Array.from(excludedCategories);
+
+      setWeekCategories(
+        getWeekExpenseCategories(
+          weekDaysFromThisMonth,
+          currentMonth as IMonth,
+          numberOfDaysFromPreviousMonth,
+          userMonths,
+        ),
+      );
 
       const totalExpensesOfPreviousMonthWeekDays =
         getTotalExpensesOfLastMonthWeekDays(
           numberOfDaysFromPreviousMonth,
           userMonths,
+          excluded,
         );
       const totalExpensesOfThisMonthWeekDays =
         getTotalExpensesOfThisMonthWeekDays(
           weekDaysFromThisMonth,
           currentMonth as IMonth,
+          excluded,
         );
       const totalWeekExpenses =
         totalExpensesOfPreviousMonthWeekDays + totalExpensesOfThisMonthWeekDays;
@@ -103,7 +120,7 @@ export default function Month(): JSX.Element {
       setWeekLimit(currentMonth.weekLimitAmount!);
       setShowWeekBalance(isCurrentMonth);
     }
-  }, [currentMonth, userMonths]);
+  }, [currentMonth, userMonths, excludedCategories]);
 
   return (
     <section className='w-full sm:w-80'>
@@ -122,6 +139,9 @@ export default function Month(): JSX.Element {
               weekBalance={weekBalance}
               weekLimit={weekLimit}
               spentThisWeek={spentThisWeek}
+              categories={weekCategories}
+              isExcluded={isExcluded}
+              onToggleCategory={toggleCategory}
             />
           )}
 

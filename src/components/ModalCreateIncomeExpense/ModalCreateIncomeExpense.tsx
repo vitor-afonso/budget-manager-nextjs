@@ -19,6 +19,7 @@ import {
 import Button from '@/components/Button';
 import InputText from '@/components/InputText';
 import InputDate from '@/components/InputDate';
+import Spinner from '@/components/Spinner';
 import { getDistinctCategories, getDistinctTitles } from '@/utils/app.methods';
 import { format } from 'date-fns';
 import { IExpense, IIncome } from '@/types/models';
@@ -50,6 +51,7 @@ function ModalCreateIncomeExpense({
     userMonths,
   } = useContext(UserDataContext) as IUserDataContext;
   const isEditMode = !!existingItem;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentMonthDate, setCurrentMonthDate] = useState<Date | null>(null);
   const t = useTranslations('events');
   const formRules = useFormRules();
@@ -91,6 +93,7 @@ function ModalCreateIncomeExpense({
   const handleSubmitIncomeExpense = async (formData: FormData) => {
     if (!monthId) return;
 
+    setIsLoading(true);
     try {
       const requestBody = {
         ...formData,
@@ -123,6 +126,7 @@ function ModalCreateIncomeExpense({
       console.log(error);
       toast.error(t('somethingWentWrong'));
     } finally {
+      setIsLoading(false);
       setIsModalOpen(false);
     }
   };
@@ -146,6 +150,7 @@ function ModalCreateIncomeExpense({
               inputName={APP.inputName.title}
               inputRules={formRules.title}
               suggestions={titles}
+              disabled={isLoading}
             />
           )}
 
@@ -155,6 +160,7 @@ function ModalCreateIncomeExpense({
             inputName={APP.inputName.category}
             inputRules={formRules.category}
             suggestions={categories}
+            disabled={isLoading}
           />
 
           <InputText
@@ -162,6 +168,7 @@ function ModalCreateIncomeExpense({
             errors={errors}
             inputName={APP.inputName.amount}
             inputRules={formRules.amount}
+            disabled={isLoading}
           />
 
           {currentMonthDate && (
@@ -170,11 +177,16 @@ function ModalCreateIncomeExpense({
               errors={errors}
               inputName='creationDate'
               monthDate={currentMonthDate}
+              disabled={isLoading}
             />
           )}
 
           <br />
-          <Button>{isEditMode ? t('save') : t('add')}</Button>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <Button>{isEditMode ? t('save') : t('add')}</Button>
+          )}
         </form>
       </div>
 

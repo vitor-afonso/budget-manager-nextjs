@@ -74,6 +74,8 @@
   "charts": {
     "balance": "Balance",
     "weekBalance": "Week Balance",
+    "weekExcludeCategories": "Exclude from weekly spending",
+    "weekExcludePlaceholder": "Search category...",
     "totalEur": "Total €",
     "incomesByCategory": "Incomes by category",
     "expensesByCategory": "Expenses by category",

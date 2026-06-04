@@ -73,6 +73,7 @@ function Login() {
               errors={errors}
               inputName={APP.inputName.email}
               inputRules={formRules.email}
+              disabled={isLoading}
             />
             <InputText
               register={register}
@@ -80,6 +81,7 @@ function Login() {
               inputName={APP.inputName.password}
               inputType={APP.inputName.password}
               inputRules={formRules.loginPassword}
+              disabled={isLoading}
             />
             <div className='flex justify-center !mt-12'>
               {isLoading ? <Spinner /> : <Button>{t('login')}</Button>}

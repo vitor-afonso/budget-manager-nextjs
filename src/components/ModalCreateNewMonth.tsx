@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { isSameMonth } from 'date-fns';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
+import clsx from 'clsx';
 import { APP } from '@/utils/app.constants';
 import Button from '@/components/Button';
 import { AuthContext, IAppContext } from '@/app/context/auth.context';
@@ -115,8 +116,12 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
                     required: tValidation('monthRequired'),
                     validate: isValidMonth,
                   })}
-                  className='w-[284px] h-12 rounded-md px-2 border border-transparent
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400'
+                  disabled={isLoading}
+                  className={clsx(
+                    'w-[284px] h-12 rounded-md px-2 border border-transparent',
+                    'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400',
+                    isLoading && 'opacity-50 cursor-not-allowed',
+                  )}
                   max={inputMaxMonth}
                 />
               </div>
@@ -135,6 +140,7 @@ function ModalCreateNewMonth({ setIsModalOpen }: Props) {
                 errors={errors}
                 inputName={APP.inputName.weekLimitAmount}
                 inputRules={formRules.weekLimitAmount}
+                disabled={isLoading}
               />
 
               {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
