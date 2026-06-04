@@ -63,7 +63,7 @@ export const APP = {
     signup: '/signup',
   },
   images: {
-    logo: '/images/budget-transparent-medium.png',
+    logo: '/images/budget_manager_logo_1.png',
   },
   monthsOfTheYear: [
     'Jan',
@@ -104,8 +104,8 @@ export const APP = {
     '#470400',
     '#330000',
   ],
-  projectApi: 'https://budget-manager-server.onrender.com/api',
-  //projectApi: 'http://localhost:5005/api',
+  //projectApi: 'https://budget-manager-server.onrender.com/api',
+  projectApi: 'http://localhost:5005/api',
 };
 
 export function getCurrencyFormatter(locale: string) {

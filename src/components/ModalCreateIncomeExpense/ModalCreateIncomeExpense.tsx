@@ -19,7 +19,7 @@ import {
 import Button from '@/components/Button';
 import InputText from '@/components/InputText';
 import InputDate from '@/components/InputDate';
-import { getDistinctCategories } from '@/utils/app.methods';
+import { getDistinctCategories, getDistinctTitles } from '@/utils/app.methods';
 import { format } from 'date-fns';
 import { IExpense, IIncome } from '@/types/models';
 import { useFormRules } from '@/app/hooks/useFormRules';
@@ -56,6 +56,10 @@ function ModalCreateIncomeExpense({
   const categories = useMemo(
     () => getDistinctCategories(userMonths ?? [], eventType),
     [userMonths, eventType],
+  );
+  const titles = useMemo(
+    () => getDistinctTitles(userMonths ?? []),
+    [userMonths],
   );
   const isExpense = eventType === APP.eventType.expense;
   const {
@@ -141,6 +145,7 @@ function ModalCreateIncomeExpense({
               errors={errors}
               inputName={APP.inputName.title}
               inputRules={formRules.title}
+              suggestions={titles}
             />
           )}
 

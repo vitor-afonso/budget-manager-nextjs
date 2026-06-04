@@ -245,6 +245,17 @@ export const getDistinctCategories = (
   return Array.from(set).sort((a, b) => a.localeCompare(b));
 };
 
+export const getDistinctTitles = (userMonths: IMonth[]): string[] => {
+  const set = new Set<string>();
+  userMonths?.forEach((month) => {
+    month.expenses.forEach((expense) => {
+      const name = capitalize(expense.title).trim();
+      if (name) set.add(name);
+    });
+  });
+  return Array.from(set).sort((a, b) => a.localeCompare(b));
+};
+
 export const getNumberOfDaysFromPreviousMonth = (): number => {
   const todaysDate = new Date();
   const weekDayNumber = todaysDate.getUTCDay();
